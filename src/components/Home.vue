@@ -5,7 +5,7 @@
       <!-- Kostenstelle -->
       <div class="col l2">
         <p class="center">Kostenstelle</p>
-        <input type="text" v-model="kostenstelle">  
+        <input type="text" v-model="messageText">  
       </div>
       <!-- Operation -->
       <div class="input-filed col l2">
@@ -36,17 +36,16 @@
       </div>
       <!-- + -->
       <br>
-      <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeFertigung()"><i class="material-icons">add</i></a>
+      <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMessage()"><i class="material-icons">add</i></a>
       <a class="btn-floating btn-medium waves-effect waves-light red" v-if="rows > 1" v-on:click="rows -= 1" ><i class="material-icons">remove</i></a>
     </div>
 
-      <div v-for="message in messages" v-bind:key="message.id">
-        <div class="card-body">
-        
-        <h6 class="card-subtitle mb-2 text-muted" style="display:inline-block;" >{{ fertigung.message }} </h6>
-        
-        </div>
+    <div v-for="message in messages" v-bind:key="message.id" class="card mb-3">
+      <div class="card-body">
+
+        <p class="card-text">{{ message.text }}</p>
       </div>
+    </div>
 </v-app>
 </template>
 
@@ -64,46 +63,40 @@ const config = {
   firebase.initializeApp(config);
 
   const database = firebase.database()
-  const FertigungRef = database.ref('fertigung')
+  const FertigungRef = database.ref('fertigungen')
+  const messagesRef = database.ref('messages')
 
+  export default {
+    name: 'kalkulation1',
+    data () {
+      return {
+        fertigungen: [],
+        messages: [],
 
+        messageText: '',
 
+        kostenstelle: '',
+        operation: '',
+        ta: '',
+        tr: '',
 
+        kostensatz: '',
+        bearbeitungskosten: '',
+        rüstkosten: '',
 
-export default {
-  name: 'fertigung',
-  data () {
-    return {
-      kostenstelle: '',
-      operation: '',
-      ta: '',
-      tr: '',
-      kostensatz: '',
-      bearbeitungskosten: '',
-      rüstkosten: '',
-      rows: 1,
-      messages: [],
+        rows: 1,
 
-    }
-  },
-  methods: {
-    storeFertigung(){
-      console.log("hi")
-      FertigungRef.push({kostenstelle: this.kostenstelle, operation: this.operation})
-      this.kostenstelle = ''
-      this.operation = ''
-      this.addRow()
+      }
     },
-    addRow(){
-      this.rows += 1
-      return this.rows
-    },
+    methods: {
+      storeMessage () {
+        console.log('sip')
+        messagesRef.push({text: this.messageText})
+        this.messageText = ''
+      }
+      }
 
-
-  },
-  created: {}
-
-}
+  }
 
 // Autocomplete
 //  :error-messages="['Please select an option']"
