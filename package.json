@@ -12,6 +12,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "ajv": "^6.4.0",
     "firebase": "^4.13.1",
     "material-design-icons-iconfont": "^3.0.3",
     "npm": "^6.0.0",
