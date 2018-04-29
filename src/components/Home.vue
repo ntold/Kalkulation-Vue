@@ -5,11 +5,15 @@
       <div class="center col l1"></div>
       <!-- Kostenstelle -->
       <div class="col l2">
+        <p class="center">Kostenstelle</p>
         <v-select
           :items="kostenstellen"
-          v-model="a1"
-          label="Select"
+          v-model="kostenstelle"
+          item-text="kostenstelle"
+          solo
+          append-icon
           autocomplete
+          flat
         ></v-select>
       </div>
       <!-- Operation -->
@@ -29,38 +33,50 @@
       <!-- Kostensatz -->
       <div class="col l1">
         <p class="center"> Kostensatz <br>  Fr / Std  </p>
-        <p class="center"> {{ kostensatz }} </p>
+        <p class="center"> {{ this.kostenstelle.ansatz }} </p>
       </div>
       <div class="col l1">
         <p class="center"> Bearbeitungskosten <br> Losgrösse </p>
-        <p class="center"> {{ bearbeitungskosten }} </p>
+        <p class="center">  </p>
       </div>
       <div class="col l1">
         <p class="center"> Rüstkosten <br> Losgrösse </p>
-        <p class="center"> {{ rüstkosten }} </p>
+        <p class="center">  </p>
       </div>
       <!-- + -->
       <br>
       <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMessage()"><i class="material-icons">add</i></a>
     </div>
 
-  <div v-for="fertigung in fertigungen" v-bind:key="fertigung.id">
+  <div v-for="fertigung in fertigung" v-bind:key="fertigung.id">
       <div class="row card-panel">
-        <div class="center col l1"></div>
-        <div class="col l2">
-          <p class="center"> {{fertigung.kostenstelle}} </p>
+        <div class="col l1">
+          <p class="center"> {{ fertigung.id }} </p>
         </div>
         <div class="col l2">
-          <p class="center"> {{fertigung.operation}} </p>
+          <p class="center"> {{ fertigung.kostenstelle }} </p>
         </div>
         <div class="col l2">
-          <p class="center"> {{fertigung.ta}} </p>
+          <p class="center"> {{ fertigung.operation }} </p>
         </div>
-        <div class="col l2">
-          <p class="center"> {{fertigung.tr}} </p>
+        <div class="col l1">
+          <p class="center"> {{ fertigung.ta }} </p>
         </div>
-        <div class="col l5"></div>
-        <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigung)" ><i class="material-icons">remove</i></a>
+        <div class="col l1">
+          <p class="center"> {{ fertigung.tr }} </p>
+        </div>
+        <div class="col l1">
+          <p class="center"> {{ fertigung.ansatz }} </p>
+        </div>
+        <div class="col l1">
+          <p class="center" v-if="fertigung.bearbeitungskosten !== 0"> {{ fertigung.bearbeitungskosten }} </p>
+        </div>
+        <div class="col l1">
+          <p class="center" v-if="fertigung.rüstkosten !== 0"> {{ fertigung.rüstkosten }} </p>
+        </div>
+        <div class="col l1">
+          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigung)" ><i class="material-icons">remove</i></a>
+        </div>
       </div>
     </div>
     
@@ -92,45 +108,47 @@ const FertigungRef = database.ref('fertigungen')
       return {
         fertigungen: [],
 
+        fertigung: [],
+
         kostenstelle: '',
         kostenstellen: [
           {
-            "id" : 1,
-            "Kostenstelle" : "Fräsmaschine Haas VCE",
-            "ansatz" : 80
-
+            id : 1,
+            kostenstelle : "Fräsmaschine Haas VCE",
+            ansatz : 80
           },
           {
-            "id" : 2,
-            "Kostenstelle" : "Drehmaschine SL2",
-            "ansatz" : 80
+            id : 2,
+            kostenstelle : "Drehmaschine SL2",
+            ansatz : 80
           },
           {
-            "id" : 3,
-            "Kostenstelle" : "Handarbeit - konventionell",
-            "ansatz" : 50
+            id : 3,
+            kostenstelle : "Handarbeit - konventionell",
+            ansatz : 50
           },
           {
-          "id": 4,
-          "Kostenstelle": "Schleifen",
-          "ansatz": 60
+            id: 4,
+            kostenstelle: "Schleifen",
+            ansatz: 60
           },
           {
-            "id": 5,
-            "Kostenstelle": "Bohren Fehlmann",
-            "ansatz": 60
+            id: 5,
+            kostenstelle: "Bohren Fehlmann",
+            ansatz: 60
           },
           {
-            "id": 6,
-            "Kostenstelle": "Montage",
-            "ansatz": 50
+            id: 6,
+            kostenstelle: "Montage",
+            ansatz: 50
           },
           {
-            "id": 7,
-            "Kostenstelle": "Kontrolle",
-            "ansatz": 50
+            id: 7,
+            kostenstelle: "Kontrolle",
+            ansatz: 50
           }
         ],
+
         operation: '',
         ta: '',
         tr: '',
@@ -139,27 +157,62 @@ const FertigungRef = database.ref('fertigungen')
         bearbeitungskosten: '',
         rüstkosten: '',
 
-        rows: 1,
+        row: 0,
 
       }
     },
     methods: {
       storeMessage () {
-        console.log('sip')
-        FertigungRef.push({kostenstelle: this.kostenstelle, operation: this.operation, ta: this.ta, tr: this.tr})
+        if (this.kostenstelle){
+          this.row = this.row + 1
+          this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta 
+          this.rüstkosten = this.kostenstelle.ansatz * this.tr
+          this.fertigung.push({
+            id: this.row, 
+            kostenstelle: this.kostenstelle.kostenstelle, 
+            operation: this.operation, 
+            ta: this.ta, 
+            tr: this.tr,
+            ansatz: this.kostenstelle.ansatz, 
+            bearbeitungskosten: this.bearbeitungskosten,
+            rüstkosten: this.rüstkosten
+          })
+        } else {
+          nativeToast({
+            message: `Ausfüllen G'!`,
+            type: 'error',
+          })
+        }
+
+
         this.kostenstelle = '',
         this.operation = ''
         this.ta = '',
-        this.tr = ''
+        this.tr = '',
+        this.bearbeitungskosten = '',
+        this.rüstkosten = ''
+
       },
       deleteFertigung (fertigung) {
-        FertigungRef.child(fertigung.id).remove()
+       this.fertigung.splice(this.fertigung, 1)
+        nativeToast({
+          message: `Fertigung gelöscht`,
+          type: 'warning'
+          })
       },
       
     },
 
     created () {
-      FertigungRef.on('child_added', snapshot => {
+
+    }
+
+
+  }
+ 
+ 
+ 
+ /* FertigungRef.on('child_added', snapshot => {
         this.fertigungen.push({...snapshot.val(), id: snapshot.key})
       })
       FertigungRef.on('child_removed', snapshot => {
@@ -170,12 +223,7 @@ const FertigungRef = database.ref('fertigungen')
               message: `Fertigung gelöscht`,
               type: 'warning'
           })
-      })
-    }
-
-
-  }
-
+      }) */
 // Autocomplete
 //  :error-messages="['Please select an option']"
 </script>
