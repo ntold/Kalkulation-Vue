@@ -48,7 +48,7 @@
       <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMessage()"><i class="material-icons">add</i></a>
     </div>
 
-  <div v-for="fertigung in fertigung" v-bind:key="fertigung.id">
+  <div v-for="fertigung in fertigungen" v-bind:key="fertigung.id">
       <div class="row card-panel">
         <div class="col l1">
           <p class="center"> {{ fertigung.id }} </p>
@@ -75,7 +75,7 @@
           <p class="center" v-if="fertigung.rüstkosten !== 0"> {{ fertigung.rüstkosten }} </p>
         </div>
         <div class="col l1">
-          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigung)" ><i class="material-icons">remove</i></a>
+          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigungen)" ><i class="material-icons">remove</i></a>
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@ firebase.initializeApp(config); */
     data () {
       return { 
 
-        fertigung: [],
+        fertigungen: [],
         summe: '',
 
         kostenstelle: '',
@@ -177,12 +177,12 @@ firebase.initializeApp(config); */
       }
     },
     methods: {
-      storeMessage () {
+      storeMessage: function () {
         if (this.kostenstelle){
           this.row = this.row + 1
           this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta 
           this.rüstkosten = this.kostenstelle.ansatz * this.tr
-          this.fertigung.push({
+          this.fertigungen.push({
             id: this.row, 
             kostenstelle: this.kostenstelle.kostenstelle, 
             operation: this.operation, 
@@ -192,6 +192,7 @@ firebase.initializeApp(config); */
             bearbeitungskosten: this.bearbeitungskosten,
             rüstkosten: this.rüstkosten
           })
+
         } else {
           nativeToast({
             message: `Ausfüllen'!`,
@@ -203,37 +204,24 @@ firebase.initializeApp(config); */
         this.operation = ''
         this.ta = '',
         this.tr = '',
-        this.bearbeitungskosten = 0,
-        this.rüstkosten = 0
-
+        this.bearbeitungskosten = 0
       },
-      deleteFertigung (fertigung) {
-        this.fertigung.splice(this.fertigung, 1)
-        this.del()
+
+      deleteFertigung: function (fertigungen) {
+        this.fertigungen.splice(this.fertigungen, 1)
         nativeToast({
-          message: `Fertigung gelöscht`,
+          message: "Fertigung gelöscht",
           type: 'warning'
         })
-      },
-      del() {
-        this.sumRüstungskosten -= this.rüstkosten
-        this.sumBearbeitungskosten -= this.bearbeitungskosten
-      }
-      
+      },      
     },
+
     computed: {
       sum: function () {
-        for (fertigung in fertigung) {
-          console.log('sup');
-          this.sumRüstungskosten += this.rüstkosten
-          this.sumBearbeitungskosten += this.bearbeitungskosten
-          return sumRüstungskosten, sumBearbeitungskosten
-        }
       }
     },
 
     created () {
-
     }
 
 
@@ -253,8 +241,6 @@ firebase.initializeApp(config); */
               type: 'warning'
           })
       }) */
-// Autocomplete
-//  :error-messages="['Please select an option']"
 </script>
 
 <style>
