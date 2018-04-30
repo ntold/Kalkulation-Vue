@@ -1,6 +1,6 @@
 <template>
 <v-app>
-<div id="kalkulation1" class="container">
+<div id="kalkulation1">
    <div class="row card-panel">
       <div class="center col l1"></div>
       <!-- Kostenstelle -->
@@ -79,6 +79,18 @@
         </div>
       </div>
     </div>
+    <div class="row card-panel"> 
+      <div class="col l7"></div>
+      <div class="col l1 ">
+        <p class="center"> Summe </p>
+      </div>
+      <div class="col l1">
+        <p class="center"> {{ sumBearbeitungskosten }} </p>
+      </div>
+      <div class="col l1">
+        <p class="center"> {{ sumRüstungskosten }}</p>
+      </div>
+    </div>
     
 
 </div>
@@ -88,7 +100,7 @@
 <script>
 import Firebase from 'firebase'
   
-const config = {
+/* const config = {
     apiKey: "AIzaSyBIaj6PnxqwhhOqHP6VF3ql4_CbNF9mOSw",
     authDomain: "kalkulation-vue.firebaseapp.com",
     databaseURL: "https://kalkulation-vue.firebaseio.com",
@@ -96,19 +108,19 @@ const config = {
     storageBucket: "kalkulation-vue.appspot.com",
     messagingSenderId: "411750576448"
   };
-firebase.initializeApp(config);
+firebase.initializeApp(config); */
 
-const database = firebase.database()
-const FertigungRef = database.ref('fertigungen')
+// const database = firebase.database()
+// const FertigungRef = database.ref('fertigungen')
 
 
   export default {
     name: 'kalkulation1',
     data () {
-      return {
-        fertigungen: [],
+      return { 
 
         fertigung: [],
+        summe: '',
 
         kostenstelle: '',
         kostenstellen: [
@@ -154,8 +166,11 @@ const FertigungRef = database.ref('fertigungen')
         tr: '',
 
         kostensatz: '',
-        bearbeitungskosten: '',
-        rüstkosten: '',
+        bearbeitungskosten: 0,
+        rüstkosten: 0,
+
+        sumBearbeitungskosten: 0,
+        sumRüstungskosten: 0,
 
         row: 0,
 
@@ -179,28 +194,42 @@ const FertigungRef = database.ref('fertigungen')
           })
         } else {
           nativeToast({
-            message: `Ausfüllen G'!`,
+            message: `Ausfüllen'!`,
             type: 'error',
           })
         }
-
 
         this.kostenstelle = '',
         this.operation = ''
         this.ta = '',
         this.tr = '',
-        this.bearbeitungskosten = '',
-        this.rüstkosten = ''
+        this.bearbeitungskosten = 0,
+        this.rüstkosten = 0
 
       },
       deleteFertigung (fertigung) {
-       this.fertigung.splice(this.fertigung, 1)
+        this.fertigung.splice(this.fertigung, 1)
+        this.del()
         nativeToast({
           message: `Fertigung gelöscht`,
           type: 'warning'
-          })
+        })
       },
+      del() {
+        this.sumRüstungskosten -= this.rüstkosten
+        this.sumBearbeitungskosten -= this.bearbeitungskosten
+      }
       
+    },
+    computed: {
+      sum: function () {
+        for (fertigung in fertigung) {
+          console.log('sup');
+          this.sumRüstungskosten += this.rüstkosten
+          this.sumBearbeitungskosten += this.bearbeitungskosten
+          return sumRüstungskosten, sumBearbeitungskosten
+        }
+      }
     },
 
     created () {
