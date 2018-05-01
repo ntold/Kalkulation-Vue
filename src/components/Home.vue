@@ -7,7 +7,7 @@
       <input type="text" v-model="bezeichnung" class="center" placeholder="Bezeichnung">  
     </div>
     <div class="col l1">
-      <input type="text" v-model="zeicheNr" class="center" placeholder="Zeichen Nr.">
+      <input type="text" v-model="zeichenNr" class="center" placeholder="Zeichen Nr.">
     </div>
     <div class="col l1">
       <input type="text" v-model="losgrösse" class="center" placeholder="Losgrösse">
@@ -69,10 +69,10 @@
       </div>
     </div>
 
-  <div v-for="(fertigung, index) in fertigungen" :key='index'>
+  <div v-for="(fertigung, index) in fertigungen" :key='index' track-by="index">
       <div class="row card-panel">
         <div class="col l1">
-          <p class="center"> {{ fertigung.id }} </p>
+          <p class="center"> {{ index +1 }} </p>
         </div>
         <div class="col l2">
           <p class="center"> {{ fertigung.kostenstelle }} </p>
@@ -182,6 +182,12 @@ firebase.initializeApp(config); */
           }
         ],
 
+        beschreibung: '',
+        losgrösse: null,
+        zeichenNr: '',
+        date: '',
+        visum: '',
+
         operation: '',
         ta: '',
         tr: '',
@@ -189,15 +195,11 @@ firebase.initializeApp(config); */
         kostensatz: '',
         bearbeitungskosten: 0,
         rüstkosten: 0,
-
-        row: 0,
-
       }
     },
     methods: {
       storeMessage: function () {
         if (this.kostenstelle){
-          this.row++
           this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta 
           this.rüstkosten = this.kostenstelle.ansatz * this.tr
           this.fertigungen.push({
@@ -247,7 +249,10 @@ firebase.initializeApp(config); */
           sum += fertigung.rüstkosten
         }
         return sum
-      }
+      },
+      rowCount:function(){     
+      return Math.ceil(this.fertigungen.length / this.itemsPerRow);
+      },
     },
   }
  
