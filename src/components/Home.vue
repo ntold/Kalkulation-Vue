@@ -1,8 +1,27 @@
 <template>
 <v-app>
 <div id="kalkulation1">
-   <div class="row card-panel">
-      <div class="center col l1"></div>
+  <div class="row card-panel fixed"> 
+    <div class="col l1"></div>
+    <div class="col l4" >
+      <input type="text" v-model="bezeichnung" class="center" placeholder="Bezeichnung">  
+    </div>
+    <div class="col l1">
+      <input type="text" v-model="zeicheNr" class="center" placeholder="Zeichen Nr.">
+    </div>
+    <div class="col l1">
+      <input type="text" v-model="losgrösse" class="center" placeholder="Losgrösse">
+    </div>
+    <div class="col l1">
+      <input type="text" v-model="date" class="center" placeholder="Datum">
+    </div>
+    <div class="col l3">  
+      <input type="text" v-model="visum" class="center" placeholder="Visum">
+    </div>
+      <div class="col l1"></div>
+  </div>
+  <div class="row card-panel ">
+    <div class="center col l1"></div>
       <!-- Kostenstelle -->
       <div class="col l2">
         <p class="center">Kostenstelle</p>
@@ -19,15 +38,15 @@
       <!-- Operation -->
       <div class="input-filed col l2">
         <p class="center">Operation</p>
-        <input type="text" v-model="operation">  
+        <input type="text" v-model="operation" class="center">  
       </div>
       <!-- ta tr -->
       <div class="input-filed col l1">
-        <p class="center">Std // ta</p> <!-- Hover for more information ONLY NR -->
+        <p class="center"> ta </p> <!-- Hover for more information ONLY NR -->
         <input type="text" class="center" v-model="ta">  
       </div>
       <div class="input-filed col l1">
-        <p class="center">Std // tr</p> <!-- Hover for more information ONLY NR-->
+        <p class="center"> tr </p> <!-- Hover for more information ONLY NR-->
         <input type="text" class="center" v-model="tr"> 
       </div>
       <!-- Kostensatz -->
@@ -44,11 +63,13 @@
         <p class="center">  </p>
       </div>
       <!-- + -->
-      <br>
-      <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMessage()"><i class="material-icons">add</i></a>
+      <div class="col l1">
+        <br>
+        <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMessage()" v-on:keyup.enter="storeMessage()"><i class="material-icons">add</i></a>
+      </div>
     </div>
 
-  <div v-for="fertigung in fertigungen" v-bind:key="fertigung.id">
+  <div v-for="(fertigung, index) in fertigungen" :key='index'>
       <div class="row card-panel">
         <div class="col l1">
           <p class="center"> {{ fertigung.id }} </p>
@@ -60,35 +81,35 @@
           <p class="center"> {{ fertigung.operation }} </p>
         </div>
         <div class="col l1">
-          <p class="center"> {{ fertigung.ta }} </p>
+          <p class="center" v-if="fertigung.ta !== ''"> {{ fertigung.ta }} Std.</p>
         </div>
         <div class="col l1">
-          <p class="center"> {{ fertigung.tr }} </p>
+          <p class="center" v-if="fertigung.tr !== ''"> {{ fertigung.tr }} Std.</p>
         </div>
         <div class="col l1">
-          <p class="center"> {{ fertigung.ansatz }} </p>
+          <p class="center"> {{ fertigung.ansatz }} CHF </p>
         </div>
         <div class="col l1">
-          <p class="center" v-if="fertigung.bearbeitungskosten !== 0"> {{ fertigung.bearbeitungskosten }} </p>
+          <p class="center" v-if="fertigung.bearbeitungskosten !== 0"> {{ fertigung.bearbeitungskosten }} CHF </p>
         </div>
         <div class="col l1">
-          <p class="center" v-if="fertigung.rüstkosten !== 0"> {{ fertigung.rüstkosten }} </p>
+          <p class="center" v-if="fertigung.rüstkosten !== 0"> {{ fertigung.rüstkosten }} CHF </p>
         </div>
         <div class="col l1">
-          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigungen)" ><i class="material-icons">remove</i></a>
+          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(index)" ><i class="material-icons">remove</i></a>
         </div>
       </div>
     </div>
-    <div class="row card-panel"> 
+    <div class="row"> 
       <div class="col l7"></div>
-      <div class="col l1 ">
-        <p class="center"> Summe </p>
+      <div class="col l1 card-panel blue white-text" >
+        <p class="center mt-3"> Summe </p>
       </div>
-      <div class="col l1">
-        <p class="center"> {{ sumBearbeitungskosten }} </p>
+      <div class="col l1 card-panel">
+        <p class="center mt-3"> {{ sumBKosten }} CHF </p>
       </div>
-      <div class="col l1">
-        <p class="center"> {{ sumRüstungskosten }}</p>
+      <div class="col l1 card-panel">
+        <p class="center mt-3"> {{ sumRKosten }} CHF </p>
       </div>
     </div>
     
@@ -98,9 +119,9 @@
 </template>
 
 <script>
-import Firebase from 'firebase'
+/* import Firebase from 'firebase'
   
-/* const config = {
+ const config = {
     apiKey: "AIzaSyBIaj6PnxqwhhOqHP6VF3ql4_CbNF9mOSw",
     authDomain: "kalkulation-vue.firebaseapp.com",
     databaseURL: "https://kalkulation-vue.firebaseio.com",
@@ -169,9 +190,6 @@ firebase.initializeApp(config); */
         bearbeitungskosten: 0,
         rüstkosten: 0,
 
-        sumBearbeitungskosten: 0,
-        sumRüstungskosten: 0,
-
         row: 0,
 
       }
@@ -179,7 +197,7 @@ firebase.initializeApp(config); */
     methods: {
       storeMessage: function () {
         if (this.kostenstelle){
-          this.row = this.row + 1
+          this.row++
           this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta 
           this.rüstkosten = this.kostenstelle.ansatz * this.tr
           this.fertigungen.push({
@@ -195,7 +213,7 @@ firebase.initializeApp(config); */
 
         } else {
           nativeToast({
-            message: `Ausfüllen'!`,
+            message: "Ausfüllen!",
             type: 'error',
           })
         }
@@ -203,28 +221,34 @@ firebase.initializeApp(config); */
         this.kostenstelle = '',
         this.operation = ''
         this.ta = '',
-        this.tr = '',
-        this.bearbeitungskosten = 0
+        this.tr = ''
       },
 
-      deleteFertigung: function (fertigungen) {
-        this.fertigungen.splice(this.fertigungen, 1)
+      deleteFertigung: function (id) {
+        this.fertigungen.splice(id, 1)
         nativeToast({
           message: "Fertigung gelöscht",
           type: 'warning'
         })
-      },      
+      }, 
     },
 
     computed: {
-      sum: function () {
+      sumBKosten: function () {
+        var sum = 0
+        for (var fertigung of this.fertigungen) {
+          sum += fertigung.bearbeitungskosten
+        }
+        return sum
+      },
+      sumRKosten: function () {
+        var sum = 0
+        for (var fertigung of this.fertigungen) {
+          sum += fertigung.rüstkosten
+        }
+        return sum
       }
     },
-
-    created () {
-    }
-
-
   }
  
  
