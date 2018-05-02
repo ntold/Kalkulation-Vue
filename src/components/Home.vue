@@ -10,7 +10,7 @@
       <input type="text" v-model="zeichenNr" class="center" placeholder="Zeichen Nr.">
     </div>
     <div class="col l1">
-      <input type="text" v-model="losgrösse" class="center" placeholder="Losgrösse">
+      <input type="text" v-model="losgrösse" class="center" placeholder="Losgrösse" default="1">
     </div>
     <div class="col l1">
       <input type="text" v-model="date" class="center" placeholder="Datum">
@@ -20,7 +20,7 @@
     </div>
       <div class="col l1"></div>
   </div>
-  <div class="row card-panel ">
+  <div class="row card-panel mt-3">
     <div class="center col l1"></div>
       <!-- Kostenstelle -->
       <div class="col l2">
@@ -85,7 +85,7 @@
         </div>
         <!-- ta -->
         <div class="col l1">
-          <p class="center" v-if="fertigung.ta !== ''"> {{ fertigung.ta }} Std.</p>
+          <p class="center" v-if="fertigung.ta !== ''"> {{ fertigung.ta * losgrösse }} Std.</p>
         </div>
         <!-- tr -->
         <div class="col l1">
@@ -110,7 +110,7 @@
       </div>
     </div>
     <!-- Sums -->
-    <div class="row"> 
+    <div class="row mt-3"> 
       <div class="col l7"></div>
       <div class="col l1 card-panel blue white-text" >
         <p class="center mt-3"> Summe </p>
@@ -122,6 +122,28 @@
       <!-- Summe Rüstkosten -->
       <div class="col l1 card-panel">
         <p class="center mt-3"> {{ sumRKosten }} CHF </p>
+      </div>
+    </div>
+    <!-- Total Fertigungslohnkosten / Losgrösse -->
+    <div class="row"> 
+      <div class="col l4"></div>
+      <div class="col l4 card-panel blue white-text" >
+        <p class="right mt-3"> Fertigungslohnkosten / Losgrösse (Bearbeitungs- und Rüstkosten) Total	</p>
+      </div>
+      <!-- Summe Bearbeitungskosten -->
+      <div class="col l2 card-panel">
+        <p class="center mt-3"> {{ totalLKosten }} CHF </p>
+      </div>
+    </div>
+    <!-- Total Fertigungslohnkosten / Stück -->
+    <div class="row"> 
+      <div class="col l4"></div>
+      <div class="col l4 card-panel blue white-text mb-3" >
+        <p class="right mt-3"> Fertigungslohnkosten / Stück Total</p>
+      </div>
+      <!-- Summe Bearbeitungskosten -->
+      <div class="col l2 card-panel">
+        <p class="center mt-3"> {{ totalSKosten }} CHF </p>
       </div>
     </div>
     
@@ -194,7 +216,7 @@ firebase.initializeApp(config); */
           }
         ],
 
-        beschreibung: '',
+        bezeichnung: '',
         losgrösse: null,
         zeichenNr: '',
         date: '',
@@ -251,7 +273,7 @@ firebase.initializeApp(config); */
       sumBKosten: function () {
         var sum = 0
         for (var fertigung of this.fertigungen) {
-          sum += fertigung.bearbeitungskosten
+          sum += fertigung.bearbeitungskosten * this.losgrösse
         }
         return sum
       },
@@ -261,6 +283,24 @@ firebase.initializeApp(config); */
           sum += fertigung.rüstkosten
         }
         return sum
+      },
+      totalLKosten: function () {
+        var total = 0
+        for (var fertigung of this.fertigungen) {
+          total += fertigung.rüstkosten
+          total += fertigung.bearbeitungskosten * this.losgrösse
+        }
+        return total
+      },
+      totalSKosten: function () {
+        var total = 0
+        var rb = 0
+        for (var fertigung of this.fertigungen) {
+          rb += fertigung.rüstkosten
+          rb += fertigung.bearbeitungskosten * this.losgrösse
+          total = rb / this.losgrösse
+        }
+        return total
       },
     },
   }
@@ -282,5 +322,7 @@ firebase.initializeApp(config); */
 </script>
 
 <style>
-
+.row {
+  margin-bottom: 0px;
+}
 </style>
