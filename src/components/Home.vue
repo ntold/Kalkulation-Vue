@@ -71,43 +71,55 @@
 
   <div v-for="(fertigung, index) in fertigungen" :key='index' track-by="index">
       <div class="row card-panel">
+        <!-- Nr -->
         <div class="col l1">
           <p class="center"> {{ index +1 }} </p>
         </div>
+        <!-- Kostenstelle -->
         <div class="col l2">
           <p class="center"> {{ fertigung.kostenstelle }} </p>
         </div>
+        <!-- Operation -->
         <div class="col l2">
           <p class="center"> {{ fertigung.operation }} </p>
         </div>
+        <!-- ta -->
         <div class="col l1">
           <p class="center" v-if="fertigung.ta !== ''"> {{ fertigung.ta }} Std.</p>
         </div>
+        <!-- tr -->
         <div class="col l1">
           <p class="center" v-if="fertigung.tr !== ''"> {{ fertigung.tr }} Std.</p>
         </div>
-        <div class="col l1">
+        <!-- Ansatz -->
+        <div class="col l1"> 
           <p class="center"> {{ fertigung.ansatz }} CHF </p>
         </div>
+        <!-- Bearbeitunskosten -->
         <div class="col l1">
           <p class="center" v-if="fertigung.bearbeitungskosten !== 0"> {{ fertigung.bearbeitungskosten }} CHF </p>
         </div>
+        <!-- Rüstkosten -->
         <div class="col l1">
           <p class="center" v-if="fertigung.rüstkosten !== 0"> {{ fertigung.rüstkosten }} CHF </p>
         </div>
+        <!-- remove button -->
         <div class="col l1">
           <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(index)" ><i class="material-icons">remove</i></a>
         </div>
       </div>
     </div>
+    <!-- Sums -->
     <div class="row"> 
       <div class="col l7"></div>
       <div class="col l1 card-panel blue white-text" >
         <p class="center mt-3"> Summe </p>
       </div>
+      <!-- Summe Bearbeitungskosten -->
       <div class="col l1 card-panel">
         <p class="center mt-3"> {{ sumBKosten }} CHF </p>
       </div>
+      <!-- Summe Rüstkosten -->
       <div class="col l1 card-panel">
         <p class="center mt-3"> {{ sumRKosten }} CHF </p>
       </div>
@@ -249,9 +261,6 @@ firebase.initializeApp(config); */
           sum += fertigung.rüstkosten
         }
         return sum
-      },
-      rowCount:function(){     
-      return Math.ceil(this.fertigungen.length / this.itemsPerRow);
       },
     },
   }
