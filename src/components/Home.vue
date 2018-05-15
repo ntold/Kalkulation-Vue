@@ -32,6 +32,7 @@
           solo
           autocomplete
           flat
+          bottom
         ></v-select>
       </div>
       <!-- Operation -->
@@ -172,9 +173,7 @@ const FertigungRef = database.ref("fertigungen");
 FertigungRef.on("value", gotData, errData);
 
 function gotData(data) {
-  console.log(data.val());
-  let FertigungenFB = data.val();
-  console.log(FertigungenFB.kostenstellen[1].ansatz);
+  console.log("Data is arrived!");
 }
 
 function errData(errorObject) {
@@ -208,6 +207,12 @@ export default {
       bearbeitungskosten: 0,
       rüstkosten: 0
     };
+  },
+  mounted() {
+    var query = FertigungRef;
+    query.once("value").then(snapshot => {
+      this.kostenstellen = snapshot.child("kostenstellen").val();
+    });
   },
   methods: {
     storeMessage: function() {
@@ -243,12 +248,6 @@ export default {
       });
     }
   },
-  created: {
-    testing: function() {
-      console.log(FertigungenFB);
-    }
-  },
-
   computed: {
     sumBKosten: function() {
       var sum = 0;
