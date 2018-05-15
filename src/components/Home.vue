@@ -30,7 +30,6 @@
           v-model="kostenstelle"
           item-text="kostenstelle"
           solo
-          append-icon
           autocomplete
           flat
         ></v-select>
@@ -42,11 +41,13 @@
       </div>
       <!-- ta tr -->
       <div class="input-filed col l1">
-        <p class="center"> ta </p> <!-- Hover for more information ONLY NR -->
+        <p class="center ta" @mouseover="activeTa = true" @mouseleave="activeTa = false" > ta </p>
+        <div v-show="activeTa" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
         <input type="text" class="center" v-model="ta">  
       </div>
       <div class="input-filed col l1">
-        <p class="center"> tr </p> <!-- Hover for more information ONLY NR-->
+        <p class="center tr" @mouseover="activeTr = true" @mouseleave="activeTr = false" > tr </p>
+        <div v-show="activeTr" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
         <input type="text" class="center" v-model="tr"> 
       </div>
       <!-- Kostensatz -->
@@ -153,161 +154,138 @@
 </template>
 
 <script>
-/* import Firebase from 'firebase'
-  
- const config = {
-    apiKey: "AIzaSyBIaj6PnxqwhhOqHP6VF3ql4_CbNF9mOSw",
-    authDomain: "kalkulation-vue.firebaseapp.com",
-    databaseURL: "https://kalkulation-vue.firebaseio.com",
-    projectId: "kalkulation-vue",
-    storageBucket: "kalkulation-vue.appspot.com",
-    messagingSenderId: "411750576448"
-  };
-firebase.initializeApp(config); */
+import Firebase from "firebase";
 
-// const database = firebase.database()
-// const FertigungRef = database.ref('fertigungen')
+const config = {
+  apiKey: "AIzaSyBIaj6PnxqwhhOqHP6VF3ql4_CbNF9mOSw",
+  authDomain: "kalkulation-vue.firebaseapp.com",
+  databaseURL: "https://kalkulation-vue.firebaseio.com",
+  projectId: "kalkulation-vue",
+  storageBucket: "kalkulation-vue.appspot.com",
+  messagingSenderId: "411750576448"
+};
+firebase.initializeApp(config);
 
+const database = firebase.database();
+const FertigungRef = database.ref("fertigungen");
 
-  export default {
-    name: 'kalkulation1',
-    data () {
-      return { 
+FertigungRef.on("value", gotData, errData);
 
-        fertigungen: [],
-        summe: '',
+function gotData(data) {
+  console.log(data.val());
+  let FertigungenFB = data.val();
+  console.log(FertigungenFB.kostenstellen[1].ansatz);
+}
 
-        kostenstelle: '',
-        kostenstellen: [
-          {
-            id : 1,
-            kostenstelle : "Fräsmaschine Haas VCE",
-            ansatz : 80
-          },
-          {
-            id : 2,
-            kostenstelle : "Drehmaschine SL2",
-            ansatz : 80
-          },
-          {
-            id : 3,
-            kostenstelle : "Handarbeit - konventionell",
-            ansatz : 50
-          },
-          {
-            id: 4,
-            kostenstelle: "Schleifen",
-            ansatz: 60
-          },
-          {
-            id: 5,
-            kostenstelle: "Bohren Fehlmann",
-            ansatz: 60
-          },
-          {
-            id: 6,
-            kostenstelle: "Montage",
-            ansatz: 50
-          },
-          {
-            id: 7,
-            kostenstelle: "Kontrolle",
-            ansatz: 50
-          }
-        ],
+function errData(errorObject) {
+  console.log("The read failed: " + errorObject.code);
+}
 
-        bezeichnung: '',
-        losgrösse: null,
-        zeichenNr: '',
-        date: '',
-        visum: '',
+export default {
+  name: "kalkulation1",
+  data() {
+    return {
+      activeTa: false,
+      activeTr: false,
 
-        operation: '',
-        ta: '',
-        tr: '',
+      fertigungen: [],
+      summe: "",
 
-        kostensatz: '',
-        bearbeitungskosten: 0,
-        rüstkosten: 0,
-      }
-    },
-    methods: {
-      storeMessage: function () {
-        if (this.kostenstelle){
-          this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta 
-          this.rüstkosten = this.kostenstelle.ansatz * this.tr
-          this.fertigungen.push({
-            id: this.row, 
-            kostenstelle: this.kostenstelle.kostenstelle, 
-            operation: this.operation, 
-            ta: this.ta, 
-            tr: this.tr,
-            ansatz: this.kostenstelle.ansatz, 
-            bearbeitungskosten: this.bearbeitungskosten,
-            rüstkosten: this.rüstkosten
-          })
+      kostenstelle: "",
+      kostenstellen: [],
 
-        } else {
-          nativeToast({
-            message: "Ausfüllen!",
-            type: 'error',
-          })
-        }
+      bezeichnung: "",
+      losgrösse: null, // TODO: If Losgrösse = '' set to 1
+      zeichenNr: "",
+      date: "",
+      visum: "",
 
-        this.kostenstelle = '',
-        this.operation = ''
-        this.ta = '',
-        this.tr = ''
-      },
+      operation: "",
+      ta: "",
+      tr: "",
 
-      deleteFertigung: function (id) {
-        this.fertigungen.splice(id, 1)
+      kostensatz: "",
+      bearbeitungskosten: 0,
+      rüstkosten: 0
+    };
+  },
+  methods: {
+    storeMessage: function() {
+      if (this.kostenstelle) {
+        this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta;
+        this.rüstkosten = this.kostenstelle.ansatz * this.tr;
+        this.fertigungen.push({
+          id: this.row,
+          kostenstelle: this.kostenstelle.kostenstelle,
+          operation: this.operation,
+          ta: this.ta,
+          tr: this.tr,
+          ansatz: this.kostenstelle.ansatz,
+          bearbeitungskosten: this.bearbeitungskosten,
+          rüstkosten: this.rüstkosten
+        });
+      } else {
         nativeToast({
-          message: "Fertigung gelöscht",
-          type: 'warning'
-        })
-      }, 
+          message: "Ausfüllen!",
+          type: "error"
+        });
+      }
+
+      (this.kostenstelle = ""), (this.operation = "");
+      (this.ta = ""), (this.tr = "");
     },
 
-    computed: {
-      sumBKosten: function () {
-        var sum = 0
-        for (var fertigung of this.fertigungen) {
-          sum += fertigung.bearbeitungskosten * this.losgrösse
-        }
-        return sum
-      },
-      sumRKosten: function () {
-        var sum = 0
-        for (var fertigung of this.fertigungen) {
-          sum += fertigung.rüstkosten
-        }
-        return sum
-      },
-      totalLKosten: function () {
-        var total = 0
-        for (var fertigung of this.fertigungen) {
-          total += fertigung.rüstkosten
-          total += fertigung.bearbeitungskosten * this.losgrösse
-        }
-        return total
-      },
-      totalSKosten: function () {
-        var total = 0
-        var rb = 0
-        for (var fertigung of this.fertigungen) {
-          rb += fertigung.rüstkosten
-          rb += fertigung.bearbeitungskosten * this.losgrösse
-          total = rb / this.losgrösse
-        }
-        return total
-      },
+    deleteFertigung: function(id) {
+      this.fertigungen.splice(id, 1);
+      nativeToast({
+        message: "Fertigung gelöscht",
+        type: "warning"
+      });
+    }
+  },
+  created: {
+    testing: function() {
+      console.log(FertigungenFB);
+    }
+  },
+
+  computed: {
+    sumBKosten: function() {
+      var sum = 0;
+      for (var fertigung of this.fertigungen) {
+        sum += fertigung.bearbeitungskosten * this.losgrösse;
+      }
+      return sum;
     },
+    sumRKosten: function() {
+      var sum = 0;
+      for (var fertigung of this.fertigungen) {
+        sum += fertigung.rüstkosten;
+      }
+      return sum;
+    },
+    totalLKosten: function() {
+      var total = 0;
+      for (var fertigung of this.fertigungen) {
+        total += fertigung.rüstkosten;
+        total += fertigung.bearbeitungskosten * this.losgrösse;
+      }
+      return total;
+    },
+    totalSKosten: function() {
+      var total = 0;
+      var rb = 0;
+      for (var fertigung of this.fertigungen) {
+        rb += fertigung.rüstkosten;
+        rb += fertigung.bearbeitungskosten * this.losgrösse;
+        total = rb / this.losgrösse;
+      }
+      return total;
+    }
   }
- 
- 
- 
- /* FertigungRef.on('child_added', snapshot => {
+};
+
+/* FertigungRef.on('child_added', snapshot => {
         this.fertigungen.push({...snapshot.val(), id: snapshot.key})
       })
       FertigungRef.on('child_removed', snapshot => {
@@ -324,5 +302,11 @@ firebase.initializeApp(config); */
 <style>
 .row {
   margin-bottom: 0px;
+}
+
+.hoverinfo {
+  z-index: 2;
+  position: absolute;
+  width: 200px;
 }
 </style>

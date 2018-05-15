@@ -12,23 +12,16 @@
 </template>
 
 <script>
-
-    export default {
-        name: 'navbar',
-        data() {
-            return{
-                
-            };
-        }
-
-    };
-
+export default {
+  name: "navbar",
+  data() {
+    return {};
+  }
+};
 </script>
 
 <style scoped>
-
-.color{
-    background-color: #0082B4;
+.color {
+  background-color: #0082b4;
 }
-
 </style>
