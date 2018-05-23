@@ -52,7 +52,7 @@
         <!-- Kosten Gesammt -->
         <div class="col l1">
           <p class="center">Kosten Gesammt</p> <br />
-          <p class="center"> 12 </p>
+          <p class="center"> {{this.menge * this.kosten_einheit}} </p>
         </div>
         <!-- Gesammtkosten Tarif -->
         <div class="col l1">
@@ -62,8 +62,64 @@
         <!-- + -->
         <div class="col l1">
           <br /> <br /> <br />
-          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMessage()" v-on:keyup.enter="storeMessage()"><i class="material-icons">add</i></a>
+          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMaterial()" v-on:keyup.enter="storeMaterial()"><i class="material-icons">add</i></a>
         </div>
+      </div>
+      <!-- For Loop Material_full -->
+      <div v-for="(material_full, index) in materialien_full" :key='index' track-by="index">
+        <div class="row card-panel">
+          <!-- Nr -->
+          <div class="col l1">
+            <p class="center"> {{ index +1 }} </p>
+          </div>
+          <!-- Material -->
+          <div class="col l2">
+            <p class="center"> {{ material_full.material }} </p>
+          </div>
+          <!-- Liferant -->
+          <div class="col l2">
+            <p class="center"> {{ material_full.liferant }} </p>
+          </div>
+          <!-- Menge -->
+          <div class="col l1">
+            <p class="center"> {{ material_full.menge }} </p>
+          </div>
+          <!-- Einheit -->
+          <div class="col l1">
+            <p class="center" > {{ material_full.einheit }} </p>
+          </div>
+          <!-- Kosten_einheut -->
+          <div class="col l1"> 
+            <p class="center"> {{ material_full.kosten_einheit }} </p>
+          </div>
+          <!-- Bearbeitunskosten -->
+          <div class="col l1">
+            <p class="center"> {{ material_full.gesammt_kosten }} </p>
+          </div>
+          <!-- Rüstkosten -->
+          <div class="col l1">
+            <p class="center"> </p>
+          </div>
+          <!-- remove button -->
+          <div class="col l1">
+            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteMaterial(index)" ><i class="material-icons">remove</i></a>
+          </div>
+        </div>
+      </div>
+      <div class="fixed-action-btn">
+        <router-link to="/material">
+          <button class="btn right btnnext">Weiter
+            <i class="material-icons right">arrow_forward_ios</i>
+          </button>
+        </router-link>
+      </div>
+      <div class="fixed-action-btn goleft">
+        <router-link to="/fertigung">
+          <button class="btn right btnnext">
+            <i class="material-icons left">arrow_back_ios</i>
+            Zurück
+          </button>
+        </router-link>
       </div>
     </div>
   </v-app>
@@ -75,20 +131,12 @@ import Firebase from "firebase";
 const database = firebase.database();
 const FertigungRef = database.ref("fertigungen");
 
-FertigungRef.on("value", gotData, errData);
-
-function gotData(data) {
-  console.log("Data is angekommen!");
-}
-
-function errData(errorObject) {
-  console.log("The read failed: " + errorObject.code);
-}
-
 export default {
   name: "Material",
   data() {
     return {
+      materialien_full: [],
+
       material: "",
       materialien: [],
 
@@ -98,19 +146,63 @@ export default {
       liferant: "",
       liferanten: [],
 
-      menge: "",
+      menge: null,
 
-      kosten_einheit: ""
+      kosten_einheit: null,
+
+      gesammt_kosten: null
     };
+  },
+  methods: {
+    storeMaterial: function() {
+      if (this.materialien_full) {
+        this.gesammt_kosten = this.menge * this.kosten_einheit;
+        this.materialien_full.push({
+          material: this.material.material,
+          liferant: this.liferant.liferant,
+          menge: this.menge,
+          einheit: this.einheit.einheit,
+          kosten_einheit: this.kosten_einheit,
+          gesammt_kosten: this.gesammt_kosten
+        });
+      } else {
+        nativeToast({
+          message: "Ausfüllen!",
+          type: "error"
+        });
+      }
+      (this.gesammt_kosten = null),
+        (this.material = ""),
+        (this.liferant = ""),
+        (this.menge = null),
+        (this.kosten_einheit = null),
+        (this.einheit = "");
+    },
+    deleteMaterial: function(id) {
+      this.materialien_full.splice(id, 1);
+      nativeToast({
+        message: "Fertigung gelöscht",
+        type: "warning"
+      });
+    }
   },
   mounted() {
     var query = FertigungRef;
     query.once("value").then(snapshot => {
       this.einheiten = snapshot.child("einheiten").val();
     });
+    query.once("value").then(snapshot => {
+      this.materialien = snapshot.child("materialien").val();
+    });
+    query.once("value").then(snapshot => {
+      this.liferanten = snapshot.child("liferanten").val();
+    });
   }
 };
 </script>
 
 <style>
+.goleft {
+  margin-right: 87%;
+}
 </style>
