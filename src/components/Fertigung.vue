@@ -43,12 +43,12 @@
       <div class="input-filed col l1">
         <p class="center ta" @mouseover="activeTa = true" @mouseleave="activeTa = false" > ta </p>
         <div v-show="activeTa" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
-        <input type="text" class="center" v-model="ta">  
+        <input type="text" class="center" v-model="ta" v-on:keyup.enter="storeMessage()">  
       </div>
       <div class="input-filed col l1">
         <p class="center tr" @mouseover="activeTr = true" @mouseleave="activeTr = false" > tr </p>
         <div v-show="activeTr" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
-        <input type="text" class="center" v-model="tr"> 
+        <input type="text" class="center" v-model="tr" v-on:keyup.enter="storeMessage()"> 
       </div>
       <!-- Kostensatz -->
       <div class="col l1">
@@ -217,7 +217,7 @@ export default {
   },
   methods: {
     storeMessage: function() {
-      if (this.kostenstelle) {
+      if (this.kostenstelle && this.losgrösse) {
         this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta;
         this.rüstkosten = this.kostenstelle.ansatz * this.tr;
         this.fertigungen.push({
@@ -230,14 +230,14 @@ export default {
           bearbeitungskosten: this.bearbeitungskosten,
           rüstkosten: this.rüstkosten
         });
+        (this.kostenstelle = ""), (this.operation = "");
+        (this.ta = ""), (this.tr = "");
       } else {
         nativeToast({
           message: "Ausfüllen!",
           type: "error"
         });
       }
-      (this.kostenstelle = ""), (this.operation = "");
-      (this.ta = ""), (this.tr = "");
     },
     deleteFertigung: function(id) {
       this.fertigungen.splice(id, 1);

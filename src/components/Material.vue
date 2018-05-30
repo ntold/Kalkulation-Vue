@@ -5,64 +5,53 @@
         <div class="col l1"></div>
         <!-- Material Dropdown -->
         <div class="col l2">
-          <p class="center">Material</p> <br />
-          <v-select
-            :items="materialien"
-            v-model="material"
-            item-text="material"
-            solo
-            autocomplete
-            flat
-          ></v-select>
+          <p class="center">Material</p>
+          <br />
+          <v-select :items="materialien" v-model="material" item-text="material" solo autocomplete flat></v-select>
         </div>
         <!-- Bestellt bei -->
         <div class="col l2">
-          <p class="center">Bestellt bei</p> <br />
-          <v-select
-            :items="liferanten"
-            v-model="liferant"
-            item-text="liferant"
-            solo
-            autocomplete
-            flat
-          ></v-select>
+          <p class="center">Bestellt bei</p>
+          <br />
+          <v-select :items="liferanten" v-model="liferant" item-text="liferant" solo autocomplete flat></v-select>
         </div>
         <!-- Menge -->
         <div class="col l1">
-          <p class="center">Menge</p> <br />
-          <input type="text" class="center" v-model="menge"> 
+          <p class="center">Menge</p>
+          <br />
+          <input type="text" class="center" v-model="menge">
         </div>
         <!-- Einheit -->
         <div class="col l1">
-          <p class="center">Einheit</p> <br />
-            <v-select
-            :items="einheiten"
-            v-model="einheit"
-            item-text="einheit"
-            solo
-            autocomplete
-            flat
-          ></v-select>
+          <p class="center">Einheit</p>
+          <br />
+          <v-select :items="einheiten" v-model="einheit" item-text="einheit" solo autocomplete flat></v-select>
         </div>
         <!-- Kosten / Einheit -->
         <div class="col l1">
           <p class="center"> Kosten / Einheit</p>
-          <input type="text" class="center" v-model="kosten_einheit"> 
+          <input type="text" class="center" v-model="kosten_einheit" v-on:keyup.enter="storeMaterial()">
         </div>
         <!-- Kosten Gesammt -->
         <div class="col l1">
-          <p class="center">Kosten Gesammt</p> <br />
-          <p class="center"> {{this.menge * this.kosten_einheit}} </p>
+          <p class="center">Kosten Gesamt</p>
+          <br />
+          <p class="center" v-if="(this.menge * this.kosten_einheit) !== 0"> {{this.menge * this.kosten_einheit}} </p>
         </div>
         <!-- Gesammtkosten Tarif -->
         <div class="col l1">
-          <p class="center">Gesammtkosten Tarif</p> <br />
-          <p class="center"> 12 </p>
+          <p class="center">Gesamtkosten Tarif</p>
+          <br />
+          <p class="center"> {{ tarifComp }} </p>
         </div>
         <!-- + -->
         <div class="col l1">
-          <br /> <br /> <br />
-          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMaterial()" v-on:keyup.enter="storeMaterial()"><i class="material-icons">add</i></a>
+          <br />
+          <br />
+          <br />
+          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMaterial()" v-on:keyup.enter="storeMaterial()">
+            <i class="material-icons">add</i>
+          </a>
         </div>
       </div>
       <!-- For Loop Material_full -->
@@ -86,10 +75,10 @@
           </div>
           <!-- Einheit -->
           <div class="col l1">
-            <p class="center" > {{ material_full.einheit }} </p>
+            <p class="center"> {{ material_full.einheit }} </p>
           </div>
           <!-- Kosten_einheut -->
-          <div class="col l1"> 
+          <div class="col l1">
             <p class="center"> {{ material_full.kosten_einheit }} </p>
           </div>
           <!-- Bearbeitunskosten -->
@@ -98,12 +87,36 @@
           </div>
           <!-- Rüstkosten -->
           <div class="col l1">
-            <p class="center"> </p>
+            <p class="center"> {{ material_full.tarif }} </p>
           </div>
           <!-- remove button -->
           <div class="col l1">
-            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteMaterial(index)" ><i class="material-icons">remove</i></a>
+            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteMaterial(index)">
+              <i class="material-icons">remove</i>
+            </a>
           </div>
+        </div>
+      </div>
+      <!-- Gesammt -->
+      <div class="row">
+        <div class="col l4"></div>
+        <div class="col l4 card-panel blue white-text">
+          <p class="right mt-3">Materialeinzelkosten / Losgrösse </p>
+        </div>
+        <!-- Summe Bearbeitungskosten -->
+        <div class="col l2 card-panel">
+          <p class="center mt-3">  CHF </p>
+        </div>
+      </div>
+      <!-- Total Fertigungslohnkosten / Stück -->
+      <div class="row">
+        <div class="col l4"></div>
+        <div class="col l4 card-panel blue white-text mb-3">
+          <p class="right mt-3">Materialgemeinkosten / Losgrösse</p> 
+        </div>
+        <!-- Summe Bearbeitungskosten -->
+        <div class="col l2 card-panel">
+          <p class="center mt-3">  CHF </p>
         </div>
       </div>
       <div class="fixed-action-btn">
@@ -155,7 +168,8 @@ export default {
   },
   methods: {
     storeMaterial: function() {
-      if (this.materialien_full) {
+      if (this.material.material) {
+        this.getTarif();
         this.gesammt_kosten = this.menge * this.kosten_einheit;
         this.materialien_full.push({
           material: this.material.material,
@@ -163,7 +177,8 @@ export default {
           menge: this.menge,
           einheit: this.einheit.einheit,
           kosten_einheit: this.kosten_einheit,
-          gesammt_kosten: this.gesammt_kosten
+          gesammt_kosten: this.gesammt_kosten,
+          tarif: this.tarif
         });
       } else {
         nativeToast({
@@ -177,6 +192,7 @@ export default {
         (this.menge = null),
         (this.kosten_einheit = null),
         (this.einheit = "");
+      this.tarif = null;
     },
     deleteMaterial: function(id) {
       this.materialien_full.splice(id, 1);
@@ -184,6 +200,56 @@ export default {
         message: "Fertigung gelöscht",
         type: "warning"
       });
+    },
+    getTarif: function() {
+      if (this.menge <= 99 && this.menge != null) {
+        this.tarif = 15;
+        return this.tarif;
+      } else if (this.menge >= 100 && this.menge <= 199) {
+        this.tarif = 25;
+        return this.tarif;
+      } else if (this.menge >= 200 && this.menge <= 499) {
+        this.tarif = 50;
+        return this.tarif;
+      } else if (this.menge >= 500 && this.menge <= 999) {
+        this.tarif = 75;
+        return this.tarif;
+      } else if (this.menge >= 1000 && this.menge <= 1999) {
+        this.tarif = 100;
+        return this.tarif;
+      } else if (this.menge >= 2000 && this.menge <= 4999) {
+        this.tarif = 200;
+        return this.tarif;
+      } else if (this.menge >= 5000 && this.menge <= 1000000) {
+        this.tarif = 400;
+        return this.tarif;
+      }
+    }
+  },
+  computed: {
+    tarifComp: function() {
+      if (this.menge <= 99 && this.menge != null) {
+        this.tarif = 15;
+        return this.tarif;
+      } else if (this.menge >= 100 && this.menge <= 199) {
+        this.tarif = 25;
+        return this.tarif;
+      } else if (this.menge >= 200 && this.menge <= 499) {
+        this.tarif = 50;
+        return this.tarif;
+      } else if (this.menge >= 500 && this.menge <= 999) {
+        this.tarif = 75;
+        return this.tarif;
+      } else if (this.menge >= 1000 && this.menge <= 1999) {
+        this.tarif = 100;
+        return this.tarif;
+      } else if (this.menge >= 2000 && this.menge <= 4999) {
+        this.tarif = 200;
+        return this.tarif;
+      } else if (this.menge >= 5000 && this.menge <= 1000000) {
+        this.tarif = 400;
+        return this.tarif;
+      }
     }
   },
   mounted() {
