@@ -112,7 +112,7 @@
       <div class="row">
         <div class="col l4"></div>
         <div class="col l4 card-panel blue white-text mb-3">
-          <p class="right mt-3">Materialgemeinkosten / Losgrösse</p> 
+          <p class="right mt-3">Materialgemeinkosten / Losgrösse</p>
         </div>
         <!-- Summe Bearbeitungskosten -->
         <div class="col l2 card-panel">
