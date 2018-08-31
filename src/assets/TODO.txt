@@ -1,0 +1,17 @@
+//TODO:
+    - Von website aus datenbank ändern
+    - Vorhandene kalkulation abändern
+    - Graph für losgrösse
+    - Restlichen seiten
+    - Daten auf einem pdf zusammenfassen
+    - Login auf homepage
+    - Bei Material auf bedarf eigener preis wenn losgrösse ändert (complicated shit) mit übersicht.
+
+
+
+
+
+
+
+
+

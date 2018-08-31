@@ -6,6 +6,7 @@ import Home from '@/components/Home'
 import Fertigung from '@/components/Fertigung'
 import Material from '@/components/Material'
 import Werkzeug from '@/components/Werkzeug'
+import Oberflaeche from '@/components/Oberflaeche'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/werkzeug',
       name: 'Werkzeug',
       component: Werkzeug
+    },
+    {
+      path: '/oberflaeche',
+      name: 'Oberflaeche',
+      component: Oberflaeche
     }
   ]
 })

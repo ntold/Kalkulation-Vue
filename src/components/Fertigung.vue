@@ -13,10 +13,10 @@
       <input type="text" v-model="losgrösse" class="center" placeholder="Losgrösse">
     </div>
     <div class="col l1">
-      <input type="text" v-model="date" class="center" placeholder="Datum">
+      <input type="text" v-model="date" class="datepicker" placeholder="Datum">
     </div>
     <div class="col l3">  
-      <input type="text" v-model="visum" class="center" placeholder="Visum">
+      <v-select :items="visa" v-model="visum" item-text="name" placeholder="Visum" solo autocomplete flat></v-select>
     </div>
       <div class="col l1"></div>
   </div>
@@ -155,8 +155,6 @@
         </button>
       </router-link>
     </div>
-   
-
 </div>
 </v-app>
 </template>
@@ -199,6 +197,9 @@ export default {
 
       kostenstelle: "",
       kostenstellen: [],
+
+      visum: "",
+      visa: [],
 
       bezeichnung: "",
       losgrösse: null, // TODO: If Losgrösse = '' set to 1
@@ -285,6 +286,9 @@ export default {
     var query = FertigungRef;
     query.once("value").then(snapshot => {
       this.kostenstellen = snapshot.child("kostenstellen").val();
+    });
+    query.once("value").then(snapshot => {
+      this.visa = snapshot.child("visum").val();
     });
   }
 };
