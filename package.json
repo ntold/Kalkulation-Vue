@@ -15,7 +15,7 @@
     "ajv": "^6.4.0",
     "firebase": "^4.13.1",
     "material-design-icons-iconfont": "^3.0.3",
-    "npm": "^6.0.0",
+    "npm": "^6.4.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.17"
