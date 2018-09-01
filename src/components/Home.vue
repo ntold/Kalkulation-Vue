@@ -51,7 +51,7 @@ export default {
   name: "Home",
   data() {
     return {
-      fertigungActive: false,
+      fertigungActive: false
     };
   },
   methods: {
@@ -61,8 +61,8 @@ export default {
   },
   computed: {
     datum() {
-     var d = new Date();
-     var month = new Array();
+      var d = new Date();
+      var month = new Array();
       month[0] = "Januar";
       month[1] = "Februar";
       month[2] = "März";
@@ -76,14 +76,11 @@ export default {
       month[10] = "November";
       month[11] = "Dezember";
       this.time =
-        (d.getDate() + ". " +
-        month[d.getMonth()] + " " +
-        d.getFullYear());
+        d.getDate() + ". " + month[d.getMonth()] + " " + d.getFullYear();
       return this.time;
     }
   }
 };
-
 </script>
 
 <style scoped>
@@ -115,9 +112,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
@@ -132,12 +129,12 @@ export default {
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.modal-header{
+.modal-header {
   font-size: 20px;
   margin-top: 0;
   text-align: center;
@@ -151,16 +148,17 @@ export default {
   float: right;
 }
 
-.modal-enter, .modal-leave-active {
+.modal-enter,
+.modal-leave-active {
   opacity: 0;
 }
 
-.header-grid{
+.header-grid {
   display: grid;
   grid-template-columns: 0.05fr 1fr 0.05fr;
 }
 
-.cancel{
+.cancel {
   cursor: pointer;
   color: red;
   font-size: 20px;
@@ -168,19 +166,26 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-transition: -webkit-transform 0.25s, opacity 0.25s;
+  -moz-transition: -moz-transform 0.25s, opacity 0.25s;
+  transition: transform 0.25s, opacity 0.25s;
 }
 
-.cancel:hover{
+.cancel:hover {
   color: firebrick;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  transform: rotate(180deg);
+  opacity: 1;
 }
 
-.btn-ok{
+.btn-ok {
   width: 140px !important;
   float: right;
   margin-top: 50px;
 }
 
-.date{
+.date {
   margin-top: 50px;
 }
 
@@ -190,9 +195,8 @@ export default {
   transform: scale(1.1);
 }
 
-.footer-grid{
+.footer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-
 </style>
