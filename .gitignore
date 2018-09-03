@@ -15,3 +15,5 @@ yarn-error.log*
 *.sln
 *.xls
 *.xls
+package-lock.json
+package.json
