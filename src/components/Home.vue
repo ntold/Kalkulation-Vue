@@ -169,7 +169,7 @@ export default {
   background-color: #005b7d;
 }
 
-/*Overlay Neue & Vorhandene*/
+/*Overlay Neue & Vorhandene Fertigung*/
 
 .modal-mask {
   position: fixed;
