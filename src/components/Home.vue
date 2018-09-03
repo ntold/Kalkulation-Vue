@@ -65,7 +65,7 @@
                             <div class="calc-row" v-for="(dataRow, index) in dataRows" :key="index">
                               <div class="name">{{dataRow.Name}}</div>
                               <div class="status">{{dataRow.Status}}</div>
-                              <div class="icon-wrap"><i class="material-icons">delete</i></div>
+                              <i class="material-icons">delete</i>
                               <div class="creator">{{dataRow.Creator}}</div>
                               <div class="updated">{{dataRow.Updated}}</div>
                             </div>
@@ -108,7 +108,7 @@ export default {
                    'Creator' : 'Dany', 
                    'Status' : 'In Bearbeitung', 
                    'Updated' : '03.09.2018'
-                   },
+                   }
                 ],
 
     };
@@ -291,10 +291,22 @@ export default {
   padding: 5px;
 }
 
+.name{grid-area:name}
+.status{grid-area:status}
+.material-icons{grid-area:icn}
+.creator{grid-area:creator}
+.updated{grid-area:updated}
+
 .calc-row{
   display: grid;
   grid-template-columns: 1fr 250px 50px;
-  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "name status icn"
+  "creator updated icn";
+
+
+  /* grid-template-columns: 1fr 250px 50px;
+  grid-template-rows: 1fr 1fr 1px; */
 
   padding: 5px;
 }
@@ -332,8 +344,10 @@ export default {
 }
 
 .material-icons{
-  position: absolute;
-  margin-top: 8.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 </style>
