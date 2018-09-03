@@ -105,22 +105,22 @@
         </div>
         <!-- Summe Bearbeitungskosten -->
         <div class="col l2 card-panel">
-          <p class="center mt-3">  {{ summeMeinzel }} CHF </p>
+          <p class="center mt-3">  CHF </p>
         </div>
       </div>
       <!-- Total Fertigungslohnkosten / Stück -->
       <div class="row">
         <div class="col l4"></div>
         <div class="col l4 card-panel blue white-text mb-3">
-          <p class="right mt-3">Materialgemeinkosten / Losgrösse</p>
+          <p class="right mt-3">Materialgemeinkosten / Losgrösse</p> 
         </div>
         <!-- Summe Bearbeitungskosten -->
         <div class="col l2 card-panel">
-          <p class="center mt-3">  {{ summeMgemeinsam }} CHF </p>
+          <p class="center mt-3">  CHF </p>
         </div>
       </div>
       <div class="fixed-action-btn">
-        <router-link to="/Oberflaeche">
+        <router-link to="/oberflaeche">
           <button class="btn right btnnext">Weiter
             <i class="material-icons right">arrow_forward_ios</i>
           </button>
@@ -250,20 +250,6 @@ export default {
         this.tarif = 400;
         return this.tarif;
       }
-    },
-    summeMeinzel: function() {
-      var total = 0;
-      for (var material of this.materialien_full) {
-        total += material.gesammt_kosten;
-      }
-      return total;
-    },
-    summeMgemeinsam: function() {
-      var total = 0;
-      for (var material of this.materialien_full) {
-        total += material.tarif;
-      }
-      return total;
     }
   },
   mounted() {

@@ -6,7 +6,7 @@
         <!-- Werkzeug Dropdown -->
         <div class="col l5">
           <p class="center">Werkzeuge / Vorrichtungen</p>
-          <v-select :items="werkzeuge" v-model="werkzeug" item-text="werkzeug" solo flat autocomplete></v-select>
+          <v-select :items="werkzeuge" v-model="werkzeug" item-text="werkzeug" solo autocomplete flat></v-select>
         </div>
         <!-- Kosten / Gesamt -->
         <div class="col l2">
@@ -128,13 +128,12 @@ export default {
     }
   },
   computed: {
-    // WTF=!?!?!? 🤯
     Sondereinzelgrössen: function() {
       var total = 0;
       for (var werkzeug of this.werkzeuge_full) {
-        total -= werkzeug.kosten_gesamt;
+        total +=werkzeug.kosten_gesamt;
       }
-      return total * -1;
+      return total;
     }
   },
   mounted() {

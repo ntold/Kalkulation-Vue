@@ -6,17 +6,18 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar'
+import Navbar from "./components/Navbar";
 
 export default {
-  name: 'App',
-  components:{
+  name: "App",
+  components: {
     Navbar
   }
-}
+};
 </script>
 
 <style>
-
-
+.input-group--text-field input {
+  flex: none !important;
+}
 </style>
