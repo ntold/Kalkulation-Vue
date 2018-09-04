@@ -65,7 +65,7 @@
                             <div class="calc-row" v-for="(dataRow, index) in dataRows" :key="index">
                               <div class="name">{{dataRow.Name}}</div>
                               <div class="status">{{dataRow.Status}}</div>
-                              <i class="material-icons">delete</i>
+                              <i class="material-icons" v-on:click="delFertigung(index)">delete</i>
                               <div class="creator">{{dataRow.Creator}}</div>
                               <div class="updated">{{dataRow.Updated}}</div>
                             </div>
@@ -118,6 +118,10 @@ export default {
     },
     existing() {
       this.existingActive = true;
+    },
+    delFertigung(id){
+      var element = $('.calc-row')[id];
+      element.classList.add('animated', 'bounceOutLeft');
     }
   },
   computed: {
