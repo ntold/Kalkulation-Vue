@@ -97,20 +97,19 @@ export default {
       fertigungActive: false,
       existingActive: false,
       dataRows: [
-                  { 
-                   'Name' : 'Herrschaftsspiel', 
-                   'Creator' : 'Dany', 
-                   'Status' : 'In Bearbeitung', 
-                   'Updated' : '03.09.2018'
-                   },
-                   { 
-                   'Name' : 'Erarbeitetes Bruttoeinkommen', 
-                   'Creator' : 'Dany', 
-                   'Status' : 'In Bearbeitung', 
-                   'Updated' : '03.09.2018'
-                   }
-                ],
-
+        {
+          Name: "Herrschaftsspiel",
+          Creator: "Dany",
+          Status: "In Bearbeitung",
+          Updated: "03.09.2018"
+        },
+        {
+          Name: "Erarbeitetes Bruttoeinkommen",
+          Creator: "Dany",
+          Status: "In Bearbeitung",
+          Updated: "03.09.2018"
+        }
+      ]
     };
   },
   methods: {
@@ -137,7 +136,8 @@ export default {
       month[9] = "Oktober";
       month[10] = "November";
       month[11] = "Dezember";
-      this.time = (d.getDate() + ". " + month[d.getMonth()] + " " + d.getFullYear());
+      this.time =
+        d.getDate() + ". " + month[d.getMonth()] + " " + d.getFullYear();
       return this.time;
     }
   }
@@ -145,7 +145,6 @@ export default {
 </script>
 
 <style scoped>
-
 /*Buttons*/
 
 .push {
@@ -178,9 +177,9 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, 0.5);
   display: table;
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 
 .modal-wrapper {
@@ -188,7 +187,7 @@ export default {
   vertical-align: middle;
 }
 
-.modal-header{
+.modal-header {
   font-size: 20px;
   margin-top: 0;
   text-align: center;
@@ -202,11 +201,12 @@ export default {
   float: right;
 }
 
-.modal-enter, .modal-leave-active {
+.modal-enter,
+.modal-leave-active {
   opacity: 0;
 }
 
-.header-grid{
+.header-grid {
   display: grid;
   grid-template-columns: 0.05fr 1fr 0.05fr;
 }
@@ -218,12 +218,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-transition: -webkit-transform 0.25s, opacity 0.25s;
+  -moz-transition: -moz-transform 0.25s, opacity 0.25s;
+  transition: transform 0.25s, opacity 0.25s;
 }
 .cancel:hover {
   color: firebrick;
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  transform: rotate(180deg);
+  opacity: 1;
 }
 
-.btn-ok{
+.btn-ok {
   width: 140px !important;
   float: right;
   margin-top: 50px;
@@ -244,37 +251,37 @@ export default {
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.date{
+.date {
   margin-top: 50px;
 }
 
-.footer-grid{
+.footer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
 
 /*Vorhadene Auswählen*/
 
-.modal-container2{
+.modal-container2 {
   width: 800px;
   height: 600px;
   margin: 0 auto;
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.card-box{
-  overflow:auto; 
-  height:500px;
+.card-box {
+  overflow: auto;
+  height: 500px;
 }
 
 .sticky {
@@ -283,7 +290,7 @@ export default {
   width: 100%;
 }
 
-.thead-grid{
+.thead-grid {
   display: grid;
   grid-template-columns: 1fr 250px 50px;
 
@@ -291,19 +298,28 @@ export default {
   padding: 5px;
 }
 
-.name{grid-area:name}
-.status{grid-area:status}
-.material-icons{grid-area:icn}
-.creator{grid-area:creator}
-.updated{grid-area:updated}
+.name {
+  grid-area: name;
+}
+.status {
+  grid-area: status;
+}
+.material-icons {
+  grid-area: icn;
+}
+.creator {
+  grid-area: creator;
+}
+.updated {
+  grid-area: updated;
+}
 
-.calc-row{
+.calc-row {
   display: grid;
   grid-template-columns: 1fr 250px 50px;
   grid-template-areas:
-  "name status icn"
-  "creator updated icn";
-
+    "name status icn"
+    "creator updated icn";
 
   /* grid-template-columns: 1fr 250px 50px;
   grid-template-rows: 1fr 1fr 1px; */
@@ -311,43 +327,40 @@ export default {
   padding: 5px;
 }
 
-.calc-row:nth-child(odd){
+.calc-row:nth-child(odd) {
   background-color: #eee;
 }
 
-.calc-row:hover{
+.calc-row:hover {
   cursor: pointer;
   background-color: #0082b4;
-  transition: ease .1s;
+  transition: ease 0.1s;
   color: white;
 
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-     -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-          box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
-.calc-row .name{
-  margin-left: 0em;   
+.calc-row .name {
+  margin-left: 0em;
   font-weight: bold;
-  display:inline-block;
+  display: inline-block;
   white-space: nowrap;
   overflow: hidden;
-
 }
 
-.calc-row .creator{
+.calc-row .creator {
   font-size: 12px;
 }
 
-.material-icons:hover{
+.material-icons:hover {
   color: firebrick;
 }
 
-.material-icons{
+.material-icons {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
-
 </style>
