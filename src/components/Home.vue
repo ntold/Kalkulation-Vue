@@ -1,92 +1,105 @@
 <template>
-  <div class="container">
-    <div class="center">
-      <h4 class="truncate">Willkommen zurück</h4>
-    </div>
-    <div class="push"></div>
-    <div class="row">
-		<div class="col l6">
-			<a class="waves-effect waves-light btn-large right btn1" v-on:click="fertigungActive = true">Neue Fertigung</a>
-		</div>
-    <div v-if="fertigungActive"> 
-      <transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container">
-              <div class="header-grid">
-                <div class="cancel" v-on:click="fertigungActive = false"><i class="material-icons">close</i></div>
-                <div class="modal-header">Neue Fertigung</div>
-                <div></div>
-              </div>
-              <div class="modal-body">
-                <slot name="body">
-                  <input type="text" class="left" placeholder="Name">
-                  <input type="text" class="left" placeholder="Ersteller">
-                </slot>
-              </div>
-              <div class="modal-footer">
-                <slot class="footer-grid" name="footer">
-                  <button class="date" disabled> {{datum}} </button>
-                  <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="/*#TODO*/">
-                    Erstellen
-                  </button>
-                </slot>
-              </div>
-            </div>
-          </div>
-        </div>
-      </transition>
-    </div>
-		<div class="col l6">
-			<a class="waves-effect waves-light btn-large btn2" v-on:click="existingActive = true">Vorhandene auswählen</a>
-		</div>
-    <div v-if="existingActive"> 
-      <transition name="modal">
-        <div class="modal-mask">
-          <div class="modal-wrapper">
-            <div class="modal-container2">
-              <div class="header-grid">
-                <div class="cancel" v-on:click="existingActive = false"><i class="material-icons">close</i></div>
-                <div class="modal-header">Fertigungen</div>
-                <div></div>
-              </div>
-              
-              <div class="modal-body">
-                <slot name="body">
-                    <form class="example-form">
-                    <mat-form-field class="example-full-width">
-                      <mat-autocomplete autoActiveFirstOption >
-                        <mat-option>
-                          <div class="card-panel card-box">
-                            <div class="thead-grid">
-                              <div>Name / Ersteller</div>
-                              <div>Status / Bearbeitet</div>
-                            </div>
-                            <div class="calc-row" v-for="(dataRow, index) in dataRows" :key="index">
-                              <div class="name">{{dataRow.Name}}</div>
-                              <div class="status">{{dataRow.Status}}</div>
-                              <i class="material-icons" v-on:click="delFertigung(index)">delete</i>
-                              <div class="creator">{{dataRow.Creator}}</div>
-                              <div class="updated">{{dataRow.Updated}}</div>
-                            </div>
-                          </div>
-                        </mat-option>
-                      </mat-autocomplete>
-                    </mat-form-field>
-                  </form>
-                </slot>
-              </div>
-              <div class="modal-footer">
-                <slot class="footer-grid" name="footer">
-                </slot>
+  <v-app>
+    <div class="container">
+      <div class="center">
+        <h4 class="truncate">Willkommen zurück</h4>
+      </div>
+      <div class="push"></div>
+      <div class="row">
+      <div class="col l6">
+        <a class="waves-effect waves-light btn-large right btn1" v-on:click="fertigungActive = true">Neue Kalkulation</a>
+      </div>
+      <div v-if="fertigungActive"> 
+        <transition name="modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-container">
+                <div class="header-grid">
+                  <div class="cancel" v-on:click="fertigungActive = false"><i class="material-icons">close</i></div>
+                  <div class="modal-header">Neue Kalkulation</div>
+                  <div></div>
+                </div>
+                <div class="modal-body">
+                  <slot name="body">
+                    <div class="new-calc">
+                      <div class="input-name"><input type="text" class="left" placeholder="Bezeichnung"></div> 
+                      <div class="input-nr"><input type="text" class="left" placeholder="Zeichen Nr."></div>
+                      <button class="date input-date" disabled> {{datum}} </button>
+                      <v-select class="input-visum" placeholder="Visum" :items="kostenstellen" v-model="kostenstelle" item-text="kostenstelle" flat solo autocomplete></v-select>
+                    </div>
+                  </slot>
+                </div>
+                <div class="modal-footer">
+                  <slot class="footer-grid" name="footer">
+                    
+                    <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="/*#TODO*/">
+                      Erstellen
+                    </button>
+                  </slot>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
+      <div class="col l6">
+        <a class="waves-effect waves-light btn-large btn2" v-on:click="existingActive = true">Vorhandene auswählen</a>
+      </div>
+      <div v-if="existingActive"> 
+        <transition name="modal">
+          <div class="modal-mask">
+            <div class="modal-wrapper">
+              <div class="modal-container2">
+                <div class="header-grid">
+                  <div class="cancel" v-on:click="existingActive = false"><i class="material-icons">close</i></div>
+                  <div class="modal-header">Fertigungen</div>
+                  <div></div>
+                </div>
+                
+                <div class="modal-body">
+                  <slot name="body">
+                      <form class="example-form">
+                      <mat-form-field class="example-full-width">
+                        <mat-autocomplete autoActiveFirstOption >
+                          <mat-option>
+                            <div class="card-panel card-box">
+                              <div class="thead-grid">
+                                <div>Name / Ersteller</div>
+                                <div>Status / Bearbeitet</div>
+                              </div>
+                              <div class="calc-row" v-for="(dataRow, index) in dataRows" :key="index">
+                                  <div class="name">{{dataRow.Name}}</div>
+                                  <div class="status">{{dataRow.Status}}</div>
+                                  <i class="material-icons" v-on:click="delFertigung(index)">delete</i>
+                                  <div class="creator">{{dataRow.Creator}}</div>
+                                  <div class="updated">{{dataRow.Updated}}</div>
+                                  <div class="calc-row-remove">
+                                    <div class="calc-row-remove-grid">
+                                      <div>Wollen Sie {{dataRow.Name}} wirklich löschen?</div>
+                                      <div class=""><i class="material-icons">close</i></div>
+                                      <div><i class="material-icons">done</i></div>
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </mat-option>
+                        </mat-autocomplete>
+                      </mat-form-field>
+                    </form>
+                  </slot>
+                </div>
+                <div class="modal-footer">
+                  <slot class="footer-grid" name="footer">
+                  </slot>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
+      </div>
+      </div>
     </div>
-    </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -120,8 +133,8 @@ export default {
       this.existingActive = true;
     },
     delFertigung(id){
-      var element = $('.calc-row')[id];
-      element.classList.add('animated', 'bounceOutLeft');
+      var element = $('.calc-row-remove')[id];
+      element.classList.add('display', 'animated', 'flipInX');
     }
   },
   computed: {
@@ -149,6 +162,15 @@ export default {
 </script>
 
 <style scoped>
+
+/*Placeholder*/
+
+::placeholder {color: grey; opacity: 0.5;}
+
+:-ms-input-placeholder {color: grey;}
+
+::-ms-input-placeholder {color: grey;}
+
 /*Buttons*/
 
 .push {
@@ -237,7 +259,7 @@ export default {
 .btn-ok {
   width: 140px !important;
   float: right;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .modal-enter .modal-container,
@@ -246,11 +268,11 @@ export default {
   transform: scale(1.1);
 }
 
-/*Neue Fertigung*/
+/*Neue Kalkulation*/
 
 .modal-container {
-  width: 400px;
-  height: 300px;
+  width: 450px;
+  height: 350px;
   margin: 0 auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -260,13 +282,24 @@ export default {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.date {
-  margin-top: 50px;
-}
-
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.input-name{grid-area:name; padding: 8px 16px;}
+.input-nr{grid-area:nr; padding: 8px 16px;}
+.input-date{grid-area:date; margin-right: 16px;}
+.input-visum{grid-area:visum;}
+
+.new-calc{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 
+  'name name'
+  'nr date'
+  'visum visum';
+  
 }
 
 /*Vorhadene Auswählen*/
@@ -302,21 +335,11 @@ export default {
   padding: 5px;
 }
 
-.name {
-  grid-area: name;
-}
-.status {
-  grid-area: status;
-}
-.material-icons {
-  grid-area: icn;
-}
-.creator {
-  grid-area: creator;
-}
-.updated {
-  grid-area: updated;
-}
+.name {grid-area: name;}
+.status {grid-area: status;}
+.material-icons {grid-area: icn;}
+.creator {grid-area: creator;}
+.updated {grid-area: updated;}
 
 .calc-row {
   display: grid;
@@ -367,4 +390,38 @@ export default {
   align-items: center;
   justify-content: center;
 }
+
+.calc-row-remove{
+  display: none;
+  position: absolute;
+  background-color: firebrick;
+  color: white;
+ 
+  height: 52px;
+  width: 692px;
+}
+
+.calc-row-remove-grid{
+  display: grid;
+  grid-template-columns: 1fr auto 0.1fr 0.1fr;
+  grid-template-rows: 1fr;
+}
+
+.flipInX {
+  -webkit-animation: flipInX 0.5s; 
+  -moz-animation:    flipInX 0.5s; 
+  -o-animation:      flipInX 0.5s; 
+  animation:         flipInX 0.5s;
+}
+
+.display{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.display p{
+  left: 0;
+}
+
 </style>
