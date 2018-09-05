@@ -67,7 +67,7 @@
                                 <div>Name / Ersteller</div>
                                 <div>Status / Bearbeitet</div>
                               </div>
-                              <div class="calc-row" v-for="(kalkulation, index) in kalkulationen" :key="index">
+                              <div class="calc-row" v-on:click="gotoKalk(kalkulation)" v-for="(kalkulation, index) in kalkulationen" :key="index">
                                   <div class="name">{{kalkulation.beschreibung}}</div>
                                   <div class="status">{{kalkulation.datum}}</div>
                                   <i class="material-icons" v-on:click="delFertigung(index)">delete</i>
@@ -106,7 +106,6 @@
 import database from "./db";
 
 const DatabaseRef = database.ref("Database");
-const KalkulationRef = database.ref("Kalkulationen/kalkXYZ/fertigung");
 const storeKalkulationRef = database.ref("Kalkulationen");
 
 export default {
@@ -137,11 +136,12 @@ export default {
       var element = $(".calc-row-remove")[id];
       element.classList.add("display", "animated", "flipInX");
     },
+    gotoKalk(id) {
+      const key = id.id;
+      this.$router.push({ path: `/${key}/fertigung` });
+    },
     storeInfo: function() {
-      var newKeyRef = storeKalkulationRef.push();
-      var key = newKeyRef.key;
-      storeKalkulationRef.push({
-        Key: key,
+      var key = storeKalkulationRef.push({
         beschreibung: this.bezeichnung,
         visum: this.visum.name,
         zeichenNr: this.zeichenNr,

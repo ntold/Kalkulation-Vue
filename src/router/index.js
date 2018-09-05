@@ -16,7 +16,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/fertigung',
+      path: '/:id/fertigung',
       name: 'Fertigung',
       component: Fertigung
     },
