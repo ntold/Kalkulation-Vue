@@ -164,7 +164,6 @@ import database from "./db";
 
 const DatabaseRef = database.ref("Database");
 const KalkulationRef = database.ref("Kalkulationen/kalkXYZ/fertigung");
-const KalkulationInfoRef = database.ref("Kalkulationen/kalkXYZ/info");
 
 DatabaseRef.on("value", gotData, errData);
 
@@ -209,12 +208,10 @@ export default {
   },
   methods: {
     storeFertigung: function() {
-      var newKey = KalkulationRef.push().key();
       if (this.kostenstelle && this.losgrösse) {
         this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta;
         this.rüstkosten = this.kostenstelle.ansatz * this.tr;
         KalkulationRef.push({
-          key: key,
           kostenstelle: this.kostenstelle.kostenstelle,
           operation: this.operation,
           ta: this.ta,
