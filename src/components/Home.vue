@@ -22,17 +22,17 @@
                 <div class="modal-body">
                   <slot name="body">
                     <div class="new-calc">
-                      <div class="input-name"><input type="text" class="left" placeholder="Bezeichnung"></div> 
-                      <div class="input-nr"><input type="text" class="left" placeholder="Zeichen Nr."></div>
-                      <button class="date input-date" disabled> {{datum}} </button>
-                      <v-select class="input-visum" placeholder="Visum" :items="kostenstellen" v-model="kostenstelle" item-text="kostenstelle" flat solo autocomplete></v-select>
+                      <div class="input-name"><input type="text" class="left" placeholder="Bezeichnung" v-model="bezeichnung"></div> 
+                      <div class="input-nr"><input type="text" class="left" placeholder="Zeichen Nr." v-model="zeichenNr"></div>
+                      <button class="date input-date" disabled> {{date}} </button>
+                      <v-select class="input-visum" placeholder="Visum" :items="visa" v-model="visum" item-text="name" flat solo autocomplete></v-select>
                     </div>
                   </slot>
                 </div>
                 <div class="modal-footer">
                   <slot class="footer-grid" name="footer">
                     
-                    <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="/*#TODO*/">
+                    <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="storeInfo()">
                       Erstellen
                     </button>
                   </slot>
@@ -67,17 +67,19 @@
                                 <div>Name / Ersteller</div>
                                 <div>Status / Bearbeitet</div>
                               </div>
-                              <div class="calc-row" v-for="(dataRow, index) in dataRows" :key="index">
-                                  <div class="name">{{dataRow.Name}}</div>
-                                  <div class="status">{{dataRow.Status}}</div>
-                                  <i class="material-icons" v-on:click="delFertigung(index)">delete</i>
-                                  <div class="creator">{{dataRow.Creator}}</div>
-                                  <div class="updated">{{dataRow.Updated}}</div>
+                              <div class="calc-row" v-on:click="gotoKalk(kalkulation)" v-for="(kalkulation, index) in kalkulationen" :key="index">
+                                  <div class="name">{{kalkulation.beschreibung}}</div>
+                                  <div class="status">{{kalkulation.datum}}</div>
+                                  <i class="material-icons" v-on:click="delFertigungOverlay(index)">delete</i>
+                                  <div class="creator">{{kalkulation.visum}}</div>
+                                  <div class="updated">{{kalkulation.zeichenNr}}</div>
                                   <div class="calc-row-remove">
                                     <div class="calc-row-remove-grid">
-                                      <div>Wollen Sie {{dataRow.Name}} wirklich löschen?</div>
-                                      <div class=""><i class="material-icons">close</i></div>
-                                      <div><i class="material-icons">done</i></div>
+                                      <div>Wollen Sie <b>{{kalkulation.Name}}</b> wirklich löschen?</div>
+                                      <div class="icon-wrap">
+                                        <div class="done-icon" v-on:click="delFertigung(index)"><i class="material-icons">done</i></div>
+                                        <div class="remove-icon" v-on:click="closeDelFertigung(index)"><i class="material-icons">close</i></div>
+                                      </div>
                                     </div>
                                   </div>
                               </div>
@@ -103,26 +105,26 @@
 </template>
 
 <script>
+import database from "./db";
+
+const DatabaseRef = database.ref("Database");
+const storeKalkulationRef = database.ref("Kalkulationen");
+
 export default {
   name: "Home",
   data() {
     return {
+      visum: "",
+      visa: [],
+
+      bezeichnung: "",
+      zeichenNr: "",
+
+      name: "",
+
       fertigungActive: false,
       existingActive: false,
-      dataRows: [
-        {
-          Name: "Herrschaftsspiel",
-          Creator: "Dany",
-          Status: "In Bearbeitung",
-          Updated: "03.09.2018"
-        },
-        {
-          Name: "Erarbeitetes Bruttoeinkommen",
-          Creator: "Dany",
-          Status: "In Bearbeitung",
-          Updated: "03.09.2018"
-        }
-      ]
+      kalkulationen: []
     };
   },
   methods: {
@@ -132,13 +134,38 @@ export default {
     existing() {
       this.existingActive = true;
     },
-    delFertigung(id){
+    closeDelFertigung(id){
       var element = $('.calc-row-remove')[id];
-      element.classList.add('display', 'animated', 'flipInX');
+      element.classList.remove('flipInX');
+      element.classList.remove('display');
+    },
+    delFertigung(id){
+      var element = $('.calc-row')[id];
+      console.log("a");
+      
+      element.classList.add('animated', 'bounceOutRight');
+    },
+    delFertigungOverlay(id) {
+      var element = $(".calc-row-remove")[id];
+      element.classList.add("display", "animated", "flipInX");
+    },
+    gotoKalk(id) {
+      const key = id.id;
+      this.$router.push({ path: `/${key}/fertigung` });
+    },
+    storeInfo: function() {
+      var key = storeKalkulationRef.push({
+        beschreibung: this.bezeichnung,
+        visum: this.visum.name,
+        zeichenNr: this.zeichenNr,
+        datum: this.date
+      });
+      this.fertigungActive = false;
+      (this.bezeichnung = ""), (this.visum = ""), (this.zeichenNr = "");
     }
   },
   computed: {
-    datum() {
+    date() {
       var d = new Date();
       var month = new Array();
       month[0] = "Januar";
@@ -157,19 +184,47 @@ export default {
         d.getDate() + ". " + month[d.getMonth()] + " " + d.getFullYear();
       return this.time;
     }
+  },
+  created() {
+    storeKalkulationRef.on("child_added", snapshot => {
+      this.kalkulationen.push({ ...snapshot.val(), id: snapshot.key });
+    });
+    storeKalkulationRef.on("child_removed", snapshot => {
+      const deletedKalkulation = this.fertigungen.find(
+        kalkulation => kalkulation.id === snapshot.key
+      );
+      const index = this.kalkulationen.indexOf(deletedKalkulation);
+      this.kalkulationen.splice(index, 1);
+      nativeToast({
+        message: `Fertigung gelöscht`,
+        type: "warning"
+      });
+    });
+  },
+  mounted() {
+    var query = DatabaseRef;
+    query.once("value").then(snapshot => {
+      this.visa = snapshot.child("visum").val();
+    });
   }
 };
 </script>
 
 <style scoped>
-
 /*Placeholder*/
 
-::placeholder {color: grey; opacity: 0.5;}
+::placeholder {
+  color: grey;
+  opacity: 0.5;
+}
 
-:-ms-input-placeholder {color: grey;}
+:-ms-input-placeholder {
+  color: grey;
+}
 
-::-ms-input-placeholder {color: grey;}
+::-ms-input-placeholder {
+  color: grey;
+}
 
 /*Buttons*/
 
@@ -287,19 +342,29 @@ export default {
   grid-template-columns: 1fr 1fr;
 }
 
-.input-name{grid-area:name; padding: 8px 16px;}
-.input-nr{grid-area:nr; padding: 8px 16px;}
-.input-date{grid-area:date; margin-right: 16px;}
-.input-visum{grid-area:visum;}
+.input-name {
+  grid-area: name;
+  padding: 8px 16px;
+}
+.input-nr {
+  grid-area: nr;
+  padding: 8px 16px;
+}
+.input-date {
+  grid-area: date;
+  margin-right: 16px;
+}
+.input-visum {
+  grid-area: visum;
+}
 
-.new-calc{
+.new-calc {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-areas: 
-  'name name'
-  'nr date'
-  'visum visum';
-  
+  grid-template-areas:
+    "name name"
+    "nr date"
+    "visum visum";
 }
 
 /*Vorhadene Auswählen*/
@@ -335,11 +400,21 @@ export default {
   padding: 5px;
 }
 
-.name {grid-area: name;}
-.status {grid-area: status;}
-.material-icons {grid-area: icn;}
-.creator {grid-area: creator;}
-.updated {grid-area: updated;}
+.name {
+  grid-area: name;
+}
+.status {
+  grid-area: status;
+}
+.material-icons {
+  grid-area: icn;
+}
+.creator {
+  grid-area: creator;
+}
+.updated {
+  grid-area: updated;
+}
 
 .calc-row {
   display: grid;
@@ -391,37 +466,55 @@ export default {
   justify-content: center;
 }
 
-.calc-row-remove{
+.calc-row-remove {
   display: none;
   position: absolute;
   background-color: firebrick;
   color: white;
- 
+
   height: 52px;
   width: 692px;
 }
 
-.calc-row-remove-grid{
+.calc-row-remove-grid {
   display: grid;
-  grid-template-columns: 1fr auto 0.1fr 0.1fr;
+  grid-template-columns: 0.8fr 0.2fr;
   grid-template-rows: 1fr;
+  grid-column-gap: 20px;
+  width: 100%;
+  padding: 8px 0 8px 14px;
+}
+
+.icon-wrap{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.done-icon *:hover, .remove-icon *:hover{
+  color: black;
 }
 
 .flipInX {
-  -webkit-animation: flipInX 0.5s; 
-  -moz-animation:    flipInX 0.5s; 
-  -o-animation:      flipInX 0.5s; 
-  animation:         flipInX 0.5s;
+  -webkit-animation: flipInX 0.5s;
+  -moz-animation: flipInX 0.5s;
+  -o-animation: flipInX 0.5s;
+  animation: flipInX 0.5s;
 }
 
-.display{
+.flipOutX{
+    -webkit-animation: flipOutX 0.5s; 
+    -moz-animation:    flipOutX 0.5s; 
+    -o-animation:      flipOutX 0.5s; 
+    animation:         flipOutX 0.5s;
+}
+
+.display {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.display p{
+.display p {
   left: 0;
 }
-
 </style>
