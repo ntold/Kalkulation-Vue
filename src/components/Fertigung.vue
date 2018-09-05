@@ -1,7 +1,7 @@
 <template>
 <v-app>
 <div id="kalkulation1">
-  <div class="row card-panel fixed"> 
+  <!-- <div class="row card-panel fixed"> 
     <div class="col l1"></div>
     <div class="col l4" >
       <input type="text" v-model="bezeichnung" class="center" placeholder="Bezeichnung">  
@@ -19,7 +19,7 @@
       <v-select :items="visa" v-model="visum" item-text="name" placeholder="Visum" solo autocomplete flat></v-select>
     </div>
       <div class="col l1"></div>
-  </div>
+  </div> -->
   <div class="row card-panel mt-3">
     <div class="center col l1"></div>
       <!-- Kostenstelle -->
@@ -43,12 +43,12 @@
       <div class="input-filed col l1">
         <p class="center ta" @mouseover="activeTa = true" @mouseleave="activeTa = false" > ta </p>
         <div v-show="activeTa" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
-        <input type="text" class="center" v-model="ta" v-on:keyup.enter="storeMessage()">  
+        <input type="text" class="center" v-model="ta" v-on:keyup.enter="storeFertigung()">  
       </div>
       <div class="input-filed col l1">
         <p class="center tr" @mouseover="activeTr = true" @mouseleave="activeTr = false" > tr </p>
         <div v-show="activeTr" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
-        <input type="text" class="center" v-model="tr" v-on:keyup.enter="storeMessage()"> 
+        <input type="text" class="center" v-model="tr" v-on:keyup.enter="storeFertigung()"> 
       </div>
       <!-- Kostensatz -->
       <div class="col l1">
@@ -66,7 +66,7 @@
       <!-- + -->
       <div class="col l1">
         <br>
-        <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeMessage()" v-on:keyup.enter="storeMessage()"><i class="material-icons">add</i></a>
+        <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeFertigung()" v-on:keyup.enter="storeFertigung()"><i class="material-icons">add</i></a>
       </div>
     </div>
 
@@ -106,7 +106,7 @@
         </div>
         <!-- remove button -->
         <div class="col l1">
-          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(index)" ><i class="material-icons">remove</i></a>
+          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigung)" ><i class="material-icons">remove</i></a>
         </div>
       </div>
     </div>
@@ -160,22 +160,13 @@
 </template>
 
 <script>
-import Firebase from "firebase";
+import database from "./db";
 
-const config = {
-  apiKey: "AIzaSyBIaj6PnxqwhhOqHP6VF3ql4_CbNF9mOSw",
-  authDomain: "kalkulation-vue.firebaseapp.com",
-  databaseURL: "https://kalkulation-vue.firebaseio.com",
-  projectId: "kalkulation-vue",
-  storageBucket: "kalkulation-vue.appspot.com",
-  messagingSenderId: "411750576448"
-};
-firebase.initializeApp(config);
+const DatabaseRef = database.ref("Database");
+const KalkulationRef = database.ref("Kalkulationen/kalkXYZ/fertigung");
+const KalkulationInfoRef = database.ref("Kalkulationen/kalkXYZ/info");
 
-const database = firebase.database();
-const FertigungRef = database.ref("fertigungen");
-
-FertigungRef.on("value", gotData, errData);
+DatabaseRef.on("value", gotData, errData);
 
 function gotData(data) {
   console.log("Data is arrived!");
@@ -202,7 +193,7 @@ export default {
       visa: [],
 
       bezeichnung: "",
-      losgrösse: null, // TODO: If Losgrösse = '' set to 1
+      losgrösse: 1, // TODO: If Losgrösse = '' set to 1
       zeichenNr: "",
       date: "",
       visum: "",
@@ -217,12 +208,13 @@ export default {
     };
   },
   methods: {
-    storeMessage: function() {
+    storeFertigung: function() {
+      var newKey = KalkulationRef.push().key();
       if (this.kostenstelle && this.losgrösse) {
         this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta;
         this.rüstkosten = this.kostenstelle.ansatz * this.tr;
-        this.fertigungen.push({
-          id: this.row,
+        KalkulationRef.push({
+          key: key,
           kostenstelle: this.kostenstelle.kostenstelle,
           operation: this.operation,
           ta: this.ta,
@@ -240,12 +232,8 @@ export default {
         });
       }
     },
-    deleteFertigung: function(id) {
-      this.fertigungen.splice(id, 1);
-      nativeToast({
-        message: "Fertigung gelöscht",
-        type: "warning"
-      });
+    deleteFertigung(fertigung) {
+      KalkulationRef.child(fertigung.id).remove();
     }
   },
   computed: {
@@ -282,8 +270,24 @@ export default {
       return total;
     }
   },
+  created() {
+    KalkulationRef.on("child_added", snapshot => {
+      this.fertigungen.push({ ...snapshot.val(), id: snapshot.key });
+    });
+    KalkulationRef.on("child_removed", snapshot => {
+      const deletedFertigung = this.fertigungen.find(
+        fertigung => fertigung.id === snapshot.key
+      );
+      const index = this.fertigungen.indexOf(deletedFertigung);
+      this.fertigungen.splice(index, 1);
+      nativeToast({
+        message: `Fertigung gelöscht`,
+        type: "warning"
+      });
+    });
+  },
   mounted() {
-    var query = FertigungRef;
+    var query = DatabaseRef;
     query.once("value").then(snapshot => {
       this.kostenstellen = snapshot.child("kostenstellen").val();
     });
@@ -292,19 +296,6 @@ export default {
     });
   }
 };
-
-/* FertigungRef.on('child_added', snapshot => {
-        this.fertigungen.push({...snapshot.val(), id: snapshot.key})
-      })
-      FertigungRef.on('child_removed', snapshot => {
-        const deletedFertigung = this.fertigungen.find(fertigung => fertigung.id === snapshot.key)
-        const index = this.fertigungen.indexOf(deletedFertigung)
-        this.fertigungen.splice(index, 1)
-          nativeToast({
-              message: `Fertigung gelöscht`,
-              type: 'warning'
-          })
-      }) */
 </script>
 
 <style>

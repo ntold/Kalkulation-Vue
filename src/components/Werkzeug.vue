@@ -87,10 +87,7 @@
 </template>
 
 <script>
-import Firebase from "firebase";
-
-const database = firebase.database();
-const FertigungRef = database.ref("fertigungen");
+//TODO: FIREBASE IMPORT
 
 export default {
   name: "Werkzeug",
