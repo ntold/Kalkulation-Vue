@@ -77,7 +77,7 @@
                                     <div class="calc-row-remove-grid">
                                       <div>Wollen Sie {{kalkulation.beschreibung}} wirklich löschen?</div>
                                       <div class="icon-wrap">
-                                        <div class="done-icon" v-on:click="delFertigung(kalkulation)"><i class="material-icons">done</i></div>
+                                        <div class="done-icon" v-on:click="delFertigung(index, kalkulation)"><i class="material-icons">done</i></div>
                                         <div class="remove-icon" v-on:click="closeDelFertigung(index)"><i class="material-icons">close</i></div>
                                       </div>
                                     </div>
@@ -136,12 +136,11 @@ export default {
     },
     closeDelFertigung(id) {
       var element = $(".calc-row-remove")[id];
-      element.classList.remove("flipInX");
-      element.classList.remove("display");
+      element.classList.remove("flipInX", "display");
     },
-    delFertigung(kalkulation) {
-      // var element = $(".calc-row")[id1];
-      // element.classList.add("animated", "bounceOutRight");
+    delFertigung(index, kalkulation) {
+      this.closeDelFertigung(index);
+      
       storeKalkulationRef.child(kalkulation.id).remove();
     },
     delFertigungOverlay(id) {
