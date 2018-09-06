@@ -148,12 +148,10 @@
       </div>
     </div>
 
-    <div class="fixed-action-btn">
-      <router-link to="/material">
+    <div class="fixed-action-btn" v-on:click="goTo()">
         <button class="btn right btnnext">Weiter
           <i class="material-icons right">arrow_forward_ios</i>
         </button>
-      </router-link>
     </div>
 </div>
 </v-app>
@@ -162,17 +160,15 @@
 <script>
 import database from "./db";
 
-const DatabaseRef = database.ref("Database");
+// DatabaseRef.on("value", gotData, errData);
 
-DatabaseRef.on("value", gotData, errData);
+// function gotData(data) {
+//   console.log("Data is arrived!");
+// }
 
-function gotData(data) {
-  console.log("Data is arrived!");
-}
-
-function errData(errorObject) {
-  console.log("The read failed: " + errorObject.code);
-}
+// function errData(errorObject) {
+//   console.log("The read failed: " + errorObject.code);
+// }
 
 export default {
   name: "kalkulation1",
@@ -210,7 +206,7 @@ export default {
       if (this.kostenstelle && this.losgrösse) {
         this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta;
         this.rüstkosten = this.kostenstelle.ansatz * this.tr;
-        this.KalkulationRef.push({
+        this.$parent.KalkulationRef.push({
           kostenstelle: this.kostenstelle.kostenstelle,
           operation: this.operation,
           ta: this.ta,
@@ -229,7 +225,11 @@ export default {
       }
     },
     deleteFertigung(fertigung) {
-      this.KalkulationRef.child(fertigung.id).remove();
+      this.$parent.KalkulationRef.child(fertigung.id).remove();
+    },
+    goTo() {
+      const key = `${this.$route.params.id}`;
+      this.$router.push({ path: `/edit/${key}/material` });
     }
   },
   computed: {
@@ -266,15 +266,11 @@ export default {
       return total;
     }
   },
-  created() {},
   mounted() {
-    this.KalkulationRef = database.ref(
-      "Kalkulationen/" + `${this.$route.params.id}` + "/fertigung"
-    );
-    this.KalkulationRef.on("child_added", snapshot => {
+    this.$parent.KalkulationRef.on("child_added", snapshot => {
       this.fertigungen.push({ ...snapshot.val(), id: snapshot.key });
     });
-    this.KalkulationRef.on("child_removed", snapshot => {
+    this.$parent.KalkulationRef.on("child_removed", snapshot => {
       const deletedFertigung = this.fertigungen.find(
         fertigung => fertigung.id === snapshot.key
       );
@@ -285,8 +281,7 @@ export default {
         type: "warning"
       });
     });
-
-    var query = DatabaseRef;
+    var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.kostenstellen = snapshot.child("kostenstellen").val();
     });

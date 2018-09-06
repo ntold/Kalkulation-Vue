@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Navbar from '@/components/Navbar'
 import Home from '@/components/Home'
+import Edit from '@/components/Edit'
 import Fertigung from '@/components/Fertigung'
 import Material from '@/components/Material'
 import Werkzeug from '@/components/Werkzeug'
@@ -9,31 +10,45 @@ import Oberflaeche from '@/components/Oberflaeche'
 
 Vue.use(Router)
 
+const User = {
+  template: `
+    <div class="user">
+      <h2>User {{ $route.params.id }}</h2>
+      <router-view></router-view>
+    </div>
+  `
+}
+
 export default new Router({
+  mode: 'history',
   routes: [{
       path: '/',
-      name: 'Home',
       component: Home,
     },
     {
-      path: '/:id/fertigung',
-      name: 'Fertigung',
-      component: Fertigung
-    },
-    {
-      path: '/material',
-      name: 'Material',
-      component: Material
-    },
-    {
-      path: '/werkzeug',
-      name: 'Werkzeug',
-      component: Werkzeug
-    },
-    {
-      path: '/oberflaeche',
-      name: 'Oberflaeche',
-      component: Oberflaeche
+      path: '/edit/:id',
+      component: Edit,
+      children: [{
+          name: 'Fertigung',
+          path: 'fertigung',
+          component: Fertigung
+        },
+        {
+          name: 'Material',
+          path: 'material',
+          component: Material
+        },
+        {
+          name: 'Werkzeug',
+          path: 'werkzeug',
+          component: Werkzeug
+        },
+        {
+          name: 'Oberfläche',
+          path: 'oberflaeche',
+          component: Oberflaeche
+        }
+      ]
     }
   ]
 })

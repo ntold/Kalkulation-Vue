@@ -150,7 +150,7 @@ export default {
     },
     gotoKalk(id) {
       const key = id.id;
-      this.$router.push({ path: `/${key}/fertigung` });
+      this.$router.push({ path: `/edit/${key}/fertigung` });
     },
     storeInfo: function() {
       var key = storeKalkulationRef.push({

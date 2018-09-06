@@ -67,27 +67,23 @@
           <p class="center mt-3">  {{ Sondereinzelgrössen }} CHF </p>
         </div>
       </div>
-      <div class="fixed-action-btn">
-        <router-link to="/">
+      <div class="fixed-action-btn" v-on:click="goTo()">
           <button class="btn right btnnext">Weiter
             <i class="material-icons right">arrow_forward_ios</i>
           </button>
-        </router-link>
       </div>
-      <div class="fixed-action-btn goleft">
-        <router-link to="/oberflaeche">
+      <div class="fixed-action-btn goleft" v-on:click="goBack()">
           <button class="btn right btnnext">
             <i class="material-icons left">arrow_back_ios</i>
             Zurück
           </button>
-        </router-link>
       </div>
     </div>
   </v-app>
 </template>
 
 <script>
-//TODO: FIREBASE IMPORT
+import database from "./db";
 
 export default {
   name: "Werkzeug",
@@ -122,6 +118,14 @@ export default {
         message: "Fertigung gelöscht",
         type: "warning"
       });
+    },
+    goTo() {
+      const key = `${this.$route.params.id}`;
+      this.$router.push({ path: `/edit/${key}/` });
+    },
+    goBack() {
+      const key = `${this.$route.params.id}`;
+      this.$router.push({ path: `/edit/${key}/oberflaeche` });
     }
   },
   computed: {
