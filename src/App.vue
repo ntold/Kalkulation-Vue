@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
+    <div class="push"></div>
     <router-view/>
   </div>
 </template>
@@ -19,5 +20,9 @@ export default {
 <style>
 .input-group--text-field input {
   flex: none !important;
+}
+
+.push{
+  height: 100px;
 }
 </style>

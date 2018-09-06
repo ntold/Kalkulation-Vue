@@ -1,26 +1,45 @@
 <template>
-  <nav>
-      <div class="nav-wrapper #424242 color">
-          <div class="row">
-            <div class="col s1 m1 l1"></div>
-            <router-link to="/" class="brand-logo left"  style="text-decoration:none;"> TFBern </router-link>
-            <router-link to="/" class="brand-logo center"  style="text-decoration:none;"> Kalkulation </router-link>
-          </div>
-      </div>
-  </nav>
+<div class="nav">
+  <div class="nav-logo"><img src="../assets/favicon.png" alt="TF-Bern Logo"></div>
+  <div class="nav-title"><p>Kalkulationsblatt</p></div>
+  <div class="filler"></div>
+</div>
 </template>
 
 <script>
 export default {
-  name: "navbar",
   data() {
-    return {};
+    return { }
   }
 };
 </script>
 
 <style scoped>
-.color {
+.nav{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  height: 100px;
   background-color: #0082b4;
+  position: fixed;
+  width: 100%;
+  z-index: 9999;
 }
+
+.nav-logo img{
+  width: 100px;
+  margin-left: 100px;
+}
+
+.nav-title{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  color: white;
+  font-size: 2.5em;
+}
+
+
 </style>
