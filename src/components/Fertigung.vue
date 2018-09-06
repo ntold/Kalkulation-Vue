@@ -229,7 +229,7 @@ export default {
       }
     },
     deleteFertigung(fertigung) {
-      KalkulationRef.child(fertigung.id).remove();
+      this.KalkulationRef.child(fertigung.id).remove();
     }
   },
   computed: {

@@ -67,17 +67,19 @@
                                 <div>Name / Ersteller</div>
                                 <div>Status / Bearbeitet</div>
                               </div>
-                              <div class="calc-row" v-on:click="gotoKalk(kalkulation)" v-for="(kalkulation, index) in kalkulationen" :key="index">
-                                  <div class="name">{{kalkulation.beschreibung}}</div>
-                                  <div class="status">{{kalkulation.datum}}</div>
-                                  <i class="material-icons" v-on:click="delFertigung(index)">delete</i>
-                                  <div class="creator">{{kalkulation.visum}}</div>
-                                  <div class="updated">{{kalkulation.zeichenNr}}</div>
+                              <div class="calc-row" v-for="(kalkulation, index) in kalkulationen" :key="index">
+                                  <div class="name" v-on:click="gotoKalk(kalkulation)">{{kalkulation.beschreibung}}</div>
+                                  <div class="status" v-on:click="gotoKalk(kalkulation)">{{kalkulation.datum}}</div>
+                                  <i class="material-icons" v-on:click="delFertigungOverlay(index)">delete</i>
+                                  <div class="creator" v-on:click="gotoKalk(kalkulation)">{{kalkulation.visum}}</div>
+                                  <div class="updated" v-on:click="gotoKalk(kalkulation)">{{kalkulation.zeichenNr}}</div>
                                   <div class="calc-row-remove">
                                     <div class="calc-row-remove-grid">
-                                      <div>Wollen Sie {{kalkulation.Name}} wirklich löschen?</div>
-                                      <div class=""><i class="material-icons">close</i></div>
-                                      <div><i class="material-icons">done</i></div>
+                                      <div>Wollen Sie {{kalkulation.beschreibung}} wirklich löschen?</div>
+                                      <div class="icon-wrap">
+                                        <div class="done-icon" v-on:click="delFertigung(kalkulation)"><i class="material-icons">done</i></div>
+                                        <div class="remove-icon" v-on:click="closeDelFertigung(index)"><i class="material-icons">close</i></div>
+                                      </div>
                                     </div>
                                   </div>
                               </div>
@@ -132,7 +134,17 @@ export default {
     existing() {
       this.existingActive = true;
     },
-    delFertigung(id) {
+    closeDelFertigung(id) {
+      var element = $(".calc-row-remove")[id];
+      element.classList.remove("flipInX");
+      element.classList.remove("display");
+    },
+    delFertigung(kalkulation) {
+      // var element = $(".calc-row")[id1];
+      // element.classList.add("animated", "bounceOutRight");
+      storeKalkulationRef.child(kalkulation.id).remove();
+    },
+    delFertigungOverlay(id) {
       var element = $(".calc-row-remove")[id];
       element.classList.add("display", "animated", "flipInX");
     },
@@ -177,7 +189,7 @@ export default {
       this.kalkulationen.push({ ...snapshot.val(), id: snapshot.key });
     });
     storeKalkulationRef.on("child_removed", snapshot => {
-      const deletedKalkulation = this.fertigungen.find(
+      const deletedKalkulation = this.kalkulationen.find(
         kalkulation => kalkulation.id === snapshot.key
       );
       const index = this.kalkulationen.indexOf(deletedKalkulation);
@@ -465,8 +477,21 @@ export default {
 
 .calc-row-remove-grid {
   display: grid;
-  grid-template-columns: 1fr auto 0.1fr 0.1fr;
+  grid-template-columns: 0.8fr 0.2fr;
   grid-template-rows: 1fr;
+  grid-column-gap: 20px;
+  width: 100%;
+  padding: 8px 0 8px 14px;
+}
+
+.icon-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.done-icon *:hover,
+.remove-icon *:hover {
+  color: black;
 }
 
 .flipInX {
@@ -474,6 +499,13 @@ export default {
   -moz-animation: flipInX 0.5s;
   -o-animation: flipInX 0.5s;
   animation: flipInX 0.5s;
+}
+
+.flipOutX {
+  -webkit-animation: flipOutX 0.5s;
+  -moz-animation: flipOutX 0.5s;
+  -o-animation: flipOutX 0.5s;
+  animation: flipOutX 0.5s;
 }
 
 .display {
