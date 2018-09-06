@@ -70,26 +70,14 @@
                               <div class="calc-row" v-on:click="gotoKalk(kalkulation)" v-for="(kalkulation, index) in kalkulationen" :key="index">
                                   <div class="name">{{kalkulation.beschreibung}}</div>
                                   <div class="status">{{kalkulation.datum}}</div>
-<<<<<<< HEAD
-                                  <i class="material-icons" v-on:click="delFertigungOverlay(index)">delete</i>
-=======
                                   <i class="material-icons" v-on:click="delFertigung(index)">delete</i>
->>>>>>> 9bf4611f8bdc4383a582cd3e5c45b73ad83f7471
                                   <div class="creator">{{kalkulation.visum}}</div>
                                   <div class="updated">{{kalkulation.zeichenNr}}</div>
                                   <div class="calc-row-remove">
                                     <div class="calc-row-remove-grid">
-<<<<<<< HEAD
-                                      <div>Wollen Sie <b>{{kalkulation.Name}}</b> wirklich löschen?</div>
-                                      <div class="icon-wrap">
-                                        <div class="done-icon" v-on:click="delFertigung(index)"><i class="material-icons">done</i></div>
-                                        <div class="remove-icon" v-on:click="closeDelFertigung(index)"><i class="material-icons">close</i></div>
-                                      </div>
-=======
                                       <div>Wollen Sie {{kalkulation.Name}} wirklich löschen?</div>
                                       <div class=""><i class="material-icons">close</i></div>
                                       <div><i class="material-icons">done</i></div>
->>>>>>> 9bf4611f8bdc4383a582cd3e5c45b73ad83f7471
                                     </div>
                                   </div>
                               </div>
@@ -144,22 +132,7 @@ export default {
     existing() {
       this.existingActive = true;
     },
-<<<<<<< HEAD
-    closeDelFertigung(id){
-      var element = $('.calc-row-remove')[id];
-      element.classList.remove('flipInX');
-      element.classList.remove('display');
-    },
-    delFertigung(id){
-      var element = $('.calc-row')[id];
-      console.log("a");
-      
-      element.classList.add('animated', 'bounceOutRight');
-    },
-    delFertigungOverlay(id) {
-=======
     delFertigung(id) {
->>>>>>> 9bf4611f8bdc4383a582cd3e5c45b73ad83f7471
       var element = $(".calc-row-remove")[id];
       element.classList.add("display", "animated", "flipInX");
     },
@@ -492,20 +465,8 @@ export default {
 
 .calc-row-remove-grid {
   display: grid;
-  grid-template-columns: 0.8fr 0.2fr;
+  grid-template-columns: 1fr auto 0.1fr 0.1fr;
   grid-template-rows: 1fr;
-  grid-column-gap: 20px;
-  width: 100%;
-  padding: 8px 0 8px 14px;
-}
-
-.icon-wrap{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-.done-icon *:hover, .remove-icon *:hover{
-  color: black;
 }
 
 .flipInX {
@@ -513,16 +474,6 @@ export default {
   -moz-animation: flipInX 0.5s;
   -o-animation: flipInX 0.5s;
   animation: flipInX 0.5s;
-<<<<<<< HEAD
-}
-
-.flipOutX{
-    -webkit-animation: flipOutX 0.5s; 
-    -moz-animation:    flipOutX 0.5s; 
-    -o-animation:      flipOutX 0.5s; 
-    animation:         flipOutX 0.5s;
-=======
->>>>>>> 9bf4611f8bdc4383a582cd3e5c45b73ad83f7471
 }
 
 .display {

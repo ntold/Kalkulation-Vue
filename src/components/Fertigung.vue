@@ -53,7 +53,7 @@
       <!-- Kostensatz -->
       <div class="col l1">
         <p class="center"> Kostensatz <br>  Fr / Std  </p>
-        <p class="center"> {{ this.kostenstelle.ansatz }} </p>
+        <!-- <p class="center"> {{ this.kostenstelle.ansatz }} </p> -->
       </div>
       <div class="col l1">
         <p class="center"> Bearbeitungskosten <br> Losgrösse </p>
@@ -163,8 +163,6 @@
 import database from "./db";
 
 const DatabaseRef = database.ref("Database");
-const KalkulationRef = database.ref("Kalkulationen/kalkXYZ/fertigung");
-const KalkulationInfoRef = database.ref("Kalkulationen/kalkXYZ/info");
 
 DatabaseRef.on("value", gotData, errData);
 
@@ -209,12 +207,10 @@ export default {
   },
   methods: {
     storeFertigung: function() {
-      var newKey = KalkulationRef.push().key();
       if (this.kostenstelle && this.losgrösse) {
         this.bearbeitungskosten = this.kostenstelle.ansatz * this.ta;
         this.rüstkosten = this.kostenstelle.ansatz * this.tr;
-        KalkulationRef.push({
-          key: key,
+        this.KalkulationRef.push({
           kostenstelle: this.kostenstelle.kostenstelle,
           operation: this.operation,
           ta: this.ta,
@@ -270,11 +266,15 @@ export default {
       return total;
     }
   },
-  created() {
-    KalkulationRef.on("child_added", snapshot => {
+  created() {},
+  mounted() {
+    this.KalkulationRef = database.ref(
+      "Kalkulationen/" + `${this.$route.params.id}` + "/fertigung"
+    );
+    this.KalkulationRef.on("child_added", snapshot => {
       this.fertigungen.push({ ...snapshot.val(), id: snapshot.key });
     });
-    KalkulationRef.on("child_removed", snapshot => {
+    this.KalkulationRef.on("child_removed", snapshot => {
       const deletedFertigung = this.fertigungen.find(
         fertigung => fertigung.id === snapshot.key
       );
@@ -285,8 +285,7 @@ export default {
         type: "warning"
       });
     });
-  },
-  mounted() {
+
     var query = DatabaseRef;
     query.once("value").then(snapshot => {
       this.kostenstellen = snapshot.child("kostenstellen").val();
