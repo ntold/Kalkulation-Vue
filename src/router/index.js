@@ -8,17 +8,9 @@ import Material from '@/components/Material'
 import Werkzeug from '@/components/Werkzeug'
 import Oberflaeche from '@/components/Oberflaeche'
 import Einmaligekosten from '@/components/Einmaligekosten'
+import Uebersicht from '@/components/Uebersicht'
 
 Vue.use(Router)
-
-const User = {
-  template: `
-    <div class="user">
-      <h2>User {{ $route.params.id }}</h2>
-      <router-view></router-view>
-    </div>
-  `
-}
 
 export default new Router({
   mode: 'history',
@@ -53,6 +45,11 @@ export default new Router({
           name: 'Einmaligekosten',
           path: 'einmaligekosten',
           component: Einmaligekosten
+        },
+        {
+          name: 'Uebersicht',
+          path: 'uebersicht',
+          component: Uebersicht
         }
       ]
     }
