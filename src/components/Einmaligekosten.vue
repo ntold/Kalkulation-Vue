@@ -8,7 +8,7 @@
         <div class="col l5">
           <p class="center">Art</p>
           <v-select
-            :items="art"
+            :items="einmaligeKosten"
             v-model="art"
             item-text="art"
             solo
@@ -41,16 +41,16 @@
             <p class="center"> {{ index +1 }} </p>
           </div>
           <!-- Art -->
-          <div class="col l5">
-            <p class="center"> {{ art.art.art }} </p>
+          <div class="col l6">
+            <p class="center"> {{ art.art }} </p>
           </div>
           <!-- Kosten -->
-          <div class="col l4">
-            <p class="center"> {{ art.kosten_gesamt }} </p>
+          <div class="col l3">
+            <p class="center"> {{ art.kosten }} </p>
           </div>
           <!-- remove button -->
-          <div class="col l1">
-            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteArt(index)">
+          <div class="col l2">
+            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteArt(art)">
               <i class="material-icons">remove</i>
             </a>
           </div>
@@ -64,7 +64,7 @@
         </div>
         <!-- Summe Bearbeitungskosten -->
         <div class="col l2 card-panel">
-          <p class="center mt-3">  {{ Gesamtkosten }} CHF </p>
+          <p class="center mt-3">  {{ gesamtKosten }} CHF </p>
         </div>
       </div>
       <!-- Go a site back -->
@@ -92,9 +92,14 @@ export default {
   name: "Einmaligekosten",
   data() {
     return {
+      kosten: null,
 
+      art: "",
+      art_full: [],
+
+      einmaligeKosten: []
     };
-},
+  },
   methods: {
     goTo() {
       const key = `${this.$route.params.id}`;
@@ -103,9 +108,52 @@ export default {
     goBack() {
       const key = `${this.$route.params.id}`;
       this.$router.push({ path: `/edit/${key}/oberflaeche` });
+    },
+    storeArt() {
+      if (this.art) {
+        this.$parent.EinmaligeKostenRef.push({
+          art: this.art.art,
+          kosten: this.kosten
+        });
+      }
+    },
+    deleteArt(art) {
+      this.$parent.EinmaligeKostenRef.child(art.id).remove();
     }
+  },
+  computed: {
+    gesamtKosten: function() {
+      var total = 0;
+      for (var art of this.art_full) {
+        total -= art.kosten;
+      }
+      return total * -1;
+    }
+  },
+  created() {
+    this.$parent.EinmaligeKostenRef.on("child_added", snapshot => {
+      this.art_full.push({
+        ...snapshot.val(),
+        id: snapshot.key
+      });
+    });
+    this.$parent.EinmaligeKostenRef.on("child_removed", snapshot => {
+      const deletedArt = this.art_full.find(art => art.id === snapshot.key);
+      const index = this.art_full.indexOf(deletedArt);
+      this.art_full.splice(index, 1);
+      nativeToast({
+        message: `Fertigung gelöscht`,
+        type: "warning"
+      });
+    });
+  },
+  mounted() {
+    var query = this.$parent.DatabaseRef;
+    query.once("value").then(snapshot => {
+      this.einmaligeKosten = snapshot.child("einmaligeKosten").val();
+    });
   }
-}
+};
 </script>
 
 <style>

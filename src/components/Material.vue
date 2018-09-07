@@ -30,6 +30,7 @@
         <!-- Kosten / Einheit -->
         <div class="col l1">
           <p class="center"> Kosten / Einheit</p>
+          <br />
           <input type="text" class="center" v-model="kosten_einheit" v-on:keyup.enter="storeMaterial()">
         </div>
         <!-- Kosten Gesammt -->
@@ -91,7 +92,7 @@
           </div>
           <!-- remove button -->
           <div class="col l1">
-            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteMaterial(index)">
+            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteMaterial(material_full)">
               <i class="material-icons">remove</i>
             </a>
           </div>
@@ -105,7 +106,7 @@
         </div>
         <!-- Summe Bearbeitungskosten -->
         <div class="col l2 card-panel">
-          <p class="center mt-3">  CHF </p>
+          <p class="center mt-3">  {{ materialEinzel }} CHF </p>
         </div>
       </div>
       <!-- Total Fertigungslohnkosten / Stück -->
@@ -116,7 +117,7 @@
         </div>
         <!-- Summe Bearbeitungskosten -->
         <div class="col l2 card-panel">
-          <p class="center mt-3">  CHF </p>
+          <p class="center mt-3">  {{ materialGesamt }} CHF </p>
         </div>
       </div>
     <div class="fixed-action-btn" v-on:click="goTo()">
@@ -135,7 +136,8 @@
 </template>
 
 <script>
-//TODO: FIREBASE IMPORT
+import database from "./db";
+
 export default {
   name: "Material",
   data() {
@@ -163,7 +165,7 @@ export default {
       if (this.material.material) {
         this.getTarif();
         this.gesammt_kosten = this.menge * this.kosten_einheit;
-        this.materialien_full.push({
+        this.$parent.MaterialRef.push({
           material: this.material.material,
           liferant: this.liferant.liferant,
           menge: this.menge,
@@ -186,12 +188,8 @@ export default {
         (this.einheit = "");
       this.tarif = null;
     },
-    deleteMaterial: function(id) {
-      this.materialien_full.splice(id, 1);
-      nativeToast({
-        message: "Fertigung gelöscht",
-        type: "warning"
-      });
+    deleteMaterial(material) {
+      this.$parent.MaterialRef.child(material.id).remove();
     },
     getTarif: function() {
       if (this.menge <= 99 && this.menge != null) {
@@ -250,10 +248,43 @@ export default {
         this.tarif = 400;
         return this.tarif;
       }
+    },
+    materialEinzel: function() {
+      var total = 0;
+      for (var material of this.materialien_full) {
+        total += material.gesammt_kosten;
+      }
+      return total;
+    },
+    materialGesamt: function() {
+      var total = 0;
+      for (var material of this.materialien_full) {
+        total += material.tarif;
+      }
+      return total;
     }
   },
+  created() {
+    this.$parent.MaterialRef.on("child_added", snapshot => {
+      this.materialien_full.push({
+        ...snapshot.val(),
+        id: snapshot.key
+      });
+    });
+    this.$parent.MaterialRef.on("child_removed", snapshot => {
+      const deletedMaterial = this.materialien_full.find(
+        material => material.id === snapshot.key
+      );
+      const index = this.materialien_full.indexOf(deletedMaterial);
+      this.materialien_full.splice(index, 1);
+      nativeToast({
+        message: `Fertigung gelöscht`,
+        type: "warning"
+      });
+    });
+  },
   mounted() {
-    var query = FertigungRef;
+    var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.einheiten = snapshot.child("einheiten").val();
     });

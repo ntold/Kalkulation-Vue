@@ -1,7 +1,7 @@
 <template>
-<v-app>
-<div id="kalkulation1">
-  <!-- <div class="row card-panel fixed"> 
+  <v-app>
+    <div id="kalkulation1">
+      <!-- <div class="row card-panel fixed"> 
     <div class="col l1"></div>
     <div class="col l4" >
       <input type="text" v-model="bezeichnung" class="center" placeholder="Bezeichnung">  
@@ -20,141 +20,140 @@
     </div>
       <div class="col l1"></div>
   </div> -->
-  <div class="row card-panel mt-3">
-    <div class="center col l1"></div>
-      <!-- Kostenstelle -->
-      <div class="col l2">
-        <p class="center">Kostenstelle</p>
-        <v-select
-          :items="kostenstellen"
-          v-model="kostenstelle"
-          item-text="kostenstelle"
-          solo
-          autocomplete
-          flat
-        ></v-select>
-      </div>
-      <!-- Operation -->
-      <div class="input-filed col l2">
-        <p class="center">Operation</p>
-        <input type="text" v-model="operation" class="center">  
-      </div>
-      <!-- ta tr -->
-      <div class="input-filed col l1">
-        <p class="center ta" @mouseover="activeTa = true" @mouseleave="activeTa = false" > ta </p>
-        <div v-show="activeTa" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
-        <input type="text" class="center" v-model="ta" v-on:keyup.enter="storeFertigung()">  
-      </div>
-      <div class="input-filed col l1">
-        <p class="center tr" @mouseover="activeTr = true" @mouseleave="activeTr = false" > tr </p>
-        <div v-show="activeTr" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe. </div>
-        <input type="text" class="center" v-model="tr" v-on:keyup.enter="storeFertigung()"> 
-      </div>
-      <!-- Kostensatz -->
-      <div class="col l1">
-        <p class="center"> Kostensatz <br>  Fr / Std  </p>
-        <!-- <p class="center"> {{ this.kostenstelle.ansatz }} </p> -->
-      </div>
-      <div class="col l1">
-        <p class="center"> Bearbeitungskosten <br> Losgrösse </p>
-        <p class="center">  </p>
-      </div>
-      <div class="col l1">
-        <p class="center"> Rüstkosten <br> Losgrösse </p>
-        <p class="center">  </p>
-      </div>
-      <!-- + -->
-      <div class="col l1">
-        <br>
-        <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeFertigung()" v-on:keyup.enter="storeFertigung()"><i class="material-icons">add</i></a>
-      </div>
-    </div>
-
-  <div v-for="(fertigung, index) in fertigungen" :key='index' track-by="index">
-      <div class="row card-panel">
-        <!-- Nr -->
-        <div class="col l1">
-          <p class="center"> {{ index +1 }} </p>
-        </div>
+      <div class="row card-panel mt-3">
+        <div class="center col l1"></div>
         <!-- Kostenstelle -->
         <div class="col l2">
-          <p class="center"> {{ fertigung.kostenstelle }} </p>
+          <p class="center">Kostenstelle</p>
+          <v-select :items="kostenstellen" v-model="kostenstelle" item-text="kostenstelle" solo autocomplete flat></v-select>
         </div>
         <!-- Operation -->
-        <div class="col l2">
-          <p class="center"> {{ fertigung.operation }} </p>
+        <div class="input-filed col l2">
+          <p class="center">Operation</p>
+          <input type="text" v-model="operation" class="center">
         </div>
-        <!-- ta -->
+        <!-- ta tr -->
+        <div class="input-filed col l1">
+          <p class="center ta" @mouseover="activeTa = true" @mouseleave="activeTa = false"> ta </p>
+          <div v-show="activeTa" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing
+            elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe.
+          </div>
+          <input type="text" class="center" v-model="ta" v-on:keyup.enter="storeFertigung()">
+        </div>
+        <div class="input-filed col l1">
+          <p class="center tr" @mouseover="activeTr = true" @mouseleave="activeTr = false"> tr </p>
+          <div v-show="activeTr" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing
+            elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe.
+          </div>
+          <input type="text" class="center" v-model="tr" v-on:keyup.enter="storeFertigung()">
+        </div>
+        <!-- Kostensatz -->
         <div class="col l1">
-          <p class="center" v-if="fertigung.ta !== ''"> {{ fertigung.ta * losgrösse }} Std.</p>
+          <p class="center"> Kostensatz <br> Fr / Std </p>
+          <!-- <p class="center"> {{ this.kostenstelle.ansatz }} </p> -->
         </div>
-        <!-- tr -->
         <div class="col l1">
-          <p class="center" v-if="fertigung.tr !== ''"> {{ fertigung.tr }} Std.</p>
+          <p class="center"> Bearbeitungskosten <br> Losgrösse </p>
+          <p class="center"> </p>
         </div>
-        <!-- Ansatz -->
-        <div class="col l1"> 
-          <p class="center"> {{ fertigung.ansatz }} CHF </p>
-        </div>
-        <!-- Bearbeitunskosten -->
         <div class="col l1">
-          <p class="center" v-if="fertigung.bearbeitungskosten !== 0"> {{ fertigung.bearbeitungskosten }} CHF </p>
+          <p class="center"> Rüstkosten <br> Losgrösse </p>
+          <p class="center"> </p>
         </div>
-        <!-- Rüstkosten -->
+        <!-- + -->
         <div class="col l1">
-          <p class="center" v-if="fertigung.rüstkosten !== 0"> {{ fertigung.rüstkosten }} CHF </p>
-        </div>
-        <!-- remove button -->
-        <div class="col l1">
-          <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigung)" ><i class="material-icons">remove</i></a>
+          <br>
+          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeFertigung()"
+            v-on:keyup.enter="storeFertigung()"><i class="material-icons">add</i></a>
         </div>
       </div>
-    </div>
-    <!-- Sums -->
-    <div class="row mt-3"> 
-      <div class="col l7"></div>
-      <div class="col l1 card-panel blue white-text" >
-        <p class="center mt-3"> Summe </p>
-      </div>
-      <!-- Summe Bearbeitungskosten -->
-      <div class="col l1 card-panel">
-        <p class="center mt-3"> {{ sumBKosten }} CHF </p>
-      </div>
-      <!-- Summe Rüstkosten -->
-      <div class="col l1 card-panel">
-        <p class="center mt-3"> {{ sumRKosten }} CHF </p>
-      </div>
-    </div>
-    <!-- Total Fertigungslohnkosten / Losgrösse -->
-    <div class="row"> 
-      <div class="col l4"></div>
-      <div class="col l4 card-panel blue white-text" >
-        <p class="right mt-3"> Fertigungslohnkosten / Losgrösse (Bearbeitungs- und Rüstkosten) Total	</p>
-      </div>
-      <!-- Summe Bearbeitungskosten -->
-      <div class="col l2 card-panel">
-        <p class="center mt-3"> {{ totalLKosten }} CHF </p>
-      </div>
-    </div>
-    <!-- Total Fertigungslohnkosten / Stück -->
-    <div class="row"> 
-      <div class="col l4"></div>
-      <div class="col l4 card-panel blue white-text mb-3" >
-        <p class="right mt-3"> Fertigungslohnkosten / Stück Total</p>
-      </div>
-      <!-- Summe Bearbeitungskosten -->
-      <div class="col l2 card-panel">
-        <p class="center mt-3"> {{ totalSKosten }} CHF </p>
-      </div>
-    </div>
 
-    <div class="fixed-action-btn" v-on:click="goTo()">
+      <div v-for="(fertigung, index) in fertigungen" :key='index' track-by="index">
+        <div class="row card-panel">
+          <!-- Nr -->
+          <div class="col l1">
+            <p class="center"> {{ index +1 }} </p>
+          </div>
+          <!-- Kostenstelle -->
+          <div class="col l2">
+            <p class="center"> {{ fertigung.kostenstelle }} </p>
+          </div>
+          <!-- Operation -->
+          <div class="col l2">
+            <p class="center"> {{ fertigung.operation }} </p>
+          </div>
+          <!-- ta -->
+          <div class="col l1">
+            <p class="center" v-if="fertigung.ta !== ''"> {{ fertigung.ta * losgrösse }} Std.</p>
+          </div>
+          <!-- tr -->
+          <div class="col l1">
+            <p class="center" v-if="fertigung.tr !== ''"> {{ fertigung.tr }} Std.</p>
+          </div>
+          <!-- Ansatz -->
+          <div class="col l1">
+            <p class="center"> {{ fertigung.ansatz }} CHF </p>
+          </div>
+          <!-- Bearbeitunskosten -->
+          <div class="col l1">
+            <p class="center" v-if="fertigung.bearbeitungskosten !== 0"> {{ fertigung.bearbeitungskosten }} CHF </p>
+          </div>
+          <!-- Rüstkosten -->
+          <div class="col l1">
+            <p class="center" v-if="fertigung.rüstkosten !== 0"> {{ fertigung.rüstkosten }} CHF </p>
+          </div>
+          <!-- remove button -->
+          <div class="col l1">
+            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteFertigung(fertigung)"><i
+                class="material-icons">remove</i></a>
+          </div>
+        </div>
+      </div>
+      <!-- Sums -->
+      <div class="row mt-3">
+        <div class="col l7"></div>
+        <div class="col l1 card-panel blue white-text">
+          <p class="center mt-3"> Summe </p>
+        </div>
+        <!-- Summe Bearbeitungskosten -->
+        <div class="col l1 card-panel">
+          <p class="center mt-3"> {{ sumBKosten }} CHF </p>
+        </div>
+        <!-- Summe Rüstkosten -->
+        <div class="col l1 card-panel">
+          <p class="center mt-3"> {{ sumRKosten }} CHF </p>
+        </div>
+      </div>
+      <!-- Total Fertigungslohnkosten / Losgrösse -->
+      <div class="row">
+        <div class="col l4"></div>
+        <div class="col l4 card-panel blue white-text">
+          <p class="right mt-3"> Fertigungslohnkosten / Losgrösse (Bearbeitungs- und Rüstkosten) Total </p>
+        </div>
+        <!-- Summe Bearbeitungskosten -->
+        <div class="col l2 card-panel">
+          <p class="center mt-3"> {{ totalLKosten }} CHF </p>
+        </div>
+      </div>
+      <!-- Total Fertigungslohnkosten / Stück -->
+      <div class="row">
+        <div class="col l4"></div>
+        <div class="col l4 card-panel blue white-text mb-3">
+          <p class="right mt-3"> Fertigungslohnkosten / Stück Total</p>
+        </div>
+        <!-- Summe Bearbeitungskosten -->
+        <div class="col l2 card-panel">
+          <p class="center mt-3"> {{ totalSKosten }} CHF </p>
+        </div>
+      </div>
+
+      <div class="fixed-action-btn" v-on:click="goTo()">
         <button class="btn right btnnext">Weiter
           <i class="material-icons right">arrow_forward_ios</i>
         </button>
+      </div>
     </div>
-</div>
-</v-app>
+  </v-app>
 </template>
 
 <script>
@@ -229,7 +228,9 @@ export default {
     },
     goTo() {
       const key = `${this.$route.params.id}`;
-      this.$router.push({ path: `/edit/${key}/material` });
+      this.$router.push({
+        path: `/edit/${key}/material`
+      });
     }
   },
   computed: {
@@ -266,9 +267,12 @@ export default {
       return total;
     }
   },
-  mounted() {
+  created() {
     this.$parent.KalkulationRef.on("child_added", snapshot => {
-      this.fertigungen.push({ ...snapshot.val(), id: snapshot.key });
+      this.fertigungen.push({
+        ...snapshot.val(),
+        id: snapshot.key
+      });
     });
     this.$parent.KalkulationRef.on("child_removed", snapshot => {
       const deletedFertigung = this.fertigungen.find(
@@ -281,6 +285,8 @@ export default {
         type: "warning"
       });
     });
+  },
+  mounted() {
     var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.kostenstellen = snapshot.child("kostenstellen").val();
