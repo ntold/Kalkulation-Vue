@@ -41,12 +41,14 @@
             <p class="center"> {{ index +1 }} </p>
           </div>
           <!-- Art -->
-          <div class="col l6">
+          <div class="col l5">
             <p class="center"> {{ art.art }} </p>
           </div>
+          <!-- Spacer l1 -->
+          <div class="center col l2"></div>
           <!-- Kosten -->
-          <div class="col l3">
-            <p class="center"> {{ art.kosten }} </p>
+          <div class="col l2">
+            <p class="center"> {{ art.kosten }} CHF </p>
           </div>
           <!-- remove button -->
           <div class="col l2">
