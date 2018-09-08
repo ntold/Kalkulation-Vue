@@ -10,12 +10,13 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "test": "npm run unit",
     "build": "node build/build.js",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && $(npm bin)/gh-pages -d dist"
   },
   "dependencies": {
+    "@firebase/app": "^0.3.3",
+    "@firebase/database": "^0.3.4",
     "ajv": "^6.4.0",
     "material-design-icons-iconfont": "^3.0.3",
-    "npm": "^6.4.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.17"
