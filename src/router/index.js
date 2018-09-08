@@ -8,6 +8,7 @@ import Material from '@/components/Material'
 import Werkzeug from '@/components/Werkzeug'
 import Oberflaeche from '@/components/Oberflaeche'
 import Einmaligekosten from '@/components/Einmaligekosten'
+import Uebersicht from '@/components/Uebersicht'
 
 Vue.use(Router)
 
@@ -44,6 +45,11 @@ export default new Router({
           name: 'Einmaligekosten',
           path: 'einmaligekosten',
           component: Einmaligekosten
+        },
+        {
+          name: 'Uebersicht',
+          path: 'uebersicht',
+          component: Uebersicht
         }
       ]
     }
