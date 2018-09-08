@@ -160,16 +160,8 @@
 
 <script>
 import database from "./db";
-
-// this.$parent.DatabaseRef.on("value", gotData, errData);
-
-// function gotData(data) {
-//   console.log("Data is arrived!");
-// }
-
-// function errData(errorObject) {
-//   console.log("The read failed: " + errorObject.code);
-// }
+import Vue from "vue";
+//
 
 export default {
   name: "kalkulation1",
@@ -201,7 +193,7 @@ export default {
       bearbeitungskosten: 0,
       rüstkosten: 0,
 
-      loading: false
+      loading: true
     };
   },
   methods: {
@@ -298,6 +290,7 @@ export default {
     query.once("value").then(snapshot => {
       this.visa = snapshot.child("visum").val();
     });
+    this.$parent.DatabaseRef.on("value", () => Vue.set(this, "loading", false));
   }
 };
 </script>

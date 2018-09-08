@@ -9,7 +9,7 @@ import database from "./db";
 
 export default {
   name: "edit",
-  data() {
+  created() {
     const key = this.$route.params.id;
 
     this.DatabaseRef = database.ref("Database");
@@ -19,8 +19,6 @@ export default {
     this.OberflaecheRef = database.ref(`Kalkulationen/${key}/oberflaeche`);
     this.WerkzeugRef = database.ref(`Kalkulationen/${key}/werkzeug`);
     this.EinmaligeKostenRef = database.ref(`Kalkulationen/${key}/einMKosten`);
-
-    return {};
   }
 };
 </script>
