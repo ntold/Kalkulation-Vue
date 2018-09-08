@@ -30,6 +30,7 @@
         <!-- Kosten / Einheit -->
         <div class="col l1">
           <p class="center"> Kosten / Einheit</p>
+          <br />
           <input type="text" class="center" v-model="kosten_einheit" v-on:keyup.enter="storeOberflaeche()">
         </div>
         <!-- Kosten Gesammt -->
@@ -49,39 +50,39 @@
         </div>
       </div>
       <!-- For Loop Material_full -->
-      <div v-for="(oberflaechen_full, index) in oberflaechen_full" :key='index' track-by="index">
+      <div v-for="(oberflaeche_full, index) in oberflaechen_full" :key='index' track-by="index">
         <div class="row card-panel">
           <!-- Nr -->
           <div class="col l1">
             <p class="center"> {{ index +1 }} </p>
           </div>
-          <!-- Material -->
+          <!-- Oberfläche -->
           <div class="col l2">
-            <p class="center"> {{ oberflaechen_full.oberflaeche }} </p>
+            <p class="center"> {{ oberflaeche_full.oberflaeche }} </p>
           </div>
           <!-- Liferant -->
           <div class="col l2">
-            <p class="center"> {{ oberflaechen_full.liferant }} </p>
+            <p class="center"> {{ oberflaeche_full.liferant }} </p>
           </div>
           <!-- Menge -->
           <div class="col l1">
-            <p class="center"> {{ oberflaechen_full.menge }} </p>
+            <p class="center"> {{ oberflaeche_full.menge }} </p>
           </div>
           <!-- Einheit -->
           <div class="col l1">
-            <p class="center"> {{ oberflaechen_full.einheit }} </p>
+            <p class="center"> {{ oberflaeche_full.einheit }} </p>
           </div>
           <!-- Kosten_einheut -->
           <div class="col l1">
-            <p class="center"> {{ oberflaechen_full.kosten_einheit }} </p>
+            <p class="center"> {{ oberflaeche_full.kosten_einheit }} </p>
           </div>
-          <!-- Bearbeitunskosten -->
+          <!-- Kosten Gesamt -->
           <div class="col l2">
-            <p class="center"> {{ oberflaechen_full.gesammt_kosten }} </p>
+            <p class="center"> {{ oberflaeche_full.kosten_gesamt }} </p>
           </div>
           <!-- remove button -->
           <div class="col l1">
-            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteOberflaeche(index)">
+            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteOberflaeche(oberflaeche_full)">
               <i class="material-icons">remove</i>
             </a>
           </div>
@@ -114,7 +115,7 @@
 </template>
 
 <script>
-//TODO: FIREBASE IMPORT
+import database from "./db";
 
 export default {
   name: "Material",
@@ -134,21 +135,20 @@ export default {
       menge: null,
 
       kosten_einheit: null,
-
-      gesammt_kosten: null
+      kosten_geasamt: null
     };
   },
   methods: {
     storeOberflaeche: function() {
       if (this.oberflaeche.oberflaeche) {
-        this.gesammt_kosten = this.menge * this.kosten_einheit;
-        this.oberflaechen_full.push({
+        this.kosten_gesamt = this.menge * this.kosten_einheit;
+        this.$parent.OberflaecheRef.push({
           oberflaeche: this.oberflaeche.oberflaeche,
           liferant: this.liferant.liferant,
           menge: this.menge,
           einheit: this.einheit.einheit,
           kosten_einheit: this.kosten_einheit,
-          gesammt_kosten: this.gesammt_kosten
+          kosten_gesamt: this.kosten_gesamt
         });
       } else {
         nativeToast({
@@ -156,19 +156,15 @@ export default {
           type: "error"
         });
       }
-      (this.gesammt_kosten = null),
+      (this.kosten_gesamt = null),
         (this.oberflaeche = ""),
         (this.liferant = ""),
         (this.menge = null),
         (this.kosten_einheit = null),
         (this.einheit = "");
     },
-    deleteOberflaeche: function(id) {
-      this.oberflaechen_full.splice(id, 1);
-      nativeToast({
-        message: "Fertigung gelöscht",
-        type: "warning"
-      });
+    deleteOberflaeche: function(oberflaeche) {
+      this.$parent.OberflaecheRef.child(oberflaeche.id).remove();
     },
     goTo() {
       const key = `${this.$route.params.id}`;
@@ -183,13 +179,32 @@ export default {
     totalOberflaeche: function() {
       var total = 0;
       for (var oberflaeche of this.oberflaechen_full) {
-        total += oberflaeche.gesammt_kosten;
+        total += oberflaeche.kosten_gesamt;
       }
       return total;
     }
   },
+  created() {
+    this.$parent.OberflaecheRef.on("child_added", snapshot => {
+      this.oberflaechen_full.push({
+        ...snapshot.val(),
+        id: snapshot.key
+      });
+    });
+    this.$parent.OberflaecheRef.on("child_removed", snapshot => {
+      const deletedOberflaeche = this.oberflaechen_full.find(
+        oberflaeche => oberflaeche.id === snapshot.key
+      );
+      const index = this.oberflaechen_full.indexOf(deletedOberflaeche);
+      this.oberflaechen_full.splice(index, 1);
+      nativeToast({
+        message: `Fertigung gelöscht`,
+        type: "warning"
+      });
+    });
+  },
   mounted() {
-    var query = FertigungRef;
+    var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.einheiten = snapshot.child("einheiten").val();
     });

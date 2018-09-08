@@ -50,7 +50,7 @@
           </div>
           <!-- remove button -->
           <div class="col l1">
-            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteWerkzeug(index)">
+            <a class="btn-floating btn-medium waves-effect waves-light red" v-on:click="deleteWerkzeug(werkzeug)">
               <i class="material-icons">remove</i>
             </a>
           </div>
@@ -100,7 +100,7 @@ export default {
   methods: {
     storeWerkzeug: function() {
       if (this.werkzeug) {
-        this.werkzeuge_full.push({
+        this.$parent.WerkzeugRef.push({
           werkzeug: this.werkzeug,
           kosten_gesamt: this.kosten_gesamt
         });
@@ -112,16 +112,12 @@ export default {
       }
       (this.werkzeug = ""), (this.kosten_gesamt = null);
     },
-    deleteWerkzeug: function(id) {
-      this.werkzeuge_full.splice(id, 1);
-      nativeToast({
-        message: "Fertigung gelöscht",
-        type: "warning"
-      });
+    deleteWerkzeug: function(werkzeug) {
+      this.$parent.WerkzeugRef.child(werkzeug.id).remove();
     },
     goTo() {
       const key = `${this.$route.params.id}`;
-      this.$router.push({ path: `/edit/${key}/` });
+      this.$router.push({ path: `/edit/${key}/einmaligekosten` });
     },
     goBack() {
       const key = `${this.$route.params.id}`;
@@ -129,7 +125,6 @@ export default {
     }
   },
   computed: {
-    // WTF=!?!?!? 🤯
     Sondereinzelgrössen: function() {
       var total = 0;
       for (var werkzeug of this.werkzeuge_full) {
@@ -138,8 +133,27 @@ export default {
       return total * -1;
     }
   },
+  created() {
+    this.$parent.WerkzeugRef.on("child_added", snapshot => {
+      this.werkzeuge_full.push({
+        ...snapshot.val(),
+        id: snapshot.key
+      });
+    });
+    this.$parent.WerkzeugRef.on("child_removed", snapshot => {
+      const deletedWerkzeug = this.werkzeuge_full.find(
+        werkzeug => werkzeug.id === snapshot.key
+      );
+      const index = this.werkzeuge_full.indexOf(deletedWerkzeug);
+      this.werkzeuge_full.splice(index, 1);
+      nativeToast({
+        message: `Fertigung gelöscht`,
+        type: "warning"
+      });
+    });
+  },
   mounted() {
-    var query = FertigungRef;
+    var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.einheiten = snapshot.child("einheiten").val();
     });
