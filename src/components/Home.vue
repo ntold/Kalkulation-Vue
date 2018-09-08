@@ -136,7 +136,9 @@ export default {
     },
     closeDelFertigung(id) {
       var element = $(".calc-row-remove")[id];
-      element.classList.remove("flipInX", "display");
+      element.classList.add("flipOutX");
+      
+      element.classList.remove("display");
     },
     delFertigung(index, kalkulation) {
       this.closeDelFertigung(index);
@@ -226,9 +228,6 @@ export default {
 
 /*Buttons*/
 
-.push {
-  margin-bottom: 70px;
-}
 .btn1 {
   background-color: #008d3b;
   width: 50%;

@@ -1,16 +1,17 @@
 <template>
 <div class="nav">
-  <div class="nav-logo"><img src="../assets/favicon.png" alt="TF-Bern Logo"></div>
-  <div class="nav-title"><p>Kalkulationsblatt</p></div>
+  <div class="nav-logo"><img src="/src/assets/favicon.png" alt=""></div>
+  <div class="nav-title handleScroll"><p>Kalkulationsblatt</p></div>
   <div class="filler"></div>
 </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return { }
-  }
+  data () {
+    return {};
+  },
+  methods: {},
 };
 </script>
 
@@ -18,13 +19,16 @@ export default {
 .nav{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-
-  height: 100px;
+  
   background-color: #0082b4;
-  position: fixed;
-  width: 100%;
+  
+  position: sticky;
+  top: 0;
+  height: 100px;
+  width: 100%; 
   z-index: 9999;
 }
+
 
 .nav-logo img{
   width: 100px;

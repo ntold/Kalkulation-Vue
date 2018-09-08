@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Navbar />
-    <div class="push"></div>
     <router-view/>
   </div>
 </template>
@@ -22,7 +21,4 @@ export default {
   flex: none !important;
 }
 
-.push{
-  height: 100px;
-}
 </style>
