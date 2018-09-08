@@ -11,15 +11,6 @@ import Einmaligekosten from '@/components/Einmaligekosten'
 
 Vue.use(Router)
 
-const User = {
-  template: `
-    <div class="user">
-      <h2>User {{ $route.params.id }}</h2>
-      <router-view></router-view>
-    </div>
-  `
-}
-
 export default new Router({
   mode: 'history',
   routes: [{
