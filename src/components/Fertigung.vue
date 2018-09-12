@@ -68,7 +68,7 @@
         </div>
       </div>
 
-      <div v-if="loading" class="lds-ring"><div></div><div></div><div></div><div></div></div>
+      <div v-if="loading" class="center loading"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
 
       <div v-else v-for="(fertigung, index) in fertigungen" :key='index' track-by="index">
         <div class="row card-panel">
@@ -304,6 +304,10 @@ export default {
   z-index: 2;
   position: absolute;
   width: 200px;
+}
+
+.loading {
+  margin-top: 50px;
 }
 
 .btnnext {
