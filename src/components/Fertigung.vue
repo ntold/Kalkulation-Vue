@@ -1,25 +1,25 @@
 <template>
   <v-app>
-    <div id="kalkulation1">
-      <!-- <div class="row card-panel fixed"> 
-    <div class="col l1"></div>
-    <div class="col l4" >
-      <input type="text" v-model="bezeichnung" class="center" placeholder="Bezeichnung">  
-    </div>
-    <div class="col l1">
-      <input type="text" v-model="zeichenNr" class="center" placeholder="Zeichen Nr.">
-    </div>
-    <div class="col l1">
-      <input type="text" v-model="losgrösse" class="center" placeholder="Losgrösse">
-    </div>
-    <div class="col l1">
-      <input type="text" v-model="date" class="datepicker" placeholder="Datum">
-    </div>
-    <div class="col l3">  
-      <v-select :items="visa" v-model="visum" item-text="name" placeholder="Visum" solo autocomplete flat></v-select>
-    </div>
+    <div id="kalkulation1" class="nav-margin">
+        <!-- <div class="row card-panel fixed"> 
       <div class="col l1"></div>
-  </div> -->
+      <div class="col l4" >
+        <input type="text" v-model="bezeichnung" class="center" placeholder="Bezeichnung">  
+      </div>
+      <div class="col l1">
+        <input type="text" v-model="zeichenNr" class="center" placeholder="Zeichen Nr.">
+      </div>
+      <div class="col l1">
+        <input type="text" v-model="losgrösse" class="center" placeholder="Losgrösse">
+      </div>
+      <div class="col l1">
+        <input type="text" v-model="date" class="datepicker" placeholder="Datum">
+      </div>
+      <div class="col l3">  
+        <v-select :items="visa" v-model="visum" item-text="name" placeholder="Visum" solo autocomplete flat></v-select>
+      </div>
+        <div class="col l1"></div>
+      </div> -->
       <div class="row card-panel mt-3">
         <div class="center col l1"></div>
         <!-- Kostenstelle -->

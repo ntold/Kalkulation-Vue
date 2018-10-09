@@ -21,4 +21,8 @@ export default {
   flex: none !important;
 }
 
+.nav-margin{
+  margin-top: 100px;
+}
+
 </style>

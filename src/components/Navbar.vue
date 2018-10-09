@@ -15,18 +15,20 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+
 .nav{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   
   background-color: #0082b4;
   
-  position: sticky;
+  position: fixed;
   top: 0;
   height: 100px;
   width: 100%; 
   z-index: 9999;
+  
 }
 
 

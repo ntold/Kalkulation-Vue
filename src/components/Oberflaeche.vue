@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div id="Oberflaeche">
+    <div id="Oberflaeche" class="nav-margin">
       <div class="row card-panel fixed">
         <div class="col l1"></div>
         <!-- Oberflaeche Dropdown -->

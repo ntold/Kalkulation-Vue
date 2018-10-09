@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div id="Werkzeug">
+    <div id="Werkzeug" class="nav-margin">
       <div class="row card-panel fixed">
         <div class="col l1"></div>
         <!-- Werkzeug Dropdown -->

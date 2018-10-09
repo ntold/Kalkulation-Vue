@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div id="Material">
+    <div id="Material" class="nav-margin">
       <div class="row card-panel fixed">
         <div class="col l1"></div>
         <!-- Material Dropdown -->

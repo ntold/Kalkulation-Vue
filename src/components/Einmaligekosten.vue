@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div>
+    <div class="nav-margin">
       <div class="row card-panel mt-3">
         <!-- Spacer l1 -->
         <div class="center col l1"></div>
