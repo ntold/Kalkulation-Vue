@@ -2,7 +2,7 @@
   <v-app>
     <div class="container">
       <div class="center">
-        <h4 class="truncate">Willkommen zurück</h4>
+        <h4 class="truncate marginT100">Willkommen zurück</h4>
       </div>
       <div class="push"></div>
       <div class="row">
@@ -228,9 +228,14 @@ export default {
 
 /*Buttons*/
 
+.marginT100{
+  margin-top: 140px;
+}
+
 .btn1 {
   background-color: #008d3b;
   width: 50%;
+  margin-top: 40px;
 }
 
 .btn1:hover {
@@ -240,6 +245,7 @@ export default {
 .btn2 {
   background-color: #0082b4;
   width: 50%;
+  margin-top: 40px;
 }
 
 .btn2:hover {

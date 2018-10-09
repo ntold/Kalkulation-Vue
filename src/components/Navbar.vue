@@ -1,6 +1,6 @@
 <template>
 <div class="nav">
-  <div class="nav-logo"><img src="/src/assets/favicon.png" alt=""></div>
+  <div class="nav-logo"><img src="../assets/favicon.png" alt=""></div>
   <div class="nav-title handleScroll"><p>Kalkulationsblatt</p></div>
   <div class="filler"></div>
 </div>
