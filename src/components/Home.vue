@@ -137,7 +137,6 @@ export default {
     closeDelFertigung(id) {
       var element = $(".calc-row-remove")[id];
       element.classList.add("flipOutX");
-      
       element.classList.remove("display");
     },
     delFertigung(index, kalkulation) {
@@ -147,6 +146,7 @@ export default {
     },
     delFertigungOverlay(id) {
       var element = $(".calc-row-remove")[id];
+      element.classList.remove("flipOutX");
       element.classList.add("display", "animated", "flipInX");
     },
     gotoKalk(id) {

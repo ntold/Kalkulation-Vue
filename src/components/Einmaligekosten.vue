@@ -105,11 +105,11 @@ export default {
   methods: {
     goTo() {
       const key = `${this.$route.params.id}`;
-      this.$router.push({ path: `/edit/${key}/` });
+      this.$router.push({ path: `/edit/${key}/total` });
     },
     goBack() {
       const key = `${this.$route.params.id}`;
-      this.$router.push({ path: `/edit/${key}/oberflaeche` });
+      this.$router.push({ path: `/edit/${key}/werkzeug` });
     },
     storeArt() {
       if (this.art) {
