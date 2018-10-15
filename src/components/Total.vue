@@ -64,18 +64,16 @@
             </div>
         </div>
         <div class="fixed-action-btn" v-on:click="goTo()">
-          <button class="btn right btnnext">
-            Weiter
+          <button class="btn right btnnext">Weiter
             <i class="material-icons right">arrow_forward_ios</i>
           </button>
-      </div>
-      <!-- Go a site forward -->
-      <div class="fixed-action-btn goleft" v-on:click="goBack()">
-          <button class="btn right btnnext">
+        </div>
+        <div class="fixed-action-btn goleft" v-on:click="goBack()">
+            <button class="btn right btnnext">
             <i class="material-icons left">arrow_back_ios</i>
             Zurück
-          </button>
-      </div>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -131,6 +129,10 @@ export default {
 
     .content-page-value{
         text-align: center;
+    }
+    .btn, .btn:hover, .btn:visited{
+        color: black;
+        background-color: rgb(250, 250, 250);
     }
 }
 
