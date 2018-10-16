@@ -7,15 +7,15 @@
   <div class="navigation-wrapper" v-if="home()">
     <div id="nav" class="navigation">
       <span></span>
-      <div id="" class="nav-item active" v-on:click="goHome()">Home</div>
+      <div id="Home" class="nav-item" v-on:click="goHome()">Home</div>
       <span></span>
-      <div id="fertigung" class="nav-item" v-on:click="goFertigung()">Fertigung</div>
-      <div class="nav-item" v-on:click="goMaterial()">Material</div>
-      <div class="nav-item" v-on:click="goOberflaeche()">Oberfläche</div>
-      <div class="nav-item" v-on:click="goWerkzeug()">Werkzeug</div>
-      <div class="nav-item" v-on:click="goEinmaligekosten()">Einmaligekosten</div>
+      <div id="Fertigung" class="nav-item active" v-on:click="goFertigung()">Fertigung</div>
+      <div id="Material" class="nav-item" v-on:click="goMaterial()">Material</div>
+      <div id="Oberflaeche" class="nav-item" v-on:click="goOberflaeche()">Oberfläche</div>
+      <div id="Werkzeug" class="nav-item" v-on:click="goWerkzeug()">Werkzeug</div>
+      <div id="Einmaligekosten" class="nav-item" v-on:click="goEinmaligekosten()">Einmaligekosten</div>
       <span></span>
-      <div class="nav-item" v-on:click="goTotal()">Total</div>
+      <div id="Total" class="nav-item" v-on:click="goTotal()">Total</div>
       <span></span>
     </div>
   </div>
@@ -29,30 +29,58 @@ export default {
   },
   methods: {
     goHome() {
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Home");
+      clicked.className += " active";
       this.$router.push({ path: `/` });
     },
     goFertigung() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Fertigung");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/fertigung` });
     },
     goMaterial() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Material");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/material` });
     },
     goOberflaeche() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Oberflaeche");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/oberflaeche` });
     },
     goWerkzeug() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Werkzeug");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/werkzeug` });
     },
     goEinmaligekosten() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Einmaligekosten");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/einmaligekosten` });
     },
     goTotal() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Total");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/total` });
     },
     home(){
@@ -63,24 +91,13 @@ export default {
       }
     }
   },
-  created() {
-    var header = document.getElementById("nav");
-    var btns = header.getElementsByClassName("nav-item");
-    for (var i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function() {
-        var current = document.getElementsByClassName("active");
-        current[0].className = current[0].className.replace(" active", "");
-        this.className += " active";
-      });
-    }
-  }
 };
 </script>
 
 <style>
 
 
-.active{
+.active {
   background-color: #40a1c7 !important;
 }
 
