@@ -229,7 +229,7 @@ export default {
 /*Buttons*/
 
 .marginT100{
-  margin-top: 140px;
+  margin-top: 180px;
 }
 
 .btn1 {

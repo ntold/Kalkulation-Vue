@@ -19,6 +19,8 @@ export default {
     this.OberflaecheRef = database.ref(`Kalkulationen/${key}/oberflaeche`);
     this.WerkzeugRef = database.ref(`Kalkulationen/${key}/werkzeug`);
     this.EinmaligeKostenRef = database.ref(`Kalkulationen/${key}/einMKosten`);
+
+    this.endFertigungen = database.ref(`Kalkulationen/${key}/fertigung`);
   }
 };
 </script>
