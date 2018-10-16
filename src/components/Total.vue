@@ -1,13 +1,15 @@
 <template>
     <v-app>
-        <div class="content nav-margin">
+        <div class="content">
             <div class="content-wrap">
                 <div class="total-title">
+                    <!-- Title -->
                     <div class="title-head">Bezeichnung</div>
                     <div class="title-head">Zeichen Nr.</div>
                     <div class="title-head">Losgrösse</div>
                     <div class="title-head">Datum</div>
                     <div class="title-head">Visum</div>
+                    <!-- Values -->
                     <div class="title-item">JS_INPUT</div>
                     <div class="title-item">JS_INPUT</div>
                     <div class="title-item">JS_INPUT</div>
@@ -19,48 +21,81 @@
                         <!-- Title -->
                         <div>Fertigungslohnkosten</div>
                         <div>Fertigungsgemeinkosten ( 10% )</div>
-                        <div>Fertigungskosten</div>
+                        <div ><b>Fertigungskosten</b></div>
                     </div>
                     <div>
                         <!-- Values -->
                         <div class="content-page-value">JS_INPUT</div>
                         <div class="content-page-value">JS_INPUT</div>
-                        
+                        <div class="content-page-value">&ensp;</div>
                     </div>
 
-                    <div class="content-page-value">JS_INPUT</div>
+                    <!-- Values -->
+                    <div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value">JS_INPUT</div>
+                    </div>
 
+                    <div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value">&ensp;</div>
+                    </div>
+                    
+                    
                     <div>
                         <!-- Title -->
                         <div>Materialeinzelkosten</div>
-                        <div>Materialgemainkosten</div>
-                        <div>Materialkosten</div>
+                        <div>Materialgemeinkosten</div>
+                        <div class=""><b>Materialkosten</b></div>
                     </div>
+
                     <div>
                         <!-- Values -->
                         <div class="content-page-value">JS_INPUT</div>
                         <div class="content-page-value">JS_INPUT</div>
-                        <div class="content-page-value">JS_INPUT</div>
+                        <div class="content-page-value ">&ensp;</div>
+                    </div>
+
+                    <div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value ">JS_INPUT</div>
+                    </div>
+
+                    <div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value">&ensp;</div>
+                        <div class="content-page-value ">&ensp;</div>
                     </div>
 
                     <!-- Title -->
-                    <div>Sondereinzelkosten</div>
+                    <div class=""><b>Sondereinzelkosten</b></div>
                     <!-- Values -->
-                    <div class="content-page-value">JS_INPUT</div>
+                    <div class="content-page-value ">&ensp;</div>
+                    <div class="content-page-value ">&ensp;</div>
+                    <div class="content-page-value ">JS_INPUT</div>
 
                     <!-- Title -->
-                    <div>Herstellungskosten</div>
+                    <div class=""><b>Herstellungskosten</b></div>
                     <!-- Values -->
-                    <div class="content-page-value">JS_INPUT</div>
+                    <div class="content-page-value ">&ensp;</div>
+                    <div class="content-page-value ">JS_INPUT</div>
+                    <div class="content-page-value ">JS_INPUT</div>
 
                     <!-- Title -->
-                    <div>VVGK ( 5% v. HK )</div>
+                    <div class=""><b>VVGK ( 5% v. HK )</b></div>
                     <!-- Values -->
-                    <div class="content-page-value">JS_INPUT</div>
+                    <div class="content-page-value ">&ensp;</div>
+                    <div class="content-page-value ">&ensp;</div>
+                    <div class="content-page-value ">JS_INPUT</div>
 
                     <!-- Title -->
-                    <div>Selbstkosten</div>
+                    <div><b>Selbstkosten</b></div>
                     <!-- Values -->
+                    <div class="content-page-value">&ensp;</div>
+                    <div class="content-page-value">&ensp;</div>
                     <div class="content-page-value">JS_INPUT</div>
                 </div>
             </div>
@@ -97,16 +132,17 @@ export default {
 <style>
 @media screen {
     .content{
-        margin-top: 170px;
+        margin-top: 250px;
     } 
 
     .content-wrap{
         height: 100%;
-        width: 75%;
+        width: 60%;
         margin: auto;
     }
 
     .total-title{
+        text-align: center;
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-template-rows: 1fr 1fr;
@@ -122,13 +158,14 @@ export default {
         margin-top: 50px;
 
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-row-gap: 30px;
     }
 
     .content-page-value{
-        text-align: center;
+        text-align: right;
     }
+
 
     .goleft {
         margin-right: 87%;
@@ -137,6 +174,7 @@ export default {
 
 @media print{
     .content{
+        overflow: auto;
         margin-top: 20px;
     } 
 
@@ -157,17 +195,22 @@ export default {
     }
     
     .content-page{
-        width: 80%;
+        width: 100%;
         margin: auto;
         margin-top: 50px;
 
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
         grid-row-gap: 30px;
+        grid-column-gap: 30px;
     }
 
-    .content-page-value{
-        text-align: center;
+    .fixed-action-btn{
+        visibility: hidden;
+    }
+
+    .navigation-wrapper{
+        visibility: hidden;
     }
 }
 </style>
