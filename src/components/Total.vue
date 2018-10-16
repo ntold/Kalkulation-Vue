@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <div class="content">
+        <div class="content nav-margin">
             <div class="content-wrap">
                 <div class="total-title">
                     <div class="title-head">Bezeichnung</div>
@@ -97,16 +97,13 @@ export default {
 <style>
 @media screen {
     .content{
-        margin-top: 20px;
+        margin-top: 170px;
     } 
 
     .content-wrap{
         height: 100%;
         width: 75%;
         margin: auto;
-        /* -webkit-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.3);
-        -moz-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.3);
-        box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.3); */
     }
 
     .total-title{
@@ -147,9 +144,6 @@ export default {
         height: 100%;
         width: 75%;
         margin: auto;
-        /* -webkit-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.3);
-        -moz-box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.3);
-        box-shadow: 0px 0px 17px 0px rgba(0,0,0,0.3); */
     }
 
     .total-title{

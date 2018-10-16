@@ -22,7 +22,7 @@ export default {
 }
 
 .nav-margin{
-  margin-top: 100px;
+  margin-top: 145px;
 }
 
 </style>
