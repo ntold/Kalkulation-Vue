@@ -74,8 +74,8 @@
                     <div class=""><b>Sondereinzelkosten</b></div>
                     <!-- Values -->
                     <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value ">&ensp;</div>
                     <div class="content-page-value ">JS_INPUT</div>
+                    <div class="content-page-value ">&ensp;</div>
 
                     <!-- Title -->
                     <div class=""><b>Herstellungskosten</b></div>
