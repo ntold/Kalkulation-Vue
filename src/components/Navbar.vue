@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {};
   },
   methods: {
@@ -83,44 +83,41 @@ export default {
       clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/total` });
     },
-    home(){
-      if (this.$route.path == "/"){
+    home() {
+      if (this.$route.path == "/") {
         return false;
-      }else{
+      } else {
         return true;
       }
     }
-  },
+  }
 };
 </script>
 
 <style>
-
-
 .active {
   background-color: #40a1c7 !important;
 }
 
-.nav{
+.nav {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  
+
   background-color: #0082b4;
-  
+
   position: fixed;
   top: 0;
   height: 100px;
-  width: 100%; 
+  width: 100%;
   z-index: 9999;
 }
 
-
-.nav-logo img{
+.nav-logo img {
   width: 100px;
   margin-left: 100px;
 }
 
-.nav-title{
+.nav-title {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,21 +127,21 @@ export default {
   font-size: 2.5em;
 }
 
-.navigation-wrapper{
+.navigation-wrapper {
   position: absolute;
   width: 100%;
   top: 100px;
   border-top: solid 1px white;
 }
 
-.navigation{
+.navigation {
   display: grid;
-  grid-template-columns: 0.3fr 0.5fr 0.3fr repeat(5, 0.4fr) 0.3fr 0.5fr 0.3fr;
+  grid-template-columns: 0.3fr 0.5fr 0.3fr repeat(5, 0.5fr) 0.3fr 0.5fr 0.3fr;
   background: #0082b4;
   height: 45px;
 }
 
-.nav-item{
+.nav-item {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -152,23 +149,20 @@ export default {
 
   color: whitesmoke;
   font-weight: 600;
-  text-transform: uppercase; 
+  text-transform: uppercase;
 
-  
-  transition: all .1s ease-out;
-  -webkit-transition: all .1s ease-out;
-  -moz-transition: all .1s ease-out;
+  transition: all 0.1s ease-out;
+  -webkit-transition: all 0.1s ease-out;
+  -moz-transition: all 0.1s ease-out;
 }
 
-.nav-item:hover{
-  transition: all .1s ease-in;
-  -webkit-transition: all .1s ease-in;
-  -moz-transition: all .1s ease-in;
+.nav-item:hover {
+  transition: all 0.1s ease-in;
+  -webkit-transition: all 0.1s ease-in;
+  -moz-transition: all 0.1s ease-in;
 
   background-color: #40a1c7;
 
   cursor: pointer;
 }
-
-
 </style>

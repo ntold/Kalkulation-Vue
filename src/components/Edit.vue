@@ -20,7 +20,7 @@ export default {
     this.WerkzeugRef = database.ref(`Kalkulationen/${key}/werkzeug`);
     this.EinmaligeKostenRef = database.ref(`Kalkulationen/${key}/einMKosten`);
 
-    this.endFertigungen = database.ref(`Kalkulationen/${key}/fertigung`);
+    this.totalFertigung = database.ref(`Kalkulationen/${key}/`);
   }
 };
 </script>

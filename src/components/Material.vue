@@ -30,7 +30,6 @@
         <!-- Kosten / Einheit -->
         <div class="col l1">
           <p class="center"> Kosten / Einheit</p>
-          <br />
           <input type="text" class="center" v-model="kosten_einheit" v-on:keyup.enter="storeMaterial()">
         </div>
         <!-- Kosten Gesammt -->

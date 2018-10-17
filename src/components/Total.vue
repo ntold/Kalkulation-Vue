@@ -10,11 +10,13 @@
                     <div class="title-head">Datum</div>
                     <div class="title-head">Visum</div>
                     <!-- Values -->
+                    
                     <div class="title-item">JS_INPUT</div>
                     <div class="title-item">JS_INPUT</div>
                     <div class="title-item">JS_INPUT</div>
                     <div class="title-item">JS_INPUT</div>
                     <div class="title-item">JS_INPUT</div>
+
                 </div>
                 <div class="content-page">
                     <div>
@@ -25,7 +27,7 @@
                     </div>
                     <div>
                         <!-- Values -->
-                        <div class="content-page-value">JS_INPUT</div>
+                        <div class="content-page-value">{{totalLKosten}}</div>
                         <div class="content-page-value">JS_INPUT</div>
                         <div class="content-page-value">&ensp;</div>
                     </div>
@@ -69,7 +71,7 @@
                         <div class="content-page-value">&ensp;</div>
                         <div class="content-page-value ">&ensp;</div>
                     </div>
-
+   
                     <!-- Title -->
                     <div class=""><b>Sondereinzelkosten</b></div>
                     <!-- Values -->
@@ -116,101 +118,125 @@
 
 <script>
 export default {
-    methods: {
-        goTo() {
-        const key = `${this.$route.params.id}`;
-        this.$router.push({ path: `/edit/${key}/total` });
-        },
-        goBack() {
-        const key = `${this.$route.params.id}`;
-        this.$router.push({ path: `/edit/${key}/einmaligekosten` });
-        }
+  data() {
+    return {
+      kostenstellen: [],
+      fertigungen: {}
+    };
+  },
+  methods: {
+    goTo() {
+      const key = `${this.$route.params.id}`;
+      this.$router.push({ path: `/edit/${key}/total` });
+    },
+    goBack() {
+      const key = `${this.$route.params.id}`;
+      this.$router.push({ path: `/edit/${key}/einmaligekosten` });
     }
-}
+  },
+  mounted() {
+    var query = this.$parent.totalFertigung;
+    query.once("value").then(snapshot => {
+      this.fertigungen = snapshot.child("fertigung").val();
+    });
+  }
+  //   computed: {
+  //     totalLKosten: function() {
+  //       var total = 0;
+  //       var kp = Object.values(this.fertigungen)[0];
+  //       kp.ansatz = kp.ansatz.toString();
+  //       console.log(kp.ansatz);
+
+  //       for (var fertigung in this.fertigungen) {
+  //         // console.log(fertigung);
+  //       }
+  //       return total;
+  //     }
+  //   }
+};
 </script>
 
 <style>
 @media screen {
-    .content{
-        margin-top: 250px;
-    } 
+  .content {
+    margin-top: 100px;
+  }
 
-    .content-wrap{
-        height: 100%;
-        width: 60%;
-        margin: auto;
-    }
+  .content-wrap {
+    height: 100%;
+    width: 60%;
+    margin: auto;
+  }
 
-    .total-title{
-        text-align: center;
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-    }
+  .total-title {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 
-    .title-head{
-        font-weight: bold;
-    }
-    
-    .content-page{
-        width: 80%;
-        margin: auto;
-        margin-top: 50px;
+  .title-head {
+    font-weight: bold;
+  }
 
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-row-gap: 30px;
-    }
+  .content-page {
+    width: 80%;
+    margin: auto;
+    margin-top: 50px;
 
-    .content-page-value{
-        text-align: right;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-row-gap: 30px;
+  }
 
+  .content-page-value {
+    text-align: right;
+  }
 
-    .goleft {
-        margin-right: 87%;
-    }
+  .goleft {
+    margin-right: 87%;
+  }
 }
 
-@media print{
-    .content{
-        overflow: auto;
-        margin-top: 20px;
-    } 
+@media print {
+  .content {
+    overflow: auto;
+    margin-top: 20px;
+  }
 
-    .content-wrap{
-        height: 100%;
-        width: 75%;
-        margin: auto;
-    }
+  .content-wrap {
+    height: 100%;
+    width: 75%;
+    margin: auto;
+  }
 
-    .total-title{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-    }
+  .total-title {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
 
-    .title-head{
-        font-weight: bold;
-    }
-    
-    .content-page{
-        width: 100%;
-        margin: auto;
-        margin-top: 50px;
+  .title-head {
+    font-weight: bold;
+  }
 
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-row-gap: 30px;
-        grid-column-gap: 30px;
-    }
+  .content-page {
+    width: 100%;
+    margin: auto;
+    margin-top: 50px;
 
-    .fixed-action-btn{
-        visibility: hidden;
-    }
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-row-gap: 30px;
+    grid-column-gap: 30px;
+  }
 
-    .navigation-wrapper{
-        visibility: hidden;
-    }
+  .fixed-action-btn {
+    visibility: hidden;
+  }
+
+  .navigation-wrapper {
+    visibility: hidden;
+  }
 }
 </style>
