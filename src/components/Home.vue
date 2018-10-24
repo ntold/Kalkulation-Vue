@@ -141,7 +141,7 @@ export default {
     },
     delFertigung(index, kalkulation) {
       this.closeDelFertigung(index);
-      
+
       storeKalkulationRef.child(kalkulation.id).remove();
     },
     delFertigungOverlay(id) {
@@ -228,7 +228,7 @@ export default {
 
 /*Buttons*/
 
-.marginT100{
+.marginT100 {
   margin-top: 180px;
 }
 

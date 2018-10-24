@@ -11,11 +11,11 @@
                     <div class="title-head">Visum</div>
                     <!-- Values -->
                     
-                    <div class="title-item">JS_INPUT</div>
-                    <div class="title-item">JS_INPUT</div>
-                    <div class="title-item">JS_INPUT</div>
-                    <div class="title-item">JS_INPUT</div>
-                    <div class="title-item">JS_INPUT</div>
+                    <div class="title-item">{{bezeichnung}}</div>
+                    <div class="title-item">{{zeichenNr}}</div>
+                    <div class="title-item">{{losgroesse}}</div>
+                    <div class="title-item">{{datum}}</div>
+                    <div class="title-item">{{visum}}</div>
 
                 </div>
                 <div class="content-page">
@@ -27,8 +27,8 @@
                     </div>
                     <div>
                         <!-- Values -->
-                        <div class="content-page-value">{{totalLKosten}}</div>
-                        <div class="content-page-value">JS_INPUT</div>
+                        <div class="content-page-value">{{ totalLKosten }} SFr. </div>
+                        <div class="content-page-value">{{ totalLKosten * 0.1 }} SFr. </div>
                         <div class="content-page-value">&ensp;</div>
                     </div>
 
@@ -36,7 +36,7 @@
                     <div>
                         <div class="content-page-value">&ensp;</div>
                         <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value">JS_INPUT</div>
+                        <div class="content-page-value"><b>{{totalLKosten + totalLKosten * 0.1}} SFr. </b></div>
                     </div>
 
                     <div>
@@ -55,15 +55,15 @@
 
                     <div>
                         <!-- Values -->
-                        <div class="content-page-value">JS_INPUT</div>
-                        <div class="content-page-value">JS_INPUT</div>
+                        <div class="content-page-value"> {{materialEinzel}} SFr. </div>
+                        <div class="content-page-value"> {{materialGesamt}}SFr. </div>
                         <div class="content-page-value ">&ensp;</div>
                     </div>
 
                     <div>
                         <div class="content-page-value">&ensp;</div>
                         <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value ">JS_INPUT</div>
+                        <div class="content-page-value "> <b>{{materialEinzel + materialGesamt}} SFr. </b></div>
                     </div>
 
                     <div>
@@ -76,34 +76,34 @@
                     <div class=""><b>Sondereinzelkosten</b></div>
                     <!-- Values -->
                     <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value ">JS_INPUT</div>
+                    <div class="content-page-value "><b>{{sonderEinzelKosten}} SFr. </b></div>
                     <div class="content-page-value ">&ensp;</div>
 
                     <!-- Title -->
                     <div class=""><b>Herstellungskosten</b></div>
                     <!-- Values -->
                     <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value ">JS_INPUT</div>
-                    <div class="content-page-value ">JS_INPUT</div>
+                    <div class="content-page-value "><b>{{ (totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten }} SFr. </b></div>
+                    <div class="content-page-value "><b>{{ (totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten }} SFr. </b></div>
 
                     <!-- Title -->
                     <div class=""><b>VVGK ( 5% v. HK )</b></div>
                     <!-- Values -->
                     <div class="content-page-value ">&ensp;</div>
                     <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value ">JS_INPUT</div>
+                    <div class="content-page-value "><b>{{ ((totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten) * 0.05 }} SFr. </b></div>
 
                     <!-- Title -->
                     <div><b>Selbstkosten</b></div>
                     <!-- Values -->
                     <div class="content-page-value">&ensp;</div>
                     <div class="content-page-value">&ensp;</div>
-                    <div class="content-page-value">JS_INPUT</div>
+                    <div class="content-page-value"><b>{{ ((totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten) + (((totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten) * 0.05)}} SFr. </b></div>
                 </div>
             </div>
-            <div class="fixed-action-btn" v-on:click="goTo()">
-            <button class="btn right btnnext">Weiter
-                <i class="material-icons right">arrow_forward_ios</i>
+            <div class="fixed-action-btn" v-on:click="print()">
+            <button class="btn right btnnext">Drucken
+                <i class="material-icons right">print</i>
             </button>
             </div>
             <div class="fixed-action-btn goleft" v-on:click="goBack()">
@@ -120,14 +120,20 @@
 export default {
   data() {
     return {
-      kostenstellen: [],
-      fertigungen: {}
+      fertigungen: {},
+      materialien: {},
+      werkzeuge: {},
+
+      bezeichnung: "",
+      zeichenNr: "",
+      losgroesse: "1",
+      datum: "",
+      visum: ""
     };
   },
   methods: {
-    goTo() {
-      const key = `${this.$route.params.id}`;
-      this.$router.push({ path: `/edit/${key}/total` });
+    print() {
+      window.print();
     },
     goBack() {
       const key = `${this.$route.params.id}`;
@@ -138,21 +144,46 @@ export default {
     var query = this.$parent.totalFertigung;
     query.once("value").then(snapshot => {
       this.fertigungen = snapshot.child("fertigung").val();
+      this.materialien = snapshot.child("material").val();
+      this.werkzeuge = snapshot.child("werkzeug").val();
+      this.bezeichnung = snapshot.child("beschreibung").val();
+      this.zeichenNr = snapshot.child("zeichenNr").val();
+      this.datum = snapshot.child("datum").val();
+      this.visum = snapshot.child("visum").val();
     });
-  }
-  //   computed: {
-  //     totalLKosten: function() {
-  //       var total = 0;
-  //       var kp = Object.values(this.fertigungen)[0];
-  //       kp.ansatz = kp.ansatz.toString();
-  //       console.log(kp.ansatz);
+  },
+  computed: {
+    totalLKosten: function() {
+      var total = 0;
+      for (var fertigung of Object.values(this.fertigungen)) {
+        total += fertigung.rüstkosten;
+        total += fertigung.bearbeitungskosten;
+      }
+      return total;
+    },
+    materialEinzel: function() {
+      var total = 0;
 
-  //       for (var fertigung in this.fertigungen) {
-  //         // console.log(fertigung);
-  //       }
-  //       return total;
-  //     }
-  //   }
+      for (var material of Object.values(this.materialien)) {
+        total += material.gesammt_kosten;
+      }
+      return total;
+    },
+    materialGesamt: function() {
+      var total = 0;
+      for (var material of Object.values(this.materialien)) {
+        total += material.tarif;
+      }
+      return total;
+    },
+    sonderEinzelKosten: function() {
+      var total = 0;
+      for (var werkzeug of Object.values(this.werkzeuge)) {
+        total -= werkzeug.kosten_gesamt;
+      }
+      return total * -1;
+    }
+  }
 };
 </script>
 
