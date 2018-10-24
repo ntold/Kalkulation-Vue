@@ -1,119 +1,124 @@
 <template>
-    <v-app>
-        <div class="content">
-            <div class="content-wrap">
-                <div class="total-title">
-                    <!-- Title -->
-                    <div class="title-head">Bezeichnung</div>
-                    <div class="title-head">Zeichen Nr.</div>
-                    <div class="title-head">Losgrösse</div>
-                    <div class="title-head">Datum</div>
-                    <div class="title-head">Visum</div>
-                    <!-- Values -->
-                    
-                    <div class="title-item">{{bezeichnung}}</div>
-                    <div class="title-item">{{zeichenNr}}</div>
-                    <div class="title-item">{{losgroesse}}</div>
-                    <div class="title-item">{{datum}}</div>
-                    <div class="title-item">{{visum}}</div>
+  <v-app>
+    <div class="content">
+      <div class="content-wrap">
+        <div class="total-title">
+          <!-- Title -->
+          <div class="title-head">Bezeichnung</div>
+          <div class="title-head">Zeichen Nr.</div>
+          <div class="title-head">Losgrösse</div>
+          <div class="title-head">Datum</div>
+          <div class="title-head">Visum</div>
+          <!-- Values -->
 
-                </div>
-                <div class="content-page">
-                    <div>
-                        <!-- Title -->
-                        <div>Fertigungslohnkosten</div>
-                        <div>Fertigungsgemeinkosten ( 10% )</div>
-                        <div ><b>Fertigungskosten</b></div>
-                    </div>
-                    <div>
-                        <!-- Values -->
-                        <div class="content-page-value">{{ totalLKosten }} SFr. </div>
-                        <div class="content-page-value">{{ totalLKosten * 0.1 }} SFr. </div>
-                        <div class="content-page-value">&ensp;</div>
-                    </div>
+          <div class="title-item">{{bezeichnung}}</div>
+          <div class="title-item">{{zeichenNr}}</div>
+          <div class="title-item">{{losgroesse}}</div>
+          <div class="title-item">{{datum}}</div>
+          <div class="title-item">{{visum}}</div>
 
-                    <!-- Values -->
-                    <div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value"><b>{{totalLKosten + totalLKosten * 0.1}} SFr. </b></div>
-                    </div>
-
-                    <div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value">&ensp;</div>
-                    </div>
-                    
-                    
-                    <div>
-                        <!-- Title -->
-                        <div>Materialeinzelkosten</div>
-                        <div>Materialgemeinkosten</div>
-                        <div class=""><b>Materialkosten</b></div>
-                    </div>
-
-                    <div>
-                        <!-- Values -->
-                        <div class="content-page-value"> {{materialEinzel}} SFr. </div>
-                        <div class="content-page-value"> {{materialGesamt}}SFr. </div>
-                        <div class="content-page-value ">&ensp;</div>
-                    </div>
-
-                    <div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value "> <b>{{materialEinzel + materialGesamt}} SFr. </b></div>
-                    </div>
-
-                    <div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value">&ensp;</div>
-                        <div class="content-page-value ">&ensp;</div>
-                    </div>
-   
-                    <!-- Title -->
-                    <div class=""><b>Sondereinzelkosten</b></div>
-                    <!-- Values -->
-                    <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value "><b>{{sonderEinzelKosten}} SFr. </b></div>
-                    <div class="content-page-value ">&ensp;</div>
-
-                    <!-- Title -->
-                    <div class=""><b>Herstellungskosten</b></div>
-                    <!-- Values -->
-                    <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value "><b>{{ (totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten }} SFr. </b></div>
-                    <div class="content-page-value "><b>{{ (totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten }} SFr. </b></div>
-
-                    <!-- Title -->
-                    <div class=""><b>VVGK ( 5% v. HK )</b></div>
-                    <!-- Values -->
-                    <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value ">&ensp;</div>
-                    <div class="content-page-value "><b>{{ ((totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten) * 0.05 }} SFr. </b></div>
-
-                    <!-- Title -->
-                    <div><b>Selbstkosten</b></div>
-                    <!-- Values -->
-                    <div class="content-page-value">&ensp;</div>
-                    <div class="content-page-value">&ensp;</div>
-                    <div class="content-page-value"><b>{{ ((totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten) + (((totalLKosten + totalLKosten * 0.1) + (materialEinzel + materialGesamt) +sonderEinzelKosten) * 0.05)}} SFr. </b></div>
-                </div>
-            </div>
-            <div class="fixed-action-btn" v-on:click="print()">
-            <button class="btn right btnnext">Drucken
-                <i class="material-icons right">print</i>
-            </button>
-            </div>
-            <div class="fixed-action-btn goleft" v-on:click="goBack()">
-                <button class="btn left btnnext">
-                <i class="material-icons left">arrow_back_ios</i>
-                Zurück
-                </button>
-            </div>
         </div>
-    </v-app>
+        <div class="content-page">
+          <div>
+            <!-- Title -->
+            <div>Fertigungslohnkosten</div>
+            <div>Fertigungsgemeinkosten ( 10% )</div>
+            <div><b>Fertigungskosten</b></div>
+          </div>
+          <div>
+            <!-- Values -->
+            <div class="content-page-value">{{ totalLKosten }} SFr. </div>
+            <div class="content-page-value">{{ totalLKosten * 0.1 }} SFr. </div>
+            <div class="content-page-value">&ensp;</div>
+          </div>
+
+          <!-- Values -->
+          <div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value"><b>{{totalLKosten + totalLKosten * 0.1}} SFr. </b></div>
+          </div>
+
+          <div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value">&ensp;</div>
+          </div>
+
+
+          <div>
+            <!-- Title -->
+            <div>Materialeinzelkosten</div>
+            <div>Materialgemeinkosten</div>
+            <div class=""><b>Materialkosten</b></div>
+          </div>
+
+          <div>
+            <!-- Values -->
+            <div class="content-page-value"> {{materialEinzel}} SFr. </div>
+            <div class="content-page-value"> {{materialGesamt}} SFr. </div>
+            <div class="content-page-value ">&ensp;</div>
+          </div>
+
+          <div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value "> <b>{{materialEinzel + materialGesamt}} SFr. </b></div>
+          </div>
+
+          <div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value">&ensp;</div>
+            <div class="content-page-value ">&ensp;</div>
+          </div>
+
+          <!-- Title -->
+          <div class=""><b>Sondereinzelkosten</b></div>
+          <!-- Values -->
+          <div class="content-page-value ">&ensp;</div>
+          <div class="content-page-value "><b>{{sonderEinzelKosten}} SFr. </b></div>
+          <div class="content-page-value ">&ensp;</div>
+
+          <!-- Title -->
+          <div class=""><b>Herstellungskosten</b></div>
+          <!-- Values -->
+          <div class="content-page-value ">&ensp;</div>
+          <div class="content-page-value "><b>{{ (totalLKosten + totalLKosten * 0.1) + (materialEinzel +
+              materialGesamt) +sonderEinzelKosten }} SFr. </b></div>
+          <div class="content-page-value "><b>{{ (totalLKosten + totalLKosten * 0.1) + (materialEinzel +
+              materialGesamt) +sonderEinzelKosten }} SFr. </b></div>
+
+          <!-- Title -->
+          <div class=""><b>VVGK ( 5% v. HK )</b></div>
+          <!-- Values -->
+          <div class="content-page-value ">&ensp;</div>
+          <div class="content-page-value ">&ensp;</div>
+          <div class="content-page-value "><b>{{ ((totalLKosten + totalLKosten * 0.1) + (materialEinzel +
+              materialGesamt) +sonderEinzelKosten) * 0.05 }} SFr. </b></div>
+
+          <!-- Title -->
+          <div><b>Selbstkosten</b></div>
+          <!-- Values -->
+          <div class="content-page-value">&ensp;</div>
+          <div class="content-page-value">&ensp;</div>
+          <div class="content-page-value"><b>{{ ((totalLKosten + totalLKosten * 0.1) + (materialEinzel +
+              materialGesamt) +sonderEinzelKosten) + (((totalLKosten + totalLKosten * 0.1) + (materialEinzel +
+              materialGesamt) +sonderEinzelKosten) * 0.05)}} SFr. </b></div>
+        </div>
+      </div>
+      <div class="fixed-action-btn" v-on:click="print()">
+        <button class="btn right btnnext">Drucken
+          <i class="material-icons right">print</i>
+        </button>
+      </div>
+      <div class="fixed-action-btn goleft" v-on:click="goBack()">
+        <button class="btn left btnnext">
+          <i class="material-icons left">arrow_back_ios</i>
+          Zurück
+        </button>
+      </div>
+    </div>
+  </v-app>
 </template>
 
 <script>
@@ -123,6 +128,7 @@ export default {
       fertigungen: {},
       materialien: {},
       werkzeuge: {},
+      oberflaechen: {},
 
       bezeichnung: "",
       zeichenNr: "",
@@ -137,7 +143,9 @@ export default {
     },
     goBack() {
       const key = `${this.$route.params.id}`;
-      this.$router.push({ path: `/edit/${key}/einmaligekosten` });
+      this.$router.push({
+        path: `/edit/${key}/einmaligekosten`
+      });
     }
   },
   mounted() {
@@ -146,6 +154,7 @@ export default {
       this.fertigungen = snapshot.child("fertigung").val();
       this.materialien = snapshot.child("material").val();
       this.werkzeuge = snapshot.child("werkzeug").val();
+      this.oberflaechen = snapshot.child("oberflaeche").val();
       this.bezeichnung = snapshot.child("beschreibung").val();
       this.zeichenNr = snapshot.child("zeichenNr").val();
       this.datum = snapshot.child("datum").val();
@@ -159,7 +168,7 @@ export default {
         total += fertigung.rüstkosten;
         total += fertigung.bearbeitungskosten;
       }
-      return total;
+      return total + this.totalOberflaeche;
     },
     materialEinzel: function() {
       var total = 0;
@@ -182,6 +191,13 @@ export default {
         total -= werkzeug.kosten_gesamt;
       }
       return total * -1;
+    },
+    totalOberflaeche: function() {
+      var total = 0;
+      for (var oberflaeche of Object.values(this.oberflaechen)) {
+        total += oberflaeche.kosten_gesamt;
+      }
+      return total;
     }
   }
 };
