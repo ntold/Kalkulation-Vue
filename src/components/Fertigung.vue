@@ -34,23 +34,17 @@
         </div>
         <!-- ta tr -->
         <div class="input-filed col l1">
-          <p class="center ta" @mouseover="activeTa = true" @mouseleave="activeTa = false"> ta </p>
-          <div v-show="activeTa" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing
-            elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe.
-          </div>
+          <p class="center ta"> ta </p>
           <input type="text" class="center" v-model="ta" v-on:keyup.enter="storeFertigung()">
         </div>
         <div class="input-filed col l1">
-          <p class="center tr" @mouseover="activeTr = true" @mouseleave="activeTr = false"> tr </p>
-          <div v-show="activeTr" class="hoverinfo card-panel"> Lorem ipsum, dolor sit amet consectetur adipisicing
-            elit. Modi excepturi adipisci nesciunt molestias debitis sequi quasi possimus. Pariatur, voluptatum. Saepe.
-          </div>
+          <p class="center tr"> tr </p>
           <input type="text" class="center" v-model="tr" v-on:keyup.enter="storeFertigung()">
         </div>
         <!-- Kostensatz -->
         <div class="col l1">
           <p class="center"> Kostensatz <br> Fr / Std </p>
-          <!-- <p class="center"> {{ this.kostenstelle.ansatz }} </p> -->
+          <p class="center"> {{ this.kostenstelle.ansatz }} </p>
         </div>
         <div class="col l1">
           <p class="center"> Bearbeitungskosten <br> Losgrösse </p>
