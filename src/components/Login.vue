@@ -2,22 +2,24 @@
   <div>
     <div class="container">
     <div class="row">
-      <div class="col s12 m8">
-        <div class="login card-panel grey white-text center top">
-          <h3>Login</h3>
+      <div class="col s0 m2 l3"></div>
+      <div class="col s12 m8 l6">
+        <div class="login card-panel white black-text center top">
+          <h3>Anmelden</h3>
           <form action="index.html">
-            <div class="input-field">
-              <i class="material-icons prefix">email</i>
-              <input type="email" id="email" v-model="email" placeholder="Email Address">
+            <div class="input-field row">
+              <i class="material-icons login-field col s2 m2 l2">mail_outline</i>
+              <input  class="validate col s10 m10 l10" type="email" id="email" v-model="email" placeholder="Email Address">
             </div>
-            <div class="input-field">
-              <i class="material-icons prefix">lock</i>
-              <input type="password" id="password" v-model="password" placeholder="Password">
+            <div class="input-field row">
+              <i class="material-icons login-field col s2 m2 l2">lock_outline</i>
+              <input class="col s10 m10 l10" type="password" id="password" v-model="password" placeholder="Password">
             </div>
-            <button v-on:click="login" class="waves-effect waves-light btn-large">Login</button>
+            <button v-on:click="login" class="waves-effect waves-light btn-large login-btn">Login</button>
           </form>
         </div>
-      </div>
+      </div>      
+      <div class="col s0 m2 l3"></div>
     </div>
   </div>
   </div>
@@ -64,5 +66,16 @@ export default {
 <style scoped>
 .top {
   margin-top: 100px;
+}
+.login-btn{
+  background-color: #0082b4;
+}
+.input-field .login-field{
+  position: relative;
+  width: 3rem;
+  font-size: 2rem;
+  -webkit-transition: color .2s;
+  transition: color .2s;
+  top: .5rem;
 }
 </style>
