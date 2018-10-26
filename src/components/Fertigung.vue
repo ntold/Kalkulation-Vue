@@ -82,7 +82,7 @@
           </div>
           <!-- Operation -->
           <div class="col l2">
-            <p class="center"> {{ fertigung.operation }} </p>
+            <p class="center overflow"> {{ fertigung.operation }} </p>
           </div>
           <!-- ta -->
           <div class="col l1">
@@ -299,13 +299,9 @@ export default {
 .row {
   margin-bottom: 0px;
 }
-
-.hoverinfo {
-  z-index: 2;
-  position: absolute;
-  width: 200px;
+.overflow {
+  word-break: break-all;
 }
-
 .loading {
   margin-top: 50px;
 }
