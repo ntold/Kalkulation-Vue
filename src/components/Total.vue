@@ -6,6 +6,7 @@
           <!-- Title -->
           <div class="title-head">Bezeichnung</div>
           <div class="title-head">Zeichen Nr.</div>
+          <div class="title-head">Kunde</div>
           <div class="title-head">Losgrösse</div>
           <div class="title-head">Datum</div>
           <div class="title-head">Visum</div>
@@ -13,6 +14,7 @@
 
           <div class="title-item">{{bezeichnung}}</div>
           <div class="title-item">{{zeichenNr}}</div>
+          <div class="title-item">{{kunde}}</div>
           <div class="title-item">{{losgroesse}}</div>
           <div class="title-item">{{datum}}</div>
           <div class="title-item">{{visum}}</div>
@@ -134,7 +136,8 @@ export default {
       zeichenNr: "",
       losgroesse: "1",
       datum: "",
-      visum: ""
+      visum: "",
+      kunde: ""
     };
   },
   methods: {
@@ -159,6 +162,7 @@ export default {
       this.zeichenNr = snapshot.child("zeichenNr").val();
       this.datum = snapshot.child("datum").val();
       this.visum = snapshot.child("visum").val();
+      this.kunde = snapshot.child("kunde").val();
     });
   },
   computed: {
@@ -218,7 +222,7 @@ export default {
   .total-title {
     text-align: center;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr 1fr;
   }
 

@@ -25,6 +25,7 @@
                       <div class="input-name"><input type="text" class="left" placeholder="Bezeichnung" v-model="bezeichnung"></div> 
                       <div class="input-nr"><input type="text" class="left" placeholder="Zeichen Nr." v-model="zeichenNr"></div>
                       <button class="date input-date" disabled> {{date}} </button>
+                      <div class="input-kunde"><input type="text" class="left" placeholder="Kunde" v-model="kunde"></div> 
                       <v-select class="input-visum" placeholder="Visum" :items="visa" v-model="visum" item-text="name" flat solo autocomplete></v-select>
                     </div>
                   </slot>
@@ -119,6 +120,7 @@ export default {
 
       bezeichnung: "",
       zeichenNr: "",
+      kunde: "",
 
       name: "",
 
@@ -158,10 +160,14 @@ export default {
         beschreibung: this.bezeichnung,
         visum: this.visum.name,
         zeichenNr: this.zeichenNr,
-        datum: this.date
+        datum: this.date,
+        kunde: this.kunde
       });
       this.fertigungActive = false;
-      (this.bezeichnung = ""), (this.visum = ""), (this.zeichenNr = "");
+      (this.kunde = ""),
+        (this.bezeichnung = ""),
+        (this.visum = ""),
+        (this.zeichenNr = "");
     }
   },
   computed: {
@@ -330,7 +336,7 @@ export default {
 
 .modal-container {
   width: 450px;
-  height: 350px;
+  height: 405px;
   margin: 0 auto;
   padding: 20px 30px;
   background-color: #fff;
@@ -360,6 +366,10 @@ export default {
 .input-visum {
   grid-area: visum;
 }
+.input-kunde {
+  grid-area: kunde;
+  padding: 8px 16px;
+}
 
 .new-calc {
   display: grid;
@@ -367,6 +377,7 @@ export default {
   grid-template-areas:
     "name name"
     "nr date"
+    "kunde kunde"
     "visum visum";
 }
 
