@@ -1,6 +1,6 @@
 <template>
 <div class="nav">
-  <div class="nav-logo"><img src="../assets/favicon.png" alt=""></div>
+  <div class="nav-logo"><img src="../assets/favicon2.jpg" alt=""></div>
   <div class="nav-title handleScroll"><p>Kalkulationsblatt</p></div>
   <div class="filler">
     <ul class="right">
@@ -9,18 +9,18 @@
     </ul>
   </div>
 
-  <div class="navigation-wrapper" v-if="home() && isLoggedIn">
-    <div id="nav" class="navigation">
+  <div class="navigation-wrapper">
+    <div id="nav" class="navigation" >
       <span></span>
-      <div id="Home" class="nav-item" v-on:click="goHome()">Home</div>
+      <div v-if="home() && isLoggedIn" id="Home" class="nav-item" v-on:click="goHome()">Home</div>
       <span></span>
-      <div id="Fertigung" class="nav-item active" v-on:click="goFertigung()">Fertigung</div>
-      <div id="Material" class="nav-item" v-on:click="goMaterial()">Material</div>
-      <div id="Oberflaeche" class="nav-item" v-on:click="goOberflaeche()">Oberfläche</div>
-      <div id="Werkzeug" class="nav-item" v-on:click="goWerkzeug()">Werkzeug</div>
-      <div id="Einmaligekosten" class="nav-item" v-on:click="goEinmaligekosten()">Einmaligekosten</div>
+      <div v-if="home() && isLoggedIn" id="Fertigung" class="nav-item active" v-on:click="goFertigung()">Fertigung</div>
+      <div v-if="home() && isLoggedIn" id="Material" class="nav-item" v-on:click="goMaterial()">Material</div>
+      <div v-if="home() && isLoggedIn" id="Oberflaeche" class="nav-item" v-on:click="goOberflaeche()">Oberfläche</div>
+      <div v-if="home() && isLoggedIn" id="Werkzeug" class="nav-item" v-on:click="goWerkzeug()">Werkzeug</div>
+      <div v-if="home() && isLoggedIn" id="Einmaligekosten" class="nav-item" v-on:click="goEinmaligekosten()">Einmaligekosten</div>
       <span></span>
-      <div id="Total" class="nav-item" v-on:click="goTotal()">Total</div>
+      <div v-if="home() && isLoggedIn" id="Total" class="nav-item" v-on:click="goTotal()">Total</div>
       <span></span>
     </div>
   </div>
@@ -127,7 +127,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
 
-  background-color: #0082b4;
+  background-color: white;
 
   position: fixed;
   top: 0;
@@ -137,8 +137,9 @@ export default {
 }
 
 .nav-logo img {
-  width: 100px;
+  width: 200px;
   margin-left: 100px;
+  margin-top: 10px;
 }
 
 .nav-title {
@@ -147,7 +148,8 @@ export default {
   align-items: center;
 
   text-align: center;
-  color: white;
+  color: black;
+
   font-size: 2.5em;
 }
 
@@ -191,8 +193,8 @@ export default {
 }
 
 .btn {
-  background-color: white;
-  color: black;
+  background-color: #0082b4;
+  color: white;
   margin-right: 100px;
   margin-top: 30px;
 }
