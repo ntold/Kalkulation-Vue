@@ -1,6 +1,5 @@
-import Firebase from '@firebase/app'
+import Firebase from 'firebase'
 // eslint-disable-next-line no-unused-vars
-import FirebaseDatabase from '@firebase/database'
 
 export default Firebase.initializeApp({
   apiKey: "AIzaSyBIaj6PnxqwhhOqHP6VF3ql4_CbNF9mOSw",

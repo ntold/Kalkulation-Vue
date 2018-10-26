@@ -13,8 +13,7 @@
     "deploy": "npm run build && $(npm bin)/gh-pages -d dist"
   },
   "dependencies": {
-    "@firebase/app": "^0.3.3",
-    "@firebase/database": "^0.3.4",
+    "firebase": "5.5.6",
     "ajv": "^6.4.0",
     "material-design-icons-iconfont": "^3.0.3",
     "vue": "^2.5.2",

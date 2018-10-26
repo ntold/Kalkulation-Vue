@@ -2,9 +2,14 @@
 <div class="nav">
   <div class="nav-logo"><img src="../assets/favicon.png" alt=""></div>
   <div class="nav-title handleScroll"><p>Kalkulationsblatt</p></div>
-  <div class="filler"></div>
+  <div class="filler">
+    <ul class="right">
+        <!-- <li v-if="isLoggedIn" class="nickname"> {{ currentUser }} </li> -->
+      <li v-if="isLoggedIn"><button v-on:click="logout" class="btn">Logout</button></li>
+    </ul>
+  </div>
 
-  <div class="navigation-wrapper" v-if="home()">
+  <div class="navigation-wrapper" v-if="home() && isLoggedIn">
     <div id="nav" class="navigation">
       <span></span>
       <div id="Home" class="nav-item" v-on:click="goHome()">Home</div>
@@ -23,11 +28,30 @@
 </template>
 
 <script>
+import firebase from "firebase";
+
 export default {
   data() {
-    return {};
+    return {
+      isLoggedIn: false,
+      currentUser: false
+    };
+  },
+  created() {
+    if (firebase.auth().currentUser) {
+      this.isLoggedIn = true;
+      this.currentUser = firebase.auth().currentUser.email;
+    }
   },
   methods: {
+    logout: function() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.go({ path: this.$router.path });
+        });
+    },
     goHome() {
       var current = document.getElementsByClassName("active");
       current[0].className = current[0].className.replace(" active", "");
@@ -164,5 +188,17 @@ export default {
   background-color: #40a1c7;
 
   cursor: pointer;
+}
+
+.btn {
+  background-color: white;
+  color: black;
+  margin-right: 100px;
+  margin-top: 30px;
+}
+
+.btn:hover {
+  background-color: firebrick;
+  color: white;
 }
 </style>
