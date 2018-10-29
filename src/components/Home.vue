@@ -33,7 +33,7 @@
                 <div class="modal-footer">
                   <slot class="footer-grid" name="footer">
                     
-                    <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="storeInfo()">
+                    <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="storeInfo() && goToKalk(kalkulation)">
                       Erstellen
                     </button>
                   </slot>

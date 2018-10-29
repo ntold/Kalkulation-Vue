@@ -24,7 +24,7 @@
           <br />
           <br />
           <br />
-          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeWerkzeug()" v-on:keyup.enter="storeWerkzeug()">
+          <a class="btn-floating btn-medium waves-effect waves-light blueTFB" v-on:click="storeWerkzeug()" v-on:keyup.enter="storeWerkzeug()">
             <i class="material-icons">add</i>
           </a>
         </div>
@@ -59,7 +59,7 @@
       <!-- Gesammt -->
       <div class="row">
         <div class="col l4"></div>
-        <div class="col l4 card-panel blue white-text">
+        <div class="col l4 card-panel blueTFB white-text">
           <p class="right mt-3">Sondereinzelgrössen / Losgrösse </p>
         </div>
         <!-- Summe Bearbeitungskosten -->

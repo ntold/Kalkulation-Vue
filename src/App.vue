@@ -21,8 +21,11 @@ export default {
   flex: none !important;
 }
 
-.nav-margin{
+.nav-margin {
   margin-top: 145px;
 }
 
+.blueTFB {
+  background-color: #0082b4;
+}
 </style>

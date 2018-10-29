@@ -28,7 +28,7 @@
           <br />
           <br />
           <br />
-          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeArt()" v-on:keyup.enter="storeArt()">
+          <a class="btn-floating btn-medium waves-effect waves-light blueTFB" v-on:click="storeArt()" v-on:keyup.enter="storeArt()">
             <i class="material-icons">add</i>
           </a>
         </div>
@@ -61,7 +61,7 @@
       <!-- Gesammt -->
       <div class="row">
         <div class="col l6"></div>
-        <div class="col l2 card-panel blue white-text">
+        <div class="col l2 card-panel blueTFB white-text">
           <p class="right mt-3">Gesamtkosten </p>
         </div>
         <!-- Summe Bearbeitungskosten -->

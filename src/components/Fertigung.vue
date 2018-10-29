@@ -57,7 +57,7 @@
         <!-- + -->
         <div class="col l1">
           <br>
-          <a class="btn-floating btn-medium waves-effect waves-light blue" v-on:click="storeFertigung()"
+          <a class="btn-floating btn-medium waves-effect waves-light blueTFB" v-on:click="storeFertigung()"
             v-on:keyup.enter="storeFertigung()"><i class="material-icons">add</i></a>
         </div>
       </div>
@@ -108,7 +108,7 @@
       <!-- Sums -->
       <div class="row mt-3">
         <div class="col l7"></div>
-        <div class="col l1 card-panel blue white-text">
+        <div class="col l1 card-panel blueTFB white-text">
           <p class="center mt-3"> Summe </p>
         </div>
         <!-- Summe Bearbeitungskosten -->
@@ -123,7 +123,7 @@
       <!-- Total Fertigungslohnkosten / Losgrösse -->
       <div class="row">
         <div class="col l4"></div>
-        <div class="col l4 card-panel blue white-text">
+        <div class="col l4 card-panel blueTFB white-text">
           <p class="right mt-3"> Fertigungslohnkosten / Losgrösse (Bearbeitungs- und Rüstkosten) Total </p>
         </div>
         <!-- Summe Bearbeitungskosten -->
@@ -134,7 +134,7 @@
       <!-- Total Fertigungslohnkosten / Stück -->
       <div class="row">
         <div class="col l4"></div>
-        <div class="col l4 card-panel blue white-text mb-3">
+        <div class="col l4 card-panel blueTFB white-text mb-3">
           <p class="right mt-3"> Fertigungslohnkosten / Stück Total</p>
         </div>
         <!-- Summe Bearbeitungskosten -->
