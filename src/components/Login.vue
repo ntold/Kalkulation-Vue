@@ -65,17 +65,17 @@ export default {
 
 <style scoped>
 .top {
-  margin-top: 100px;
+  margin-top: 150px;
 }
-.login-btn{
+.login-btn {
   background-color: #0082b4;
 }
-.input-field .login-field{
+.input-field .login-field {
   position: relative;
   width: 3rem;
   font-size: 2rem;
-  -webkit-transition: color .2s;
-  transition: color .2s;
-  top: .5rem;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+  top: 0.5rem;
 }
 </style>
