@@ -70,14 +70,14 @@
         </div>
       </div>
       <!-- Go a site back -->
-      <div class="fixed-action-btn" v-on:click="goTo()">
+      <div class="fixed-action-btn" v-on:click="goTotal()">
           <button class="btn right btnnext">
             Weiter
             <i class="material-icons right">arrow_forward_ios</i>
           </button>
       </div>
       <!-- Go a site forward -->
-      <div class="fixed-action-btn goleft" v-on:click="goBack()">
+      <div class="fixed-action-btn goleft" v-on:click="goWerkzeug()">
           <button class="btn right btnnext">
             <i class="material-icons left">arrow_back_ios</i>
             Zurück
@@ -103,12 +103,20 @@ export default {
     };
   },
   methods: {
-    goTo() {
+    goTotal() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Total");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/total` });
     },
-    goBack() {
+    goWerkzeug() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Werkzeug");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/werkzeug` });
     },
     storeArt() {

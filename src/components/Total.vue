@@ -113,7 +113,7 @@
           <i class="material-icons right">print</i>
         </button>
       </div>
-      <div class="fixed-action-btn goleft" v-on:click="goBack()">
+      <div class="fixed-action-btn goleft" v-on:click="goEinmaligekosten()">
         <button class="btn left btnnext">
           <i class="material-icons left">arrow_back_ios</i>
           Zurück
@@ -144,11 +144,13 @@ export default {
     print() {
       window.print();
     },
-    goBack() {
+    goEinmaligekosten() {
       const key = `${this.$route.params.id}`;
-      this.$router.push({
-        path: `/edit/${key}/einmaligekosten`
-      });
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Einmaligekosten");
+      clicked.className += " active";
+      this.$router.push({ path: `/edit/${key}/einmaligekosten` });
     }
   },
   mounted() {

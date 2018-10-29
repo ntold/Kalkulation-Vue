@@ -143,7 +143,7 @@
         </div>
       </div>
 
-      <div class="fixed-action-btn" v-on:click="goTo()">
+      <div class="fixed-action-btn" v-on:click="goMaterial()">
         <button class="btn right btnnext">Weiter
           <i class="material-icons right">arrow_forward_ios</i>
         </button>
@@ -216,11 +216,13 @@ export default {
     deleteFertigung(fertigung) {
       this.$parent.KalkulationRef.child(fertigung.id).remove();
     },
-    goTo() {
+    goMaterial() {
       const key = `${this.$route.params.id}`;
-      this.$router.push({
-        path: `/edit/${key}/material`
-      });
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Material");
+      clicked.className += " active";
+      this.$router.push({ path: `/edit/${key}/material` });
     }
   },
   computed: {

@@ -120,12 +120,12 @@
           <p class="center mt-3">  {{ materialGesamt }} CHF </p>
         </div>
       </div>
-    <div class="fixed-action-btn" v-on:click="goTo()">
+    <div class="fixed-action-btn" v-on:click="goOberflaeche()">
         <button class="btn right btnnext">Weiter
           <i class="material-icons right">arrow_forward_ios</i>
         </button>
     </div>
-      <div class="fixed-action-btn goleft" v-on:click="goBack()">
+      <div class="fixed-action-btn goleft" v-on:click="goFertigung()">
           <button class="btn right btnnext">
             <i class="material-icons left">arrow_back_ios</i>
             Zurück
@@ -215,12 +215,20 @@ export default {
         return this.tarif;
       }
     },
-    goTo() {
+    goOberflaeche() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Oberflaeche");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/oberflaeche` });
     },
-    goBack() {
+    goFertigung() {
       const key = `${this.$route.params.id}`;
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      var clicked = document.getElementById("Fertigung");
+      clicked.className += " active";
       this.$router.push({ path: `/edit/${key}/fertigung` });
     }
   },
