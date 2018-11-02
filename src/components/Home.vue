@@ -54,7 +54,6 @@
                 <div class="header-grid">
                   <div class="cancel" v-on:click="existingActive = false"><i class="material-icons">close</i></div>
                   <div class="modal-header">Fertigungen</div>
-                  <div></div>
                 </div>
                 
                 <div class="modal-body">
@@ -65,10 +64,12 @@
                           <mat-option>
                             <div class="card-panel card-box">
                               <div class="thead-grid">
-                                <div>Name / Ersteller</div>
+                                <div>Name / Ersteller 
+                                  <input type="text" class="searchBar" v-model="search" placeholder="Suchen"> 
+                                </div>
                                 <div>Status / Bearbeitet</div>
                               </div>
-                              <div class="calc-row" v-for="(kalkulation, index) in kalkulationen" :key="index">
+                              <div class="calc-row" v-for="(kalkulation, index) in filteredKalk" :key="index">
                                   <div class="name" v-on:click="gotoKalk(kalkulation)">{{kalkulation.beschreibung}}</div>
                                   <div class="status" v-on:click="gotoKalk(kalkulation)">{{kalkulation.datum}}</div>
                                   <i class="material-icons" v-on:click="delFertigungOverlay(index)">delete</i>
@@ -123,6 +124,7 @@ export default {
       kunde: "",
 
       name: "",
+      search: "",
 
       fertigungActive: false,
       existingActive: false,
@@ -189,6 +191,16 @@ export default {
       this.time =
         d.getDate() + ". " + month[d.getMonth()] + " " + d.getFullYear();
       return this.time;
+    },
+    filteredKalk: function() {
+      return this.kalkulationen.filter(kalkulation => {
+        return (
+          kalkulation.beschreibung.match(this.search) ||
+          kalkulation.visum.match(this.search) ||
+          kalkulation.zeichenNr.match(this.search) ||
+          kalkulation.datum.match(this.search)
+        );
+      });
     }
   },
   created() {
@@ -485,7 +497,6 @@ export default {
   position: absolute;
   background-color: firebrick;
   color: white;
-
   height: 52px;
   width: 692px;
 }
