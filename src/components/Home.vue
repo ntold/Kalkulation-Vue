@@ -197,7 +197,7 @@ export default {
     },
     filteredKalk: function() {
       return this.kalkulationen.filter(kalkulation => {
-        var pattern = new RegExp(this.search, "i")
+        var pattern = new RegExp(this.search, "i");
         return (
           kalkulation.beschreibung.match(pattern) ||
           kalkulation.visum.match(pattern) ||
