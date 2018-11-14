@@ -215,12 +215,8 @@ export default {
     var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.einheiten = snapshot.child("einheiten").val();
-    });
-    query.once("value").then(snapshot => {
-      this.oberflaechen = snapshot.child("oberflaechen").val();
-    });
-    query.once("value").then(snapshot => {
       this.liferanten = snapshot.child("liferanten").val();
+      this.oberflaechen = snapshot.child("oberflaechen").val();
     });
   }
 };

@@ -282,8 +282,6 @@ export default {
     var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.kostenstellen = snapshot.child("kostenstellen").val();
-    });
-    query.once("value").then(snapshot => {
       this.visa = snapshot.child("visum").val();
     });
     this.$parent.DatabaseRef.on("value", () => Vue.set(this, "loading", false));

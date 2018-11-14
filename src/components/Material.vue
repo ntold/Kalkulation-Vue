@@ -295,11 +295,7 @@ export default {
     var query = this.$parent.DatabaseRef;
     query.once("value").then(snapshot => {
       this.einheiten = snapshot.child("einheiten").val();
-    });
-    query.once("value").then(snapshot => {
       this.materialien = snapshot.child("materialien").val();
-    });
-    query.once("value").then(snapshot => {
       this.liferanten = snapshot.child("liferanten").val();
     });
   }
