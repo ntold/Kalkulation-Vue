@@ -158,7 +158,7 @@ export default {
       this.$router.push({ path: `/edit/${key}/fertigung` });
     },
     storeInfo: function() {
-      storeKalkulationRef.push({
+      var newKalk = storeKalkulationRef.push({
         beschreibung: this.bezeichnung,
         visum: this.visum.name,
         zeichenNr: this.zeichenNr,
@@ -166,11 +166,13 @@ export default {
         kunde: this.kunde
       });
       this.fertigungActive = false;
-      (this.kunde = ""),
-        (this.bezeichnung = ""),
-        (this.visum = ""),
-        (this.zeichenNr = "");
-      this.gotoKalk(storeKalkulationRef);
+
+      this.kunde = "";
+      this.bezeichnung = "";
+      this.visum = "";
+      this.zeichenNr = "";
+
+      this.gotoKalk({ id: newKalk.key });
     }
   },
   computed: {
