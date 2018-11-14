@@ -33,7 +33,7 @@
                 <div class="modal-footer">
                   <slot class="footer-grid" name="footer">
                     
-                    <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="storeInfo() && goToKalk(kalkulation)">
+                    <button class="waves-effect waves-light btn-small btn2 btn-ok" v-on:click="storeInfo()">
                       Erstellen
                     </button>
                   </slot>
@@ -158,7 +158,7 @@ export default {
       this.$router.push({ path: `/edit/${key}/fertigung` });
     },
     storeInfo: function() {
-      var key = storeKalkulationRef.push({
+      storeKalkulationRef.push({
         beschreibung: this.bezeichnung,
         visum: this.visum.name,
         zeichenNr: this.zeichenNr,
@@ -170,6 +170,7 @@ export default {
         (this.bezeichnung = ""),
         (this.visum = ""),
         (this.zeichenNr = "");
+      this.gotoKalk(storeKalkulationRef);
     }
   },
   computed: {
