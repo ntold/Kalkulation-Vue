@@ -197,11 +197,12 @@ export default {
     },
     filteredKalk: function() {
       return this.kalkulationen.filter(kalkulation => {
+        var pattern = new RegExp(this.search, "i")
         return (
-          kalkulation.beschreibung.match(this.search) ||
-          kalkulation.visum.match(this.search) ||
-          kalkulation.zeichenNr.match(this.search) ||
-          kalkulation.datum.match(this.search)
+          kalkulation.beschreibung.match(pattern) ||
+          kalkulation.visum.match(pattern) ||
+          kalkulation.zeichenNr.match(pattern) ||
+          kalkulation.datum.match(pattern)
         );
       });
     }
