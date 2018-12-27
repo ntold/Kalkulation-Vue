@@ -210,6 +210,10 @@ export default {
 </script>
 
 <style>
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
 @media screen {
   .content {
     margin-top: 100px;

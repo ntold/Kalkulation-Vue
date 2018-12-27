@@ -11,6 +11,8 @@ import Oberflaeche from '@/components/Oberflaeche'
 import Einmaligekosten from '@/components/Einmaligekosten'
 import Total from '@/components/Total'
 import Login from '@/components/Login'
+import Chart from '@/components/Chart'
+import LineChart from '@/components/LineChart.js'
 
 Vue.use(Router)
 
@@ -64,6 +66,16 @@ let router = new Router({
           name: 'Total',
           path: 'total',
           component: Total
+        },
+        {
+          name: 'Chart',
+          path: 'chart',
+          component: Chart
+        },
+        {
+          name: LineChart,
+          path: '',
+          component: LineChart
         }
       ]
     }
